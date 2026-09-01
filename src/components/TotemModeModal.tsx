@@ -2,20 +2,22 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { QRCodeSVG } from 'qrcode.react';
 import { CommunityMessage } from '@/types';
 import { CATEGORIES, COLOR_THEMES } from '@/data/initialData';
 import CategoryIcon from './CategoryIcon';
 import { ParaguayFlagSvg } from './ParaguayBadge';
-import LogoIcon from './LogoIcon';
 import { 
   X, 
   Sparkles, 
   ChevronLeft, 
   ChevronRight, 
   Play, 
-  Pause,
-  MapPin,
-  Briefcase
+  Pause, 
+  MapPin, 
+  Briefcase,
+  Settings,
+  Globe
 } from 'lucide-react';
 import { soundFx } from '@/utils/audio';
 
@@ -25,6 +27,19 @@ interface TotemModeModalProps {
   messages: CommunityMessage[];
 }
 
+const DEFAULT_WELCOME_MESSAGE: CommunityMessage = {
+  id: 'totem-welcome',
+  name: 'Palabras Que Suman',
+  role: 'Fundación Género 360 & APEP',
+  city: 'Paraguay',
+  message: '¡Bienvenida a la activación! Escaneá el código QR con la cámara de tu celular para dejar tu mensaje de aliento a las niñas y verlo proyectado en esta pantalla.',
+  category: 'sororidad',
+  theme: 'rose',
+  likes: 0,
+  createdAt: new Date().toISOString(),
+  editionCode: 'G360-000',
+};
+
 export default function TotemModeModal({
   isOpen,
   onClose,
@@ -32,69 +47,89 @@ export default function TotemModeModal({
 }: TotemModeModalProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [customQrUrl, setCustomQrUrl] = useState('');
+  const [showQrConfig, setShowQrConfig] = useState(false);
+  const [currentOrigin, setCurrentOrigin] = useState('');
 
   useEffect(() => {
-    if (!isOpen || !isPlaying || messages.length === 0) return;
+    if (typeof window !== 'undefined') {
+      setCurrentOrigin(`${window.location.origin}/#escribir`);
+    }
+  }, []);
+
+  const effectiveQrUrl = customQrUrl.trim() || currentOrigin || 'https://fundaciongenero360.org/home';
+  const displayList = messages.length > 0 ? messages : [DEFAULT_WELCOME_MESSAGE];
+
+  useEffect(() => {
+    if (!isOpen || !isPlaying || displayList.length <= 1) return;
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % messages.length);
+      setCurrentIndex((prev) => (prev + 1) % displayList.length);
     }, 6000);
     return () => clearInterval(interval);
-  }, [isOpen, isPlaying, messages.length]);
+  }, [isOpen, isPlaying, displayList.length]);
 
   if (!isOpen) return null;
 
-  const currentMsg = messages[currentIndex] || messages[0];
-  const activeCategory = CATEGORIES[currentMsg?.category] || CATEGORIES.valentia;
-  const activeTheme = COLOR_THEMES[currentMsg?.theme] || COLOR_THEMES.rose;
+  const safeIndex = currentIndex < displayList.length ? currentIndex : 0;
+  const currentMsg = displayList[safeIndex] || DEFAULT_WELCOME_MESSAGE;
+  const activeCategory = CATEGORIES[currentMsg.category] || CATEGORIES.sororidad;
+  const activeTheme = COLOR_THEMES[currentMsg.theme] || COLOR_THEMES.rose;
 
   const handleNext = () => {
     soundFx.playPop();
-    setCurrentIndex((prev) => (prev + 1) % messages.length);
+    setCurrentIndex((prev) => (prev + 1) % displayList.length);
   };
 
   const handlePrev = () => {
     soundFx.playPop();
-    setCurrentIndex((prev) => (prev - 1 + messages.length) % messages.length);
+    setCurrentIndex((prev) => (prev - 1 + displayList.length) % displayList.length);
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950 text-white flex flex-col justify-between p-6 md:p-10 overflow-hidden select-none">
+    <div
+      data-lenis-prevent
+      className="fixed inset-0 z-50 bg-slate-950 text-white flex flex-col justify-between p-6 md:p-10 overflow-hidden select-none"
+    >
       {/* Background Animated Gradient Glows */}
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-3xl pointer-events-none animate-pulse-glow" />
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-rose-600/20 rounded-full blur-3xl pointer-events-none animate-pulse-glow" />
 
       {/* Top Header Bar */}
       <div className="relative z-10 flex items-center justify-between border-b border-white/10 pb-4">
-        <div className="flex items-center gap-3">
-          <LogoIcon size={44} className="w-11 h-11 drop-shadow-lg" />
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-serif font-black text-xl text-white tracking-wide">
-                PALABRAS QUE SUMAN
-              </span>
-              <span className="px-2.5 py-0.5 text-[10px] font-bold bg-rose-500/80 text-white rounded-full uppercase tracking-wider animate-pulse">
-                Modo Activación en Vivo
-              </span>
-            </div>
-            <p className="text-xs text-slate-400">
-              Fundación Género 360 & APEP Mujeres que Suman • Paraguay 2026
-            </p>
-          </div>
+        <div>
+          <span className="font-serif font-black text-2xl text-white tracking-wide">
+            PALABRAS QUE SUMAN
+          </span>
+          <p className="text-xs text-slate-400">
+            Fundación Género 360 & APEP Mujeres que Suman • Paraguay 2026
+          </p>
         </div>
 
         {/* Action Controls */}
         <div className="flex items-center gap-2">
           <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="p-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
-            title={isPlaying ? 'Pausar rotación' : 'Reanudar rotación'}
+            onClick={() => setShowQrConfig(!showQrConfig)}
+            className={`p-2.5 rounded-xl transition-colors cursor-pointer ${
+              showQrConfig ? 'bg-purple-600 text-white' : 'bg-white/10 hover:bg-white/20 text-white'
+            }`}
+            title="Configurar URL del Código QR"
           >
-            {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+            <Settings className="w-4 h-4" />
           </button>
+
+          {displayList.length > 1 && (
+            <button
+              onClick={() => setIsPlaying(!isPlaying)}
+              className="p-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+              title={isPlaying ? 'Pausar rotación' : 'Reanudar rotación'}
+            >
+              {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+            </button>
+          )}
           <button
             onClick={onClose}
             className="p-2.5 rounded-xl bg-white/10 hover:bg-rose-600 text-white transition-colors cursor-pointer"
-            title="Salir de Pantalla Completa"
+            title="Cerrar pantalla"
           >
             <X className="w-5 h-5" />
           </button>
@@ -104,8 +139,8 @@ export default function TotemModeModal({
       {/* Center Stage: Giant Interactive Bookmark + Live Audience QR Code */}
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 my-auto items-center max-w-6xl mx-auto w-full">
         
-        {/* Left Side (QR Code & Audience Invitation) */}
-        <div className="lg:col-span-4 bg-white/5 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-white/10 text-center space-y-5">
+        {/* Left Side (Real Scannable QR Code & Audience Invitation) */}
+        <div className="lg:col-span-4 bg-white/5 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-white/10 text-center space-y-4">
           <div className="space-y-1">
             <span className="text-xs font-extrabold uppercase tracking-widest text-rose-400">
               ¡Sumá tu voz ahora!
@@ -115,43 +150,52 @@ export default function TotemModeModal({
             </h3>
           </div>
 
-          {/* Styled QR Code Box */}
-          <div className="w-48 h-48 mx-auto bg-white p-3 rounded-2xl shadow-2xl flex flex-col items-center justify-center relative group">
-            {/* SVG Simulated Stylized QR */}
-            <div className="w-full h-full border-4 border-slate-900 rounded-xl p-2 flex flex-col justify-between relative bg-white">
-              <div className="flex justify-between">
-                <div className="w-10 h-10 bg-slate-900 rounded-md p-1.5 flex items-center justify-center">
-                  <div className="w-4 h-4 bg-white rounded-xs" />
-                </div>
-                <div className="w-10 h-10 bg-slate-900 rounded-md p-1.5 flex items-center justify-center">
-                  <div className="w-4 h-4 bg-white rounded-xs" />
-                </div>
-              </div>
-              <div className="text-center my-auto flex flex-col items-center justify-center">
-                <LogoIcon size={34} className="w-8 h-8 mx-auto animate-pulse" />
-                <span className="text-[9px] font-black text-slate-800 uppercase tracking-widest mt-1">
-                  DEJÁ TU MENSAJE
-                </span>
-              </div>
-              <div className="flex justify-between items-end">
-                <div className="w-10 h-10 bg-slate-900 rounded-md p-1.5 flex items-center justify-center">
-                  <div className="w-4 h-4 bg-white rounded-xs" />
-                </div>
-                <div className="w-8 h-8 rounded-md flex items-center justify-center overflow-hidden shadow-2xs">
-                  <ParaguayFlagSvg className="w-full h-full" />
-                </div>
-              </div>
-            </div>
+          {/* Real Scannable QR Code Box */}
+          <div className="w-52 h-52 mx-auto bg-white p-3.5 rounded-3xl shadow-2xl flex flex-col items-center justify-center relative border-4 border-white/20">
+            <QRCodeSVG
+              value={effectiveQrUrl}
+              size={172}
+              level="H"
+              includeMargin={false}
+              fgColor="#1E1B4B"
+            />
           </div>
 
-          <p className="text-xs text-slate-300">
-            Apuntá la cámara de tu celular para escribir una dedicatoria y verla proyectada aquí.
+          <p className="text-xs text-slate-300 leading-snug px-2">
+            Apuntá la cámara de tu celular a la pantalla para abrir el formulario y escribir una dedicatoria.
           </p>
 
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-semibold">
             <Sparkles className="w-3.5 h-3.5 text-purple-400" />
-            <span>{messages.length} Mensajes en vivo</span>
+            <span>{messages.length} Mensajes sembrados</span>
           </div>
+
+          {/* Optional QR URL Customizer Panel */}
+          <AnimatePresence>
+            {showQrConfig && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="pt-2 text-left space-y-2 border-t border-white/10"
+              >
+                <label className="text-[11px] font-bold text-purple-300 flex items-center gap-1">
+                  <Globe className="w-3 h-3" />
+                  <span>Dirección Web del QR para el evento:</span>
+                </label>
+                <input
+                  type="text"
+                  value={customQrUrl}
+                  onChange={(e) => setCustomQrUrl(e.target.value)}
+                  placeholder={currentOrigin || 'https://tudominio.com/#escribir'}
+                  className="w-full px-3 py-1.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-slate-500 text-xs focus:outline-hidden focus:ring-1 focus:ring-purple-400"
+                />
+                <p className="text-[10px] text-slate-400">
+                  Por defecto apunta a la URL actual del navegador. Si ya desplegaste tu web, podés pegar tu dominio aquí.
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Right Side (Giant Rotating Bookmark) */}
@@ -178,7 +222,7 @@ export default function TotemModeModal({
                   <span>{activeCategory.label}</span>
                 </span>
                 <span className="text-xs font-mono font-bold text-slate-400">
-                  {currentMsg.editionCode || 'G360'} • {currentIndex + 1} de {messages.length}
+                  {currentMsg.editionCode || 'G360'} • {safeIndex + 1} de {displayList.length}
                 </span>
               </div>
 
@@ -216,35 +260,36 @@ export default function TotemModeModal({
             </motion.div>
           </AnimatePresence>
 
-          {/* Navigation Arrows */}
-          <div className="flex items-center gap-4 mt-6">
-            <button
-              onClick={handlePrev}
-              className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all active:scale-95 cursor-pointer"
-              aria-label="Anterior"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <span className="text-xs font-semibold text-slate-400">
-              {currentIndex + 1} / {messages.length}
-            </span>
-            <button
-              onClick={handleNext}
-              className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all active:scale-95 cursor-pointer"
-              aria-label="Siguiente"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-          </div>
+          {/* Navigation Arrows (shown if more than 1 message) */}
+          {displayList.length > 1 && (
+            <div className="flex items-center gap-4 mt-6">
+              <button
+                onClick={handlePrev}
+                className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all active:scale-95 cursor-pointer"
+                aria-label="Anterior"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              <span className="text-xs font-semibold text-slate-400">
+                {safeIndex + 1} / {displayList.length}
+              </span>
+              <button
+                onClick={handleNext}
+                className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all active:scale-95 cursor-pointer"
+                aria-label="Siguiente"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            </div>
+          )}
         </div>
 
       </div>
 
-      {/* Bottom Bar: Live Ticker */}
+      {/* Bottom Bar */}
       <div className="relative z-10 border-t border-white/10 pt-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-2">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-          <span>Transmisión en vivo para eventos y salas de conferencias</span>
+          <span>Fundación Género 360 & APEP Mujeres que Suman</span>
         </div>
         <p className="font-handwritten text-base text-rose-300">
           “Dejá un mensaje. Llevate otro.”

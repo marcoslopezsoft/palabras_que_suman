@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { MessageCircleHeart, Bookmark, HeartHandshake, Volume2, VolumeX, MonitorPlay, Menu, X, Gift } from 'lucide-react';
 import { soundFx } from '@/utils/audio';
 import { scrollToElement } from './SmoothScroll';
-import LogoIcon from './LogoIcon';
 
 interface NavbarProps {
   messageCount: number;
@@ -48,25 +47,22 @@ export default function Navbar({ messageCount, onOpenRoulette, onOpenTotem }: Na
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Brand Logo & Tagline */}
+          {/* Clean Typographic Branding */}
           <button
             onClick={() => handleNavClick('#inicio')}
-            className="flex items-center gap-3 text-left group focus:outline-hidden cursor-pointer"
+            className="text-left group focus:outline-hidden cursor-pointer"
           >
-            <div className="group-hover:scale-105 transition-transform duration-200">
-              <LogoIcon size={42} className="w-10 h-10 drop-shadow-md" />
+            <div className="flex items-center gap-2">
+              <span className="font-serif font-black tracking-tight text-xl md:text-2xl bg-gradient-to-r from-purple-900 via-rose-700 to-amber-700 bg-clip-text text-transparent">
+                PALABRAS QUE SUMAN
+              </span>
+              <span className="hidden sm:inline-flex px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full bg-purple-100/80 text-purple-700 border border-purple-200/60">
+                2026
+              </span>
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-serif font-black tracking-tight text-lg md:text-xl bg-gradient-to-r from-purple-900 via-rose-700 to-amber-700 bg-clip-text text-transparent">
-                  PALABRAS QUE SUMAN
-                </span>
-                
-              </div>
-              <p className="text-[11px] font-medium text-slate-500 -mt-0.5">
-                Fundación Género 360 & APEP Mujeres que Suman
-              </p>
-            </div>
+            <p className="text-[11px] font-medium text-slate-500 -mt-0.5">
+              Fundación Género 360 & APEP Mujeres que Suman
+            </p>
           </button>
 
           {/* Desktop Navigation Links */}

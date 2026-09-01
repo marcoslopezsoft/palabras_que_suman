@@ -5,7 +5,6 @@ import { Heart, ArrowUp } from 'lucide-react';
 import { soundFx } from '@/utils/audio';
 import { scrollToElement } from './SmoothScroll';
 import { ParaguayFlagSvg } from './ParaguayBadge';
-import LogoIcon from './LogoIcon';
 
 export default function Footer() {
   const handleScrollTop = () => {
@@ -24,16 +23,13 @@ export default function Footer() {
           
           {/* Brand Column */}
           <div className="md:col-span-5 space-y-4">
-            <div className="flex items-center gap-3">
-              <LogoIcon size={44} className="w-11 h-11 drop-shadow-md" />
-              <div>
-                <span className="font-serif font-black text-xl text-white tracking-wide">
-                  PALABRAS QUE SUMAN
-                </span>
-                <p className="text-xs text-purple-300">
-                  Dejá un mensaje. Llevate otro.
-                </p>
-              </div>
+            <div>
+              <span className="font-serif font-black text-2xl text-white tracking-wide">
+                PALABRAS QUE SUMAN
+              </span>
+              <p className="text-xs text-purple-300 mt-0.5">
+                Dejá un mensaje. Llevate otro.
+              </p>
             </div>
 
             <p className="text-sm text-slate-400 max-w-sm leading-relaxed">

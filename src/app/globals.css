@@ -7,6 +7,24 @@
     --font-serif: 'Playfair Display', Georgia, serif;
     --font-handwritten: 'Caveat', cursive;
   }
+
+  /* Hide default system cursor on pointer-enabled desktop devices so only the custom cursor shows */
+  @media (hover: hover) and (pointer: fine) {
+    *,
+    *::before,
+    *::after,
+    html,
+    body,
+    a,
+    button,
+    input,
+    textarea,
+    select,
+    [role="button"],
+    .cursor-pointer {
+      cursor: none !important;
+    }
+  }
 }
 
 /* Custom Typography Utilities */
