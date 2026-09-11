@@ -45,7 +45,7 @@ export default function Footer() {
                 className="group focus:outline-hidden cursor-pointer"
               >
                 <img
-                  src="/assets/elemento-32.png"
+                  src="/assets/elemento-32.svg"
                   alt="Palabras Que Suman"
                   className="h-10 sm:h-12 md:h-14 w-auto object-contain hover:scale-105 transition-transform"
                 />
@@ -87,7 +87,8 @@ export default function Footer() {
           {/* Small Bottom Copyright */}
           <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-purple-200/70 gap-2 text-center sm:text-left font-spartan">
             <span>
-              © 2026 Palabras Que Suman • Fundación Género 360 & APEP Mujeres que Suman.
+              © 2026 Palabras Que Suman • Fundación Género 360 & APEP Mujeres
+              que Suman.
             </span>
             <span>
               Paraguay • Activación Nacional por la Niñez y la Juventud

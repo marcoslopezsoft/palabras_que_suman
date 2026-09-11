@@ -69,7 +69,7 @@ export default function HeroSection({ messageCount, onOpenRoulette }: HeroSectio
                 title="Dejar mi mensaje"
               >
                 <img
-                  src="/assets/elemento-03.png"
+                  src="/assets/elemento-03.svg"
                   alt="Dejar mi mensaje"
                   className="h-12 sm:h-14 w-auto object-contain drop-shadow-sm group-hover:drop-shadow-md"
                 />
@@ -86,7 +86,7 @@ export default function HeroSection({ messageCount, onOpenRoulette }: HeroSectio
                 title="Sacar el señalador directo"
               >
                 <img
-                  src="/assets/elemento-04.png"
+                  src="/assets/elemento-04.svg"
                   alt="Sacar el señalador directo"
                   className="h-12 sm:h-14 w-auto object-contain drop-shadow-sm group-hover:drop-shadow-md"
                 />
@@ -113,8 +113,6 @@ export default function HeroSection({ messageCount, onOpenRoulette }: HeroSectio
 
         {/* Ribbon / Strip: "señaladores ya hechos" */}
         <div className="py-6 border-t border-purple-100/60">
-          
-
           {/* Horizontal Scrollable Bookmarks Track */}
           <div className="flex gap-4 overflow-x-auto pb-4 pt-2 px-2 scrollbar-none snap-x snap-mandatory">
             {COLLECTIBLE_BOOKMARKS.slice(0, 6).map((bm, index) => {
@@ -163,7 +161,7 @@ export default function HeroSection({ messageCount, onOpenRoulette }: HeroSectio
         <div className="mt-8 mb-4 relative">
           {/* Top Hand-Drawn Pink Line */}
           <img
-            src="/assets/elemento-07.png"
+            src="/assets/elemento-07.svg"
             alt="separador"
             className="w-full h-auto max-h-3 object-contain select-none"
           />
@@ -173,7 +171,7 @@ export default function HeroSection({ messageCount, onOpenRoulette }: HeroSectio
             {/* Girl Holding Sign: 100% LIBRE Y GRATUITO */}
             <div className="shrink-0 flex items-center justify-center">
               <img
-                src="/assets/elemento-08.png"
+                src="/assets/elemento-08.svg"
                 alt="100% Libre y Gratuito"
                 className="h-20 sm:h-24 md:h-28 w-auto object-contain hover:scale-105 transition-transform"
               />
@@ -202,7 +200,7 @@ export default function HeroSection({ messageCount, onOpenRoulette }: HeroSectio
             {/* Feature 1: Llega a escuelas y talleres */}
             <div className="flex items-center gap-3 text-left">
               <img
-                src="/assets/elemento-09.png"
+                src="/assets/elemento-09.svg"
                 alt="Escuela"
                 className="w-10 h-10 object-contain shrink-0"
               />
@@ -214,7 +212,7 @@ export default function HeroSection({ messageCount, onOpenRoulette }: HeroSectio
             {/* Feature 2: Descargable en HD */}
             <div className="flex items-center gap-3 text-left">
               <img
-                src="/assets/elemento-10.png"
+                src="/assets/elemento-10.svg"
                 alt="Descarga"
                 className="w-10 h-10 object-contain shrink-0"
               />
@@ -226,7 +224,7 @@ export default function HeroSection({ messageCount, onOpenRoulette }: HeroSectio
 
           {/* Bottom Hand-Drawn Pink Line */}
           <img
-            src="/assets/elemento-07.png"
+            src="/assets/elemento-07.svg"
             alt="separador"
             className="w-full h-auto max-h-3 object-contain select-none rotate-180"
           />

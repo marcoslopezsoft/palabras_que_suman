@@ -8,6 +8,7 @@ import { CATEGORIES, COLOR_THEMES } from '@/data/initialData';
 import { toggleLikeMessage } from '@/utils/storage';
 import { soundFx } from '@/utils/audio';
 import { triggerHeartConfetti } from '@/utils/confetti';
+import { getSiteUrl } from '@/utils/siteUrl';
 import CategoryIcon from './CategoryIcon';
 import { ParaguayFlagSvg } from './ParaguayBadge';
 import { 
@@ -90,7 +91,11 @@ export default function MessageDetailModal({
   const handleShare = async () => {
     soundFx.playPop();
     const shareText = `“${message.message}” — ${message.name} (${message.city}). Leé más mensajes inspiradores en Palabras Que Suman.`;
-    const shareUrl = typeof window !== 'undefined' ? window.location.href : 'https://palabrasquesuman.org';
+    const shareUrl =
+      typeof window !== 'undefined' &&
+      !window.location.origin.includes('localhost')
+        ? window.location.href
+        : getSiteUrl();
 
     if (navigator.share) {
       try {

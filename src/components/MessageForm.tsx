@@ -15,31 +15,35 @@ interface MessageFormProps {
 }
 
 const CATEGORY_ITEMS: { id: Category; label: string; image: string }[] = [
-  { id: 'valentia', label: 'Valentía y coraje', image: '/assets/elemento-14.png' },
+  {
+    id: 'valentia',
+    label: 'Valentía y coraje',
+    image: '/assets/elemento-14.svg',
+  },
   {
     id: 'educacion',
     label: 'Educación y ciencia',
-    image: '/assets/elemento-15.png',
+    image: '/assets/elemento-15.svg',
   },
   {
     id: 'liderazgo',
     label: 'Liderazgo y futuro',
-    image: '/assets/elemento-16.png',
+    image: '/assets/elemento-16.svg',
   },
   {
     id: 'creatividad',
     label: 'Creatividad y arte',
-    image: '/assets/elemento-19.png',
+    image: '/assets/elemento-19.svg',
   },
   {
     id: 'autoestima',
     label: 'Amor propio y confianza',
-    image: '/assets/elemento-18.png',
+    image: '/assets/elemento-18.svg',
   },
   {
     id: 'sororidad',
     label: 'Serenidad y comunidad',
-    image: '/assets/elemento-17.png',
+    image: '/assets/elemento-17.svg',
   },
 ];
 
@@ -52,37 +56,37 @@ const COLOR_SWATCHES: {
   {
     theme: 'rose',
     label: 'Rosa',
-    image: '/assets/elemento-20.png',
+    image: '/assets/elemento-20.svg',
     hex: '#f57185',
   },
   {
     theme: 'lavender',
     label: 'Lila Violeta',
-    image: '/assets/elemento-21.png',
+    image: '/assets/elemento-21.svg',
     hex: '#c283be',
   },
   {
     theme: 'mint',
     label: 'Verde Menta',
-    image: '/assets/elemento-22.png',
+    image: '/assets/elemento-22.svg',
     hex: '#32aa88',
   },
   {
     theme: 'amber',
     label: 'Amarillo Dorado',
-    image: '/assets/elemento-23.png',
+    image: '/assets/elemento-23.svg',
     hex: '#f5be22',
   },
   {
     theme: 'lilac',
     label: 'Rosa Claro',
-    image: '/assets/elemento-24.png',
+    image: '/assets/elemento-24.svg',
     hex: '#ee8fc2',
   },
   {
     theme: 'sky',
     label: 'Azul Celeste',
-    image: '/assets/elemento-25.png',
+    image: '/assets/elemento-25.svg',
     hex: '#34aecf',
   },
 ];
@@ -211,12 +215,13 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <img
-                    src="/assets/elemento-11.png"
+                    src="/assets/elemento-11.svg"
                     alt="Paso 1"
                     className="w-9 h-9 object-contain shrink-0"
                   />
                   <h3 className="font-porceleina text-2xl sm:text-3xl text-slate-800 uppercase tracking-wide">
-                    ELEGÍ <span className="text-[#f06f42]">LA CATEGORÍA</span> DE TU MENSAJE
+                    ELEGÍ <span className="text-[#f06f42]">LA CATEGORÍA</span>{' '}
+                    DE TU MENSAJE
                   </h3>
                 </div>
 
@@ -253,12 +258,13 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
               <div className="space-y-5">
                 <div className="flex items-center gap-3">
                   <img
-                    src="/assets/elemento-12.png"
+                    src="/assets/elemento-12.svg"
                     alt="Paso 2"
                     className="w-9 h-9 object-contain shrink-0"
                   />
                   <h3 className="font-porceleina text-2xl sm:text-3xl text-slate-800 uppercase tracking-wide">
-                    ELEGÍ <span className="text-[#f06f42]">EL COLOR</span> DE TU SEÑALADOR
+                    ELEGÍ <span className="text-[#f06f42]">EL COLOR</span> DE TU
+                    SEÑALADOR
                   </h3>
                 </div>
 
@@ -408,12 +414,13 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <img
-                      src="/assets/elemento-13.png"
+                      src="/assets/elemento-13.svg"
                       alt="Paso 3"
                       className="w-9 h-9 object-contain shrink-0"
                     />
                     <h3 className="font-porceleina text-2xl sm:text-3xl text-slate-800 uppercase tracking-wide">
-                      TU <span className="text-[#f06f42]">MENSAJE</span> PARA LAS NIÑAS Y JÓVENES *
+                      TU <span className="text-[#f06f42]">MENSAJE</span> PARA
+                      LAS NIÑAS Y JÓVENES *
                     </h3>
                   </div>
 
@@ -427,7 +434,7 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                     className="flex items-center gap-1.5 text-xs font-spartan font-bold text-[#f06f42] hover:text-[#e25d30] cursor-pointer"
                   >
                     <img
-                      src="/assets/elemento-26.png"
+                      src="/assets/elemento-26.svg"
                       alt="Idea"
                       className="w-4 h-4 object-contain"
                     />
@@ -516,7 +523,7 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                     title="Enviar mensaje y sacar señalador"
                   >
                     <img
-                      src="/assets/elemento-27.png"
+                      src="/assets/elemento-27.svg"
                       alt="Enviar mensaje y sacar señalador"
                       className="h-14 sm:h-16 w-auto object-contain drop-shadow-md group-hover:drop-shadow-lg"
                     />

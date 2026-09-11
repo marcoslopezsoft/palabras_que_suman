@@ -94,7 +94,10 @@ export default function CommunityWall({
   }, [messages]);
 
   return (
-    <section id="mural" className="bg-[#733381] text-white relative overflow-hidden">
+    <section
+      id="mural"
+      className="bg-[#733381] text-white relative overflow-hidden"
+    >
       {/* Paper texture overlay (elemento-34) */}
       <div
         className="absolute inset-0 pointer-events-none opacity-30 mix-blend-multiply bg-repeat"
@@ -107,14 +110,13 @@ export default function CommunityWall({
       {/* Top Organic Wavy Banner */}
       <div className="w-full -mt-1 overflow-hidden leading-none select-none relative z-10">
         <img
-          src="/assets/elemento-33.png"
+          src="/assets/elemento-33.svg"
           alt=""
           className="w-full h-auto object-cover min-h-[40px] md:min-h-[60px]"
         />
       </div>
 
       <div className="max-w-[1366px] mx-auto px-4 sm:px-6 lg:px-8 pt-8 md:pt-14 pb-20 relative z-10">
-        
         {/* Section Header in Porceleina */}
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-10 md:mb-14">
           <h2 className="font-porceleina text-4xl sm:text-5xl md:text-6xl text-white tracking-wide uppercase">
@@ -122,13 +124,13 @@ export default function CommunityWall({
           </h2>
 
           <p className="text-purple-200 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-            Explorá los mensajes que mujeres líderes, científicas, artistas y docentes de todo el Paraguay han dedicado a las nuevas generaciones.
+            Explorá los mensajes que mujeres líderes, científicas, artistas y
+            docentes de todo el Paraguay han dedicado a las nuevas generaciones.
           </p>
         </div>
 
         {/* Clean White Filter Box on Purple Background */}
         <div className="bg-white text-slate-900 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 mb-12">
-          
           {/* Top Bar: Search Input, City Dropdown, Sort Dropdown */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
             {/* Search Input */}
@@ -137,13 +139,17 @@ export default function CommunityWall({
               <input
                 type="text"
                 value={filters.search}
-                onChange={(e) => setFilters((prev) => ({ ...prev, search: e.target.value }))}
+                onChange={(e) =>
+                  setFilters((prev) => ({ ...prev, search: e.target.value }))
+                }
                 placeholder="Buscar por palabras clave, autora o profesión..."
                 className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 bg-slate-50/70 text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-[#733381]/30 focus:border-[#733381] transition-all"
               />
               {filters.search && (
                 <button
-                  onClick={() => setFilters((prev) => ({ ...prev, search: '' }))}
+                  onClick={() =>
+                    setFilters((prev) => ({ ...prev, search: '' }))
+                  }
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs font-bold"
                 >
                   ✕
@@ -178,7 +184,10 @@ export default function CommunityWall({
                 value={filters.sortBy}
                 onChange={(e) => {
                   soundFx.playPop();
-                  setFilters((prev) => ({ ...prev, sortBy: e.target.value as 'recent' | 'popular' }));
+                  setFilters((prev) => ({
+                    ...prev,
+                    sortBy: e.target.value as 'recent' | 'popular',
+                  }));
                 }}
                 className="w-full pl-10 pr-8 py-2.5 rounded-2xl border border-slate-200 bg-slate-50/70 text-slate-900 text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-[#733381]/30 focus:border-[#733381] transition-all appearance-none cursor-pointer"
               >
@@ -205,7 +214,9 @@ export default function CommunityWall({
             {(Object.keys(CATEGORIES) as Category[]).map((catKey) => {
               const cat = CATEGORIES[catKey];
               const isSelected = filters.category === catKey;
-              const countInCat = messages.filter((m) => m.category === catKey).length;
+              const countInCat = messages.filter(
+                (m) => m.category === catKey,
+              ).length;
               return (
                 <button
                   key={catKey}
@@ -232,7 +243,9 @@ export default function CommunityWall({
               {displayedMessages.length} Señaladores Vistos
             </span>
 
-            {(filters.category !== 'all' || filters.city !== 'all' || filters.search) && (
+            {(filters.category !== 'all' ||
+              filters.city !== 'all' ||
+              filters.search) && (
               <button
                 onClick={handleResetFilters}
                 className="text-[#733381] hover:text-[#5a2466] font-bold flex items-center gap-1 cursor-pointer"
@@ -242,7 +255,6 @@ export default function CommunityWall({
               </button>
             )}
           </div>
-
         </div>
 
         {/* Message Cards Grid on Purple Background */}
@@ -266,7 +278,8 @@ export default function CommunityWall({
               No se encontraron mensajes con estos filtros
             </h3>
             <p className="text-sm text-slate-600">
-              ¡Sé la primera persona en sembrar un mensaje en esta categoría o ciudad!
+              ¡Sé la primera persona en sembrar un mensaje en esta categoría o
+              ciudad!
             </p>
             <div className="flex flex-col sm:flex-row gap-2 justify-center pt-2">
               <button
@@ -300,18 +313,22 @@ export default function CommunityWall({
               className="px-8 py-3.5 rounded-full bg-white hover:bg-purple-50 text-[#733381] font-spartan font-bold text-sm shadow-lg hover:shadow-xl transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-2 mx-auto"
             >
               <BookOpen className="w-4 h-4" />
-              <span>Cargar más señaladores ({filteredMessages.length - displayedMessages.length} restantes)</span>
+              <span>
+                Cargar más señaladores (
+                {filteredMessages.length - displayedMessages.length} restantes)
+              </span>
             </button>
           </div>
         )}
-
       </div>
 
       {/* Message Full-View Modal */}
       <MessageDetailModal
         message={selectedMessage}
         onClose={() => setSelectedMessage(null)}
-        isLikedInitially={selectedMessage ? userLikedIds.includes(selectedMessage.id) : false}
+        isLikedInitially={
+          selectedMessage ? userLikedIds.includes(selectedMessage.id) : false
+        }
       />
     </section>
   );

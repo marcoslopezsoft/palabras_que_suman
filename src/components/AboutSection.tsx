@@ -4,7 +4,10 @@ import React from 'react';
 
 export default function AboutSection() {
   return (
-    <section id="sobre-la-iniciativa" className="relative w-full overflow-hidden">
+    <section
+      id="sobre-la-iniciativa"
+      className="relative w-full overflow-hidden"
+    >
       {/* Upper Part: ¿Por qué Palabras Que Suman? */}
       <div className="py-16 md:py-24 bg-[#FAF8F5] bg-paper-texture">
         <div className="max-w-[1366px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -34,7 +37,7 @@ export default function AboutSection() {
             <div className="text-center flex flex-col items-center justify-between space-y-4">
               <div className="h-40 flex items-center justify-center">
                 <img
-                  src="/assets/elemento-28.png"
+                  src="/assets/elemento-28.svg"
                   alt="Tu voz se transforma en semilla"
                   className="h-32 sm:h-36 w-auto object-contain hover:scale-105 transition-transform"
                 />
@@ -55,7 +58,7 @@ export default function AboutSection() {
             <div className="text-center flex flex-col items-center justify-between space-y-4">
               <div className="h-40 flex items-center justify-center">
                 <img
-                  src="/assets/elemento-29.png"
+                  src="/assets/elemento-29.svg"
                   alt="Llega a niñas y aulas de todo el país"
                   className="h-32 sm:h-36 w-auto object-contain hover:scale-105 transition-transform"
                 />
@@ -65,8 +68,8 @@ export default function AboutSection() {
                   LLEGA A NIÑAS Y AULAS <br /> DE TODO EL PAÍS
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xs mx-auto">
-                  Los mensajes se imprimen en señaladores físicos y se entregan en
-                  escuelas públicas, bibliotecas comunitarias y talleres de
+                  Los mensajes se imprimen en señaladores físicos y se entregan
+                  en escuelas públicas, bibliotecas comunitarias y talleres de
                   robótica y liderazgo juvenil.
                 </p>
               </div>
@@ -76,7 +79,7 @@ export default function AboutSection() {
             <div className="text-center flex flex-col items-center justify-between space-y-4">
               <div className="h-40 flex items-center justify-center">
                 <img
-                  src="/assets/elemento-30.png"
+                  src="/assets/elemento-30.svg"
                   alt="Te llevás un señalador de regalo"
                   className="h-32 sm:h-36 w-auto object-contain hover:scale-105 transition-transform"
                 />
@@ -86,9 +89,9 @@ export default function AboutSection() {
                   TE LLEVÁS UN <br /> SEÑALADOR DE REGALO
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xs mx-auto">
-                  El intercambio es recíproco: al dejar tu mensaje, desbloqueás un
-                  señalador digital coleccionable de alta resolución listo para
-                  imprimir o compartir en tus redes.
+                  El intercambio es recíproco: al dejar tu mensaje, desbloqueás
+                  un señalador digital coleccionable de alta resolución listo
+                  para imprimir o compartir en tus redes.
                 </p>
               </div>
             </div>
@@ -122,7 +125,7 @@ export default function AboutSection() {
             {/* Two Women High-Five Illustration */}
             <div className="relative shrink-0">
               <img
-                src="/assets/elemento-31.png"
+                src="/assets/elemento-31.svg"
                 alt="Alianza Género 360 y APEP"
                 className="h-44 sm:h-52 md:h-60 w-auto object-contain hover:scale-105 transition-transform"
               />
@@ -174,10 +177,10 @@ export default function AboutSection() {
                 APEP MUJERES QUE SUMAN
               </h4>
               <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
-                Asociación Paraguaya de Empresarias, Ejecutivas y
-                Profesionales. Una comunidad pionera que agrupa a referentes
-                del ámbito corporativo y productivo para impulsar el
-                desarrollo económico y el mentoreo.
+                Asociación Paraguaya de Empresarias, Ejecutivas y Profesionales.
+                Una comunidad pionera que agrupa a referentes del ámbito
+                corporativo y productivo para impulsar el desarrollo económico y
+                el mentoreo.
               </p>
 
               <div className="pt-2">

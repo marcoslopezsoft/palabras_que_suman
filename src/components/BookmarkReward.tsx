@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { soundFx } from '@/utils/audio';
 import { triggerHeartConfetti } from '@/utils/confetti';
+import { getSiteUrl } from '@/utils/siteUrl';
 import CategoryIcon from './CategoryIcon';
 
 interface BookmarkRewardProps {
@@ -81,7 +82,11 @@ export default function BookmarkReward({
   const handleShare = async () => {
     soundFx.playPop();
     const shareText = `“${bookmark.quote}” — ${bookmark.author}. Descubrí tu señalador digital en Palabras Que Suman (Fundación Género 360 & APEP Mujeres que Suman).`;
-    const shareUrl = typeof window !== 'undefined' ? window.location.href : 'https://palabrasquesuman.org';
+    const shareUrl =
+      typeof window !== 'undefined' &&
+      !window.location.origin.includes('localhost')
+        ? window.location.href
+        : getSiteUrl();
 
     if (navigator.share) {
       try {

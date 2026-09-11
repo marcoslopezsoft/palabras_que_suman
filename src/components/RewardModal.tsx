@@ -116,7 +116,7 @@ export default function RewardModal({
               {/* Illustration of Seedling */}
               <div className="flex justify-center">
                 <img
-                  src="/assets/elemento-28.png"
+                  src="/assets/elemento-28.svg"
                   alt="Tu voz se transforma en semilla"
                   className="h-24 sm:h-28 w-auto object-contain drop-shadow-md animate-bounce-subtle"
                 />
@@ -207,7 +207,7 @@ export default function RewardModal({
                   className="flex items-center justify-center"
                 >
                   <img
-                    src="/assets/elemento-30.png"
+                    src="/assets/elemento-30.svg"
                     alt="Señalador de regalo"
                     className="h-28 w-auto object-contain drop-shadow-md"
                   />
@@ -236,7 +236,6 @@ export default function RewardModal({
                     </>
                   ) : (
                     <>
-                      <Sparkles className="w-4 h-4 text-[#f8e3a4]" />
                       <span>ABRIR MI SEÑALADOR AHORA</span>
                     </>
                   )}
@@ -259,7 +258,8 @@ export default function RewardModal({
                   ¡TU SEÑALADOR DE REGALO!
                 </h3>
                 <p className="font-spartan text-xs font-bold uppercase tracking-widest text-slate-500">
-                  Podés descargarlo como imagen en alta calidad o compartirlo en tus redes
+                  Podés descargarlo como imagen en alta calidad o compartirlo en
+                  tus redes
                 </p>
               </div>
 

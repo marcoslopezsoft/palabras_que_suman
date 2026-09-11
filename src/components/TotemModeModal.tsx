@@ -20,6 +20,7 @@ import {
   Globe
 } from 'lucide-react';
 import { soundFx } from '@/utils/audio';
+import { getWriteMessageUrl, getSiteUrl } from '@/utils/siteUrl';
 
 interface TotemModeModalProps {
   isOpen: boolean;
@@ -49,15 +50,12 @@ export default function TotemModeModal({
   const [isPlaying, setIsPlaying] = useState(true);
   const [customQrUrl, setCustomQrUrl] = useState('');
   const [showQrConfig, setShowQrConfig] = useState(false);
-  const [currentOrigin] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return `${window.location.origin}/#escribir`;
-    }
-    return '';
-  });
 
-  const effectiveQrUrl = customQrUrl.trim() || currentOrigin || 'https://fundaciongenero360.org/home';
-  const displayList = messages.length > 0 ? messages : [DEFAULT_WELCOME_MESSAGE];
+  // URL por defecto del QR: toma NEXT_PUBLIC_SITE_URL o el fallback oficial de producción
+  const defaultQrUrl = getWriteMessageUrl();
+  const effectiveQrUrl = customQrUrl.trim() || defaultQrUrl;
+  const displayList =
+    messages.length > 0 ? messages : [DEFAULT_WELCOME_MESSAGE];
 
   useEffect(() => {
     if (!isOpen || !isPlaying || displayList.length <= 1) return;
@@ -71,7 +69,8 @@ export default function TotemModeModal({
 
   const safeIndex = currentIndex < displayList.length ? currentIndex : 0;
   const currentMsg = displayList[safeIndex] || DEFAULT_WELCOME_MESSAGE;
-  const activeCategory = CATEGORIES[currentMsg.category] || CATEGORIES.sororidad;
+  const activeCategory =
+    CATEGORIES[currentMsg.category] || CATEGORIES.sororidad;
   const activeTheme = COLOR_THEMES[currentMsg.theme] || COLOR_THEMES.rose;
 
   const handleNext = () => {
@@ -81,7 +80,9 @@ export default function TotemModeModal({
 
   const handlePrev = () => {
     soundFx.playPop();
-    setCurrentIndex((prev) => (prev - 1 + displayList.length) % displayList.length);
+    setCurrentIndex(
+      (prev) => (prev - 1 + displayList.length) % displayList.length,
+    );
   };
 
   return (
@@ -97,13 +98,10 @@ export default function TotemModeModal({
       <div className="relative z-10 flex items-center justify-between border-b border-white/10 pb-4">
         <div className="flex items-center gap-4">
           <img
-            src="/assets/elemento-32.png"
+            src="/assets/elemento-32.svg"
             alt="Palabras Que Suman"
             className="h-10 sm:h-12 w-auto object-contain"
           />
-          <span className="hidden sm:inline-block font-spartan font-black text-[11px] uppercase tracking-widest text-[#f8e3a4] bg-white/10 px-3 py-1 rounded-full border border-white/10">
-            ACTIVACIÓN EN VIVO • MODO TÓTEM
-          </span>
         </div>
 
         {/* Action Controls */}
@@ -164,6 +162,12 @@ export default function TotemModeModal({
               level="H"
               includeMargin={false}
               fgColor="#733381"
+              imageSettings={{
+                src: '/icon.png',
+                height: 38,
+                width: 38,
+                excavate: true,
+              }}
             />
           </div>
 
@@ -194,14 +198,30 @@ export default function TotemModeModal({
                   type="text"
                   value={customQrUrl}
                   onChange={(e) => setCustomQrUrl(e.target.value)}
-                  placeholder={
-                    currentOrigin || 'https://tudominio.com/#escribir'
-                  }
-                  className="w-full px-3 py-1.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-slate-500 text-xs focus:outline-hidden focus:ring-1 focus:ring-purple-400"
+                  placeholder={defaultQrUrl}
+                  className="w-full px-3 py-1.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-slate-400 text-xs focus:outline-hidden focus:ring-1 focus:ring-purple-400"
                 />
-                <p className="text-[10px] text-slate-400">
-                  Por defecto apunta a la URL actual del navegador. Si ya
-                  desplegaste tu web, podés pegar tu dominio aquí.
+                <div className="text-[10px] text-slate-300 flex items-center justify-between">
+                  <span className="truncate">
+                    Destino:{' '}
+                    <strong className="text-[#f8e3a4]">{effectiveQrUrl}</strong>
+                  </span>
+                  {customQrUrl && (
+                    <button
+                      type="button"
+                      onClick={() => setCustomQrUrl('')}
+                      className="text-[#f06f42] hover:underline font-bold text-[10px] shrink-0 ml-2 cursor-pointer"
+                    >
+                      Restablecer
+                    </button>
+                  )}
+                </div>
+                <p className="text-[10px] text-slate-400 leading-tight">
+                  Apunta por defecto a{' '}
+                  <strong className="text-purple-200">{defaultQrUrl}</strong>{' '}
+                  (configurable vía{' '}
+                  <code className="text-purple-300">NEXT_PUBLIC_SITE_URL</code>
+                  ).
                 </p>
               </motion.div>
             )}

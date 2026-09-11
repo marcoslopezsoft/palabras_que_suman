@@ -49,7 +49,7 @@ export default function Navbar({ messageCount, onOpenRoulette, onOpenTotem }: Na
               className="flex items-center gap-3 text-left group focus:outline-hidden cursor-pointer"
             >
               <img
-                src="/assets/elemento-32.png"
+                src="/assets/elemento-32.svg"
                 alt="Palabras Que Suman"
                 className="h-10 sm:h-12 md:h-14 w-auto object-contain hover:scale-105 transition-transform"
               />
@@ -121,7 +121,11 @@ export default function Navbar({ messageCount, onOpenRoulette, onOpenTotem }: Na
                 className="lg:hidden p-1.5 text-white bg-white/10 hover:bg-white/20 rounded-xl border border-white/20 cursor-pointer"
                 aria-label="Abrir menú"
               >
-                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                {mobileMenuOpen ? (
+                  <X className="w-5 h-5" />
+                ) : (
+                  <Menu className="w-5 h-5" />
+                )}
               </button>
             </div>
           </div>
