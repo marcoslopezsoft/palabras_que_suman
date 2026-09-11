@@ -45,22 +45,30 @@ export default function BookmarkPreview({
     <div className="flex flex-col items-center">
       {/* 3D Perspective Card Wrapper */}
       <div className="w-full max-w-77.5 sm:max-w-85 perspective-1000 py-4">
+    <div className="flex flex-col items-center w-full">
+      {/* 3D Perspective Card Wrapper (Dimensions 466x700px in MUESTRA.pdf) */}
+      <div className="w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[450px] perspective-1000 py-2 sm:py-4">
         <motion.div
           animate={{ rotateY: isFlipped ? 180 : 0 }}
           transition={{ duration: 0.6, ease: 'easeInOut' }}
           className="relative w-full h-130 transform-style-3d cursor-pointer select-none"
+          className="relative w-full h-[580px] sm:h-[640px] lg:h-[670px] transform-style-3d cursor-pointer select-none"
           onClick={handleFlip}
           title="Hacé click para girar el señalador"
         >
           {/* ================= FRONT SIDE ================= */}
           <div
             className={`absolute inset-0 backface-hidden rounded-3xl p-6 flex flex-col justify-between border-2 shadow-2xl bookmark-shadow ${activeTheme.cardBg} ${activeTheme.borderAccent} overflow-hidden`}
+            className={`absolute inset-0 backface-hidden rounded-3xl p-6 sm:p-7 flex flex-col justify-between border-2 shadow-2xl bookmark-shadow ${activeTheme.cardBg} ${activeTheme.borderAccent} overflow-hidden`}
           >
             {/* Top Satin Ribbon & Punch Hole */}
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex flex-col items-center z-30">
               <div className="w-4 h-4 rounded-full bg-[#FAF8F5] border-2 border-slate-300 shadow-inner" />
+            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex flex-col items-center z-30">
+              <div className="w-5 h-5 rounded-full bg-[#FAF8F5] border-2 border-slate-300 shadow-inner" />
               <div
                 className={`w-3.5 h-8 ${activeTheme.ribbonColor} rounded-b-sm shadow-xs -mt-1`}
+                className={`w-4 h-9 ${activeTheme.ribbonColor} rounded-b-sm shadow-xs -mt-1`}
               />
             </div>
 
@@ -68,9 +76,13 @@ export default function BookmarkPreview({
             <div className="pt-5 space-y-2">
               <div className="flex items-center justify-between border-b border-slate-200/70 pb-2">
                 <span className="font-spartan text-[10px] font-black uppercase tracking-widest text-[#733381]">
+            <div className="pt-6 space-y-2.5">
+              <div className="flex items-center justify-between border-b border-slate-200/70 pb-2.5">
+                <span className="font-spartan text-xs font-black uppercase tracking-widest text-[#733381]">
                   Palabras Que Suman
                 </span>
                 <span className="font-spartan text-[10px] font-bold text-slate-400">
+                <span className="font-spartan text-xs font-bold text-slate-400">
                   G360 • APEP
                 </span>
               </div>
@@ -79,8 +91,10 @@ export default function BookmarkPreview({
               <div className="flex items-center justify-center">
                 <span
                   className={`inline-flex items-center gap-1.5 text-[10px] font-spartan font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full border shadow-2xs ${activeCategory.colorClass}`}
+                  className={`inline-flex items-center gap-1.5 text-xs font-spartan font-extrabold uppercase tracking-wider px-3 py-1.5 rounded-full border shadow-2xs ${activeCategory.colorClass}`}
                 >
                   <CategoryIcon category={category} className="w-3.5 h-3.5" />
+                  <CategoryIcon category={category} className="w-4 h-4" />
                   <span>{activeCategory.label}</span>
                 </span>
               </div>
@@ -89,16 +103,21 @@ export default function BookmarkPreview({
             {/* Main Message Body */}
             <div className="my-auto py-3 text-center space-y-3 px-1">
               <p className="font-spartan text-[10px] font-bold uppercase tracking-widest text-slate-400">
+            <div className="my-auto py-4 text-center space-y-3 px-2">
+              <p className="font-spartan text-[11px] font-bold uppercase tracking-widest text-slate-400">
                 Dedicatoria especial
               </p>
               <div className="relative">
                 <span className="text-3xl font-serif text-slate-300 absolute -top-4 -left-1 select-none">
+                <span className="text-4xl font-serif text-slate-300 absolute -top-5 -left-2 select-none">
                   “
                 </span>
                 <p className="font-serif italic text-slate-900 text-sm sm:text-base font-medium leading-relaxed max-h-55 overflow-y-auto px-2">
+                <p className="font-serif italic text-slate-900 text-base sm:text-lg font-medium leading-relaxed max-h-64 overflow-y-auto px-2">
                   {displayMessage}
                 </p>
                 <span className="text-3xl font-serif text-slate-300 absolute -bottom-6 -right-1 select-none">
+                <span className="text-4xl font-serif text-slate-300 absolute -bottom-7 -right-2 select-none">
                   ”
                 </span>
               </div>
@@ -106,19 +125,25 @@ export default function BookmarkPreview({
 
             {/* Bottom Signature & Details */}
             <div className="pt-3 border-t border-slate-200/70 space-y-1.5 bg-white/40 rounded-xl p-2.5 backdrop-blur-2xs">
+            <div className="pt-3 border-t border-slate-200/70 space-y-2 bg-white/50 rounded-2xl p-3.5 backdrop-blur-2xs">
               <div className="flex items-center justify-between">
                 <div className="truncate pr-2">
                   <p className="font-spartan text-xs font-bold text-slate-900 truncate">
+                  <p className="font-spartan text-sm font-bold text-slate-900 truncate">
                     {displayName}
                   </p>
                   <p className="text-[10px] text-slate-500 flex items-center gap-1 truncate">
                     <Briefcase className="w-2.5 h-2.5 shrink-0" />
+                  <p className="text-xs text-slate-500 flex items-center gap-1 truncate mt-0.5">
+                    <Briefcase className="w-3 h-3 shrink-0" />
                     <span className="truncate">{displayRole}</span>
                   </p>
                 </div>
                 <div className="text-right shrink-0">
                   <span className="text-[10px] font-semibold text-slate-500 flex items-center gap-1">
                     <MapPin className="w-2.5 h-2.5 text-rose-500" />
+                  <span className="text-xs font-semibold text-slate-600 flex items-center gap-1">
+                    <MapPin className="w-3 h-3 text-rose-500" />
                     {displayCity}
                   </span>
                 </div>
@@ -127,9 +152,13 @@ export default function BookmarkPreview({
               <div className="flex items-center justify-between text-[9px] text-slate-400 pt-1">
                 <span className="flex items-center gap-1">
                   <ParaguayFlagSvg className="w-3.5 h-2 rounded-2xs" />
+              <div className="flex items-center justify-between text-[10px] text-slate-500 pt-1 border-t border-slate-200/40">
+                <span className="flex items-center gap-1.5 font-medium">
+                  <ParaguayFlagSvg className="w-4 h-2.5 rounded-2xs" />
                   Niñas y Jóvenes de Paraguay
                 </span>
                 <span className="font-porceleina text-base font-bold text-[#733381]">
+                <span className="font-porceleina text-lg font-bold text-[#733381]">
                   Sumando Voces
                 </span>
               </div>
@@ -148,8 +177,11 @@ export default function BookmarkPreview({
             {/* Top Satin Ribbon & Punch Hole */}
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex flex-col items-center z-30">
               <div className="w-4 h-4 rounded-full bg-[#FAF8F5] border-2 border-slate-300 shadow-inner" />
+            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex flex-col items-center z-30">
+              <div className="w-5 h-5 rounded-full bg-[#FAF8F5] border-2 border-slate-300 shadow-inner" />
               <div
                 className={`w-3.5 h-8 ${activeTheme.ribbonColor} rounded-b-sm shadow-xs -mt-1`}
+                className={`w-4 h-9 ${activeTheme.ribbonColor} rounded-b-sm shadow-xs -mt-1`}
               />
             </div>
 
