@@ -3,36 +3,94 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Category, ColorTheme, CommunityMessage } from '@/types';
-import { CATEGORIES, COLOR_THEMES, PARAGUAY_CITIES, INSPIRATIONAL_PROMPTS } from '@/data/initialData';
+import { PARAGUAY_CITIES, INSPIRATIONAL_PROMPTS } from '@/data/initialData';
 import { saveMessage } from '@/utils/storage';
 import { triggerPastelConfetti } from '@/utils/confetti';
 import { soundFx } from '@/utils/audio';
 import BookmarkPreview from './BookmarkPreview';
-import CategoryIcon from './CategoryIcon';
-import { 
-  Send, 
-  Sparkles, 
-  Lightbulb, 
-  Check, 
-  AlertCircle, 
-  Palette, 
-  Tag, 
-  User, 
-  Briefcase, 
-  MapPin, 
-  HelpCircle,
-  X,
-  Gift
-} from 'lucide-react';
+import { AlertCircle, HelpCircle, X } from 'lucide-react';
 
 interface MessageFormProps {
   onMessageSubmitted: (newMsg: CommunityMessage) => void;
 }
 
+const CATEGORY_ITEMS: { id: Category; label: string; image: string }[] = [
+  { id: 'valentia', label: 'Valentía y coraje', image: '/assets/elemento-14.png' },
+  {
+    id: 'educacion',
+    label: 'Educación y ciencia',
+    image: '/assets/elemento-15.png',
+  },
+  {
+    id: 'liderazgo',
+    label: 'Liderazgo y futuro',
+    image: '/assets/elemento-16.png',
+  },
+  {
+    id: 'creatividad',
+    label: 'Creatividad y arte',
+    image: '/assets/elemento-19.png',
+  },
+  {
+    id: 'autoestima',
+    label: 'Amor propio y confianza',
+    image: '/assets/elemento-18.png',
+  },
+  {
+    id: 'sororidad',
+    label: 'Serenidad y comunidad',
+    image: '/assets/elemento-17.png',
+  },
+];
+
+const COLOR_SWATCHES: {
+  theme: ColorTheme;
+  label: string;
+  image: string;
+  hex: string;
+}[] = [
+  {
+    theme: 'rose',
+    label: 'Rosa',
+    image: '/assets/elemento-20.png',
+    hex: '#f57185',
+  },
+  {
+    theme: 'lavender',
+    label: 'Lila Violeta',
+    image: '/assets/elemento-21.png',
+    hex: '#c283be',
+  },
+  {
+    theme: 'mint',
+    label: 'Verde Menta',
+    image: '/assets/elemento-22.png',
+    hex: '#32aa88',
+  },
+  {
+    theme: 'amber',
+    label: 'Amarillo Dorado',
+    image: '/assets/elemento-23.png',
+    hex: '#f5be22',
+  },
+  {
+    theme: 'lilac',
+    label: 'Rosa Claro',
+    image: '/assets/elemento-24.png',
+    hex: '#ee8fc2',
+  },
+  {
+    theme: 'sky',
+    label: 'Azul Celeste',
+    image: '/assets/elemento-25.png',
+    hex: '#34aecf',
+  },
+];
+
 export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
   const [name, setName] = useState('');
   const [role, setRole] = useState('');
-  const [city, setCity] = useState('');
+  const [city, setCity] = useState('Asunción');
   const [customCity, setCustomCity] = useState('');
   const [category, setCategory] = useState<Category>('valentia');
   const [theme, setTheme] = useState<ColorTheme>('rose');
@@ -101,250 +159,278 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
       setMessage('');
       setName('');
       setRole('');
-      setCity('');
       setCustomCity('');
       setErrors({});
     }, 600);
   };
 
   return (
-    <section id="escribir" className="py-16 md:py-24 bg-white/70 backdrop-blur-md relative border-t border-purple-100/70">
-      {/* Decorative blurred backgrounds */}
-      <div className="absolute -top-10 left-1/4 w-72 h-72 bg-rose-100/50 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/2 right-10 w-96 h-96 bg-purple-100/40 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        
+    <section
+      id="escribir"
+      className="py-16 md:py-24 bg-[#FAF8F5] bg-paper-texture relative border-t border-purple-100/70"
+    >
+      <div className="max-w-[1366px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-12 md:mb-16">
-          
-
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
-            Escribí tu señalador de aliento para las niñas de Paraguay
+          <h2 className="font-porceleina text-4xl sm:text-5xl md:text-6xl text-[#189a72] uppercase tracking-wide leading-tight">
+            ESCRIBÍ TU SEÑALADOR DE ALIENTO <br />
+            PARA LAS NIÑAS DE PARAGUAY
           </h2>
 
-          <p className="text-slate-600 text-base sm:text-lg">
-            Tu experiencia, tu historia y tu cariño son el empujón que una niña necesita hoy para soñar en grande. 
-            Mirá en tiempo real cómo queda tu señalador digital.
+          <p className="text-slate-700 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+            Tu experiencia, tu historia y tu cariño son el empujón que una niña
+            necesita hoy para soñar en grande.{' '}
+            <span className="text-[#f06f42] font-bold">
+              Mirá en tiempo real cómo queda tu señalador digital.
+            </span>
           </p>
+
+          {/* Hand-drawn Downward Arrow */}
+          <div className="pt-2 flex justify-center">
+            <svg
+              className="w-6 h-10 text-[#f06f42] animate-bounce"
+              viewBox="0 0 24 40"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="12" y1="5" x2="12" y2="35" />
+              <polyline points="5 28 12 35 19 28" />
+            </svg>
+          </div>
         </div>
 
-        {/* 2-Column Grid: Form on Left, Live Bookmark Preview on Right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
-          
-          {/* LEFT: The Form Card */}
-          <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 md:p-10 border border-purple-100 shadow-xl shadow-purple-900/5 space-y-8">
-            <form onSubmit={handleSubmit} className="space-y-7">
-              
-              {/* Category Selector */}
-              <div className="space-y-3">
-                <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 flex items-center gap-2">
-                  <Tag className="w-4 h-4 text-purple-600" />
-                  <span>1. Elegí la Categoría de tu Mensaje</span>
-                </label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                  {(Object.keys(CATEGORIES) as Category[]).map((catKey) => {
-                    const cat = CATEGORIES[catKey];
-                    const isSelected = category === catKey;
-                    return (
-                      <button
-                        type="button"
-                        key={cat.id}
-                        onClick={() => {
-                          soundFx.playPop();
-                          setCategory(catKey);
-                        }}
-                        className={`p-3 rounded-2xl text-left border-2 transition-all flex flex-col justify-between ${
-                          isSelected
-                            ? `${cat.borderClass} ${cat.bgLight} shadow-sm ring-2 ring-purple-300/40`
-                            : 'border-slate-100 bg-slate-50/60 hover:bg-slate-100/80 hover:border-slate-200 text-slate-600'
-                        }`}
-                      >
-                        <div className="mb-2 p-1.5 rounded-xl bg-white/80 w-fit shadow-2xs">
-                          <CategoryIcon category={catKey} className={`w-5 h-5 ${isSelected ? 'text-purple-700' : 'text-slate-500'}`} />
-                        </div>
-                        <div className="text-xs font-bold text-slate-800 leading-tight">
-                          {cat.label}
-                        </div>
-                      </button>
-                    );
-                  })}
+        {/* 2-Column Layout: Steps on Left, Live Preview on Right */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          {/* LEFT: 3 Form Steps directly on paper background */}
+          <div className="lg:col-span-7 space-y-10">
+            <form onSubmit={handleSubmit} className="space-y-10">
+              {/* ================= STEP 1 ================= */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <img
+                    src="/assets/elemento-11.png"
+                    alt="Paso 1"
+                    className="w-9 h-9 object-contain shrink-0"
+                  />
+                  <h3 className="font-porceleina text-2xl sm:text-3xl text-slate-800 uppercase tracking-wide">
+                    ELEGÍ <span className="text-[#f06f42]">LA CATEGORÍA</span> DE TU MENSAJE
+                  </h3>
                 </div>
-              </div>
 
-              {/* Color Theme Selector */}
-              <div className="space-y-3">
-                <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 flex items-center gap-2">
-                  <Palette className="w-4 h-4 text-rose-500" />
-                  <span>2. Elegí el Color de tu Señalador</span>
-                </label>
-                <div className="flex flex-wrap gap-2.5">
-                  {(Object.keys(COLOR_THEMES) as ColorTheme[]).map((tKey) => {
-                    const t = COLOR_THEMES[tKey];
-                    const isSelected = theme === tKey;
+                {/* 6 Category Cards (3 columns x 2 rows) */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {CATEGORY_ITEMS.map((item) => {
+                    const isSelected = category === item.id;
                     return (
                       <button
                         type="button"
-                        key={tKey}
+                        key={item.id}
                         onClick={() => {
                           soundFx.playPop();
-                          setTheme(tKey);
+                          setCategory(item.id);
                         }}
-                        className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 border ${
+                        className={`group relative rounded-2xl overflow-hidden border-0 transition-all p-1 cursor-pointer flex flex-col items-center text-center ${
                           isSelected
-                            ? 'border-purple-600 ring-2 ring-purple-400/50 scale-105 bg-white text-purple-950 shadow-xs'
-                            : 'border-slate-200 bg-white/70 text-slate-600 hover:border-slate-300'
+                            ? 'border-[#733381] ring-3 ring-[#733381]/30 shadow-md scale-102 bg-purple-50/50'
+                            : 'border-slate-200 hover:border-slate-300 hover:shadow-sm bg-white'
                         }`}
                       >
-                        <span
-                          className="w-3.5 h-3.5 rounded-full border border-black/10 shrink-0"
-                          style={{ backgroundColor: t.hex }}
+                        <img
+                          src={item.image}
+                          alt={item.label}
+                          className="w-full h-auto object-contain rounded-xl"
                         />
-                        <span>{t.name}</span>
-                        {isSelected && <Check className="w-3.5 h-3.5 text-purple-600" />}
                       </button>
                     );
                   })}
                 </div>
               </div>
 
-              {/* Personal Information Fields */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Name */}
-                <div className="space-y-1.5">
-                  <label className="block text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                    <User className="w-3.5 h-3.5 text-slate-400" />
-                    <span>Tu Nombre o Firma *</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => {
-                      setName(e.target.value);
-                      if (errors.name) setErrors((prev) => ({ ...prev, name: '' }));
-                    }}
-                    placeholder="Ej. Ing. Valeria Rivas / Sofía G."
-                    className={`w-full px-4 py-3 rounded-xl border bg-slate-50/50 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-hidden focus:ring-2 transition-all ${
-                      errors.name
-                        ? 'border-rose-400 focus:ring-rose-200 bg-rose-50/30'
-                        : 'border-slate-200 focus:border-purple-400 focus:ring-purple-200'
-                    }`}
+              {/* ================= STEP 2 ================= */}
+              <div className="space-y-5">
+                <div className="flex items-center gap-3">
+                  <img
+                    src="/assets/elemento-12.png"
+                    alt="Paso 2"
+                    className="w-9 h-9 object-contain shrink-0"
                   />
-                  {errors.name && (
-                    <p className="text-[11px] font-semibold text-rose-500 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" /> {errors.name}
-                    </p>
-                  )}
+                  <h3 className="font-porceleina text-2xl sm:text-3xl text-slate-800 uppercase tracking-wide">
+                    ELEGÍ <span className="text-[#f06f42]">EL COLOR</span> DE TU SEÑALADOR
+                  </h3>
                 </div>
 
-                {/* Role / Profession */}
-                <div className="space-y-1.5">
-                  <label className="block text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                    <Briefcase className="w-3.5 h-3.5 text-slate-400" />
-                    <span>Tu Profesión / Rol / Pasión *</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={role}
-                    onChange={(e) => {
-                      setRole(e.target.value);
-                      if (errors.role) setErrors((prev) => ({ ...prev, role: '' }));
-                    }}
-                    placeholder="Ej. Emprendedora, Docente, Médica"
-                    className={`w-full px-4 py-3 rounded-xl border bg-slate-50/50 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-hidden focus:ring-2 transition-all ${
-                      errors.role
-                        ? 'border-rose-400 focus:ring-rose-200 bg-rose-50/30'
-                        : 'border-slate-200 focus:border-purple-400 focus:ring-purple-200'
-                    }`}
-                  />
-                  {errors.role && (
-                    <p className="text-[11px] font-semibold text-rose-500 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" /> {errors.role}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* City Selection */}
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-slate-700 flex items-center justify-between">
-                  <span className="flex items-center gap-1.5">
-                    <MapPin className="w-3.5 h-3.5 text-rose-500" />
-                    <span>Ciudad en Paraguay *</span>
-                  </span>
-                  <span className="text-[11px] font-normal text-slate-400">
-                    Elegí un atajo o escribí la tuya
-                  </span>
-                </label>
-
-                {/* City Chips */}
-                <div className="flex flex-wrap gap-1.5">
-                  {PARAGUAY_CITIES.slice(0, 8).map((c) => {
-                    const isChosen = city === c && !customCity;
+                {/* 6 Brush Stroke Swatches */}
+                <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
+                  {COLOR_SWATCHES.map((swatch) => {
+                    const isSelected = theme === swatch.theme;
                     return (
                       <button
                         type="button"
-                        key={c}
+                        key={swatch.theme}
                         onClick={() => {
                           soundFx.playPop();
-                          setCity(c);
-                          setCustomCity('');
-                          if (errors.city) setErrors((prev) => ({ ...prev, city: '' }));
+                          setTheme(swatch.theme);
                         }}
-                        className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
-                          isChosen
-                            ? 'bg-purple-600 text-white shadow-xs'
-                            : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
+                        className={`group p-2 rounded-xl border-2 transition-all flex flex-col items-center justify-center cursor-pointer ${
+                          isSelected
+                            ? 'border-[#733381] bg-purple-50 ring-2 ring-purple-300 scale-105 shadow-sm'
+                            : 'border-transparent hover:border-slate-200 hover:bg-slate-50'
                         }`}
+                        title={swatch.label}
                       >
-                        {c}
+                        <img
+                          src={swatch.image}
+                          alt={swatch.label}
+                          className="h-7 w-auto object-contain transition-transform group-hover:scale-110"
+                        />
                       </button>
                     );
                   })}
                 </div>
 
-                <div className="pt-1">
-                  <input
-                    type="text"
-                    value={customCity}
-                    onChange={(e) => {
-                      setCustomCity(e.target.value);
-                      if (e.target.value) setCity('');
-                      if (errors.city) setErrors((prev) => ({ ...prev, city: '' }));
-                    }}
-                    placeholder="O escribí otra ciudad (ej. Villarrica, Caaguazú, Pilar...)"
-                    className={`w-full px-4 py-2.5 rounded-xl border bg-slate-50/50 text-slate-900 placeholder:text-slate-400 text-xs focus:outline-hidden focus:ring-2 transition-all ${
-                      errors.city
-                        ? 'border-rose-400 focus:ring-rose-200 bg-rose-50/30'
-                        : 'border-slate-200 focus:border-purple-400 focus:ring-purple-200'
-                    }`}
-                  />
-                  {errors.city && (
-                    <p className="text-[11px] font-semibold text-rose-500 mt-1 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" /> {errors.city}
-                    </p>
-                  )}
+                {/* Text Inputs */}
+                <div className="space-y-4 pt-2">
+                  {/* Name Input */}
+                  <div className="space-y-1.5">
+                    <label className="block font-spartan text-xs font-bold text-slate-700">
+                      Tu Nombre o Firma *
+                    </label>
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => {
+                        setName(e.target.value);
+                        if (errors.name)
+                          setErrors((prev) => ({ ...prev, name: '' }));
+                      }}
+                      placeholder="Ej: Ing. Valeria Ríos / Sofía T."
+                      className={`w-full px-4 py-3 rounded-2xl border bg-white text-slate-900 placeholder:text-slate-400 text-sm focus:outline-hidden focus:ring-2 transition-all ${
+                        errors.name
+                          ? 'border-rose-400 focus:ring-rose-200 bg-rose-50/30'
+                          : 'border-slate-200 focus:border-[#733381] focus:ring-purple-200'
+                      }`}
+                    />
+                    {errors.name && (
+                      <p className="text-[11px] font-semibold text-rose-500 flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3" /> {errors.name}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Role / Profession Input */}
+                  <div className="space-y-1.5">
+                    <label className="block font-spartan text-xs font-bold text-slate-700">
+                      Tu Profesión / Rol / Pasión *
+                    </label>
+                    <input
+                      type="text"
+                      value={role}
+                      onChange={(e) => {
+                        setRole(e.target.value);
+                        if (errors.role)
+                          setErrors((prev) => ({ ...prev, role: '' }));
+                      }}
+                      placeholder="Ej: Emprendedora, Docente, Médica..."
+                      className={`w-full px-4 py-3 rounded-2xl border bg-white text-slate-900 placeholder:text-slate-400 text-sm focus:outline-hidden focus:ring-2 transition-all ${
+                        errors.role
+                          ? 'border-rose-400 focus:ring-rose-200 bg-rose-50/30'
+                          : 'border-slate-200 focus:border-[#733381] focus:ring-purple-200'
+                      }`}
+                    />
+                    {errors.role && (
+                      <p className="text-[11px] font-semibold text-rose-500 flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3" /> {errors.role}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* City in Paraguay */}
+                  <div className="space-y-2">
+                    <label className="block font-spartan text-xs font-bold text-slate-700">
+                      Ciudad en Paraguay *
+                    </label>
+
+                    {/* Quick City Chips */}
+                    <div className="flex flex-wrap gap-1.5">
+                      {PARAGUAY_CITIES.slice(0, 8).map((c) => {
+                        const isChosen = city === c && !customCity;
+                        return (
+                          <button
+                            type="button"
+                            key={c}
+                            onClick={() => {
+                              soundFx.playPop();
+                              setCity(c);
+                              setCustomCity('');
+                              if (errors.city)
+                                setErrors((prev) => ({ ...prev, city: '' }));
+                            }}
+                            className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                              isChosen
+                                ? 'bg-[#733381] text-white shadow-xs'
+                                : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                            }`}
+                          >
+                            {c}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <div className="pt-1">
+                      <input
+                        type="text"
+                        value={customCity}
+                        onChange={(e) => {
+                          setCustomCity(e.target.value);
+                          if (e.target.value) setCity('');
+                          if (errors.city)
+                            setErrors((prev) => ({ ...prev, city: '' }));
+                        }}
+                        placeholder="O escribí otra ciudad (ej. Villarrica, Pilar, Caacupé...)"
+                        className="w-full px-4 py-2.5 rounded-2xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 text-xs focus:outline-hidden focus:ring-2 focus:ring-purple-200 focus:border-[#733381] transition-all"
+                      />
+                    </div>
+                    {errors.city && (
+                      <p className="text-[11px] font-semibold text-rose-500 flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3" /> {errors.city}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              {/* Message Textarea */}
-              <div className="space-y-2">
+              {/* ================= STEP 3 ================= */}
+              <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-amber-500" />
-                    <span>3. Tu Mensaje para las Niñas y Jóvenes *</span>
-                  </label>
-                  
-                  {/* Creative Prompts Trigger Button */}
+                  <div className="flex items-center gap-3">
+                    <img
+                      src="/assets/elemento-13.png"
+                      alt="Paso 3"
+                      className="w-9 h-9 object-contain shrink-0"
+                    />
+                    <h3 className="font-porceleina text-2xl sm:text-3xl text-slate-800 uppercase tracking-wide">
+                      TU <span className="text-[#f06f42]">MENSAJE</span> PARA LAS NIÑAS Y JÓVENES *
+                    </h3>
+                  </div>
+
+                  {/* Lightbulb button: ¿Necesitás ideas? */}
                   <button
                     type="button"
                     onClick={() => {
                       soundFx.playPop();
                       setShowPrompts(!showPrompts);
                     }}
-                    className="text-xs font-bold text-purple-700 hover:text-purple-900 flex items-center gap-1.5 bg-purple-50 hover:bg-purple-100 px-3 py-1 rounded-full transition-colors"
+                    className="flex items-center gap-1.5 text-xs font-spartan font-bold text-[#f06f42] hover:text-[#e25d30] cursor-pointer"
                   >
-                    <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
+                    <img
+                      src="/assets/elemento-26.png"
+                      alt="Idea"
+                      className="w-4 h-4 object-contain"
+                    />
                     <span>¿Necesitás ideas?</span>
                   </button>
                 </div>
@@ -356,11 +442,11 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="overflow-hidden bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-3.5 border border-purple-200 space-y-2"
+                      className="overflow-hidden bg-purple-50/80 rounded-2xl p-4 border border-purple-200 space-y-2"
                     >
-                      <div className="flex items-center justify-between text-xs font-bold text-purple-900">
+                      <div className="flex items-center justify-between text-xs font-bold text-[#733381]">
                         <span className="flex items-center gap-1.5">
-                          <HelpCircle className="w-4 h-4 text-purple-600" />
+                          <HelpCircle className="w-4 h-4" />
                           Hacé click en una pregunta para inspirarte:
                         </span>
                         <button
@@ -377,10 +463,9 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                             type="button"
                             key={idx}
                             onClick={() => handleApplyPrompt(prompt)}
-                            className="w-full text-left text-xs font-medium text-purple-950 bg-white/80 hover:bg-white p-2.5 rounded-xl border border-purple-100 transition-colors shadow-2xs flex items-center gap-2"
+                            className="w-full text-left text-xs font-medium text-purple-950 bg-white hover:bg-purple-100/50 p-2.5 rounded-xl border border-purple-100 transition-colors shadow-2xs"
                           >
-                            <Lightbulb className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                            <span>{prompt}</span>
+                            “{prompt}”
                           </button>
                         ))}
                       </div>
@@ -388,6 +473,7 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                   )}
                 </AnimatePresence>
 
+                {/* Textarea with hand-drawn dark border */}
                 <div className="relative">
                   <textarea
                     rows={4}
@@ -395,30 +481,21 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                     maxLength={MAX_CHARS}
                     onChange={(e) => {
                       setMessage(e.target.value);
-                      if (errors.message) setErrors((prev) => ({ ...prev, message: '' }));
+                      if (errors.message)
+                        setErrors((prev) => ({ ...prev, message: '' }));
                     }}
                     placeholder="Escribí aquí tu mensaje con el corazón... Recordale a una niña paraguaya que su voz es valiosa y que puede alcanzar lo que se proponga."
-                    className={`w-full px-4 py-3.5 rounded-2xl border bg-slate-50/50 text-slate-900 placeholder:text-slate-400 text-sm sm:text-base focus:outline-hidden focus:ring-2 transition-all leading-relaxed ${
-                      errors.message
-                        ? 'border-rose-400 focus:ring-rose-200 bg-rose-50/30'
-                        : 'border-slate-200 focus:border-purple-400 focus:ring-purple-200'
+                    className={`w-full p-4 rounded-3xl border-2 border-slate-900 bg-white text-slate-900 placeholder:text-slate-400 text-sm sm:text-base focus:outline-hidden focus:ring-2 focus:ring-purple-400 transition-all leading-relaxed ${
+                      errors.message ? 'border-rose-500 bg-rose-50/20' : ''
                     }`}
                   />
 
-                  {/* Character Counter with Progress Gauge */}
+                  {/* Character Counter */}
                   <div className="flex items-center justify-between pt-1 px-1 text-xs">
                     <span className="text-slate-400">
                       Máximo {MAX_CHARS} caracteres
                     </span>
-                    <span
-                      className={`font-bold font-mono px-2 py-0.5 rounded-full ${
-                        remainingChars < 20
-                          ? 'bg-rose-100 text-rose-700'
-                          : remainingChars < 60
-                          ? 'bg-amber-100 text-amber-800'
-                          : 'bg-purple-100 text-purple-700'
-                      }`}
-                    >
+                    <span className="font-mono text-slate-500">
                       {remainingChars} restantes
                     </span>
                   </div>
@@ -429,44 +506,38 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                     <AlertCircle className="w-3 h-3" /> {errors.message}
                   </p>
                 )}
-              </div>
 
-              {/* Submit CTA Button */}
-              <div className="pt-4">
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-4 rounded-2xl bg-gradient-to-r from-rose-500 via-purple-600 to-purple-700 hover:from-rose-600 hover:to-purple-800 text-white font-bold text-base shadow-xl shadow-purple-400/30 hover:shadow-2xl hover:shadow-purple-400/40 hover:scale-[1.01] active:scale-98 transition-all flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-75"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      <span>Sembrando tu mensaje en el mural...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5 text-rose-200" />
-                      <span>Enviar Mensaje & Sacar mi Señalador</span>
-                      <Gift className="w-5 h-5 text-amber-200" />
-                    </>
-                  )}
-                </button>
-                <p className="text-center text-xs text-slate-400 mt-2.5">
-                  Al enviar, tu mensaje se suma al mural y desbloqueás tu postal digital coleccionable.
-                </p>
+                {/* Submit Doodle Button */}
+                <div className="pt-4 flex flex-col items-center">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="group transform hover:scale-103 active:scale-97 transition-all focus:outline-hidden cursor-pointer disabled:opacity-75"
+                    title="Enviar mensaje y sacar señalador"
+                  >
+                    <img
+                      src="/assets/elemento-27.png"
+                      alt="Enviar mensaje y sacar señalador"
+                      className="h-14 sm:h-16 w-auto object-contain drop-shadow-md group-hover:drop-shadow-lg"
+                    />
+                  </button>
+                  <p className="text-center text-xs text-slate-500 mt-2 font-spartan">
+                    Al enviar, tu mensaje se suma al mural y desbloqueás tu
+                    postal digital coleccionable.
+                  </p>
+                </div>
               </div>
-
             </form>
           </div>
 
-          {/* RIGHT: Live 3D Bookmark Preview (Sticky) */}
+          {/* RIGHT: Live Bookmark Preview */}
           <div className="lg:col-span-5 lg:sticky lg:top-24 flex flex-col items-center">
-            <div className="w-full bg-gradient-to-b from-purple-50/70 via-rose-50/50 to-white/90 rounded-3xl p-6 border border-purple-100 shadow-lg text-center">
-              <div className="mb-2">
-                <span className="text-xs font-extrabold uppercase tracking-widest text-purple-700 bg-purple-100/70 px-3 py-1 rounded-full">
-                  Vista Previa en Vivo
-                </span>
-                <p className="text-xs text-slate-500 mt-1">
+            <div className="w-full text-center">
+              <div className="mb-4">
+                <h3 className="font-porceleina text-3xl sm:text-4xl text-[#733381] tracking-wide uppercase">
+                  VISTA PREVIA EN VIVO
+                </h3>
+                <p className="font-spartan text-xs sm:text-sm text-slate-500 mt-0.5">
                   Así se verá tu señalador en el Banco de Mensajes
                 </p>
               </div>
@@ -481,9 +552,7 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
               />
             </div>
           </div>
-
         </div>
-
       </div>
     </section>
   );

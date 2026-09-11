@@ -7,7 +7,15 @@ export default function CustomCursor() {
   const [isVisible, setIsVisible] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
-  const [isTouchDevice, setIsTouchDevice] = useState(true);
+  const [isTouchDevice] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return (
+        window.matchMedia('(pointer: coarse)').matches ||
+        'ontouchstart' in window
+      );
+    }
+    return false;
+  });
 
   // Motion values for smooth cursor tracking
   const mouseX = useMotionValue(-100);
@@ -21,13 +29,7 @@ export default function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Check if device is a touch screen (tablets/phones)
-    const isTouch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
-    if (isTouch) {
-      setIsTouchDevice(true);
-      return;
-    }
-    setIsTouchDevice(false);
+    if (isTouchDevice) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
@@ -77,7 +79,7 @@ export default function CustomCursor() {
   return (
     <div
       ref={cursorRef}
-      className="fixed inset-0 pointer-events-none z-[99999] overflow-hidden"
+      className="fixed inset-0 pointer-events-none z-99999 overflow-hidden"
       aria-hidden="true"
     >
       {/* Outer Spring Follower Ring */}
@@ -104,7 +106,10 @@ export default function CustomCursor() {
         >
           {/* Subtle "+" center sign inside the cursor when hovering interactive elements */}
           {isHovering && (
-            <span className="text-[10px] font-black text-rose-600 select-none animate-spin" style={{ animationDuration: '6s' }}>
+            <span
+              className="text-[10px] font-black text-rose-600 select-none animate-spin"
+              style={{ animationDuration: '6s' }}
+            >
               +
             </span>
           )}
@@ -124,7 +129,7 @@ export default function CustomCursor() {
           opacity: isVisible ? 1 : 0,
         }}
         transition={{ duration: 0.1 }}
-        className="absolute top-0 left-0 w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-rose-500 via-purple-600 to-amber-400 pointer-events-none shadow-xs"
+        className="absolute top-0 left-0 w-2.5 h-2.5 rounded-full bg-linear-to-tr from-rose-500 via-purple-600 to-amber-400 pointer-events-none shadow-xs"
       />
     </div>
   );

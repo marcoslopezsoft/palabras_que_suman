@@ -2,11 +2,9 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, MessageCircleHeart, Bookmark, Heart, ArrowRight, BookOpen, ShieldCheck, Users, Gift } from 'lucide-react';
 import { soundFx } from '@/utils/audio';
 import { scrollToElement } from './SmoothScroll';
-import { ParaguayFlagSvg } from './ParaguayBadge';
-import CategoryIcon from './CategoryIcon';
+import { COLLECTIBLE_BOOKMARKS, COLOR_THEMES } from '@/data/initialData';
 
 interface HeroSectionProps {
   messageCount: number;
@@ -19,245 +17,220 @@ export default function HeroSection({ messageCount, onOpenRoulette }: HeroSectio
     scrollToElement('#escribir', -60);
   };
 
-  const handleScrollToWall = () => {
-    soundFx.playPop();
-    scrollToElement('#mural', -60);
-  };
-
   return (
-    <section id="inicio" className="relative min-h-[90vh] pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden bg-mesh-pastel bg-grid-pattern flex flex-col justify-center">
-      {/* Decorative Pastel Blurred Blobs */}
-      <div className="absolute top-12 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-200/40 rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="absolute top-48 right-10 w-80 h-80 bg-rose-200/40 rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="absolute bottom-10 left-10 w-80 h-80 bg-amber-100/50 rounded-full blur-3xl pointer-events-none -z-10" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          
-          {/* Left Column: Emotional Storytelling & CTAs */}
+    <section
+      id="inicio"
+      className="relative pt-24 md:pt-32 pb-8 overflow-hidden bg-[#FAF8F5] bg-paper-texture"
+    >
+      {/* Container */}
+      <div className="max-w-[1366px] mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Main Hero 2-Column Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center pt-4 md:pt-8 pb-12">
+          {/* Left Column: Typography & Doodle Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="lg:col-span-7 text-center lg:text-left space-y-6"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
+            className="lg:col-span-7 space-y-5 text-left"
           >
-            {/* Pill Tag with Paraguay Flag SVG */}
-           
-
-            {/* Slogan & Main Title */}
-            <div className="space-y-3">
-              <h2 className="text-lg md:text-2xl font-handwritten font-bold text-rose-600 tracking-wide">
-                “Dejá un mensaje. Llevate otro.”
-              </h2>
-              <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 leading-[1.12] tracking-tight">
-                Palabras que <br className="hidden sm:inline" />
-                <span className="bg-gradient-to-r from-purple-700 via-rose-600 to-amber-600 bg-clip-text text-transparent">
-                  transforman el futuro
-                </span>{' '}
-                de nuestras niñas.
-              </h1>
-            </div>
-
-            {/* Paragraph Description */}
-            <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
-              Conectamos a <span className="font-semibold text-purple-900">mujeres líderes y profesionales</span> con las{' '}
-              <span className="font-semibold text-rose-900">niñas y jóvenes del Paraguay</span>. Escribí hoy una frase de aliento o valentía, sumala al banco colectivo y recibí un señalador digital coleccionable de regalo.
+            {/* Cursive Subtitle */}
+            <p className="font-porceleina text-2xl sm:text-3xl text-[#e473a1] tracking-wide">
+              Dejá un mensaje y llevate otro
             </p>
 
-            {/* Call to Actions */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
+            {/* Headline in Porceleina */}
+            <h1 className="font-porceleina text-4xl sm:text-6xl lg:text-7xl text-[#733381] tracking-wide uppercase leading-[1.05]">
+              PALABRAS QUE TRANSFORMAN <br className="hidden sm:inline" />
+              EL FUTURO DE NUESTRAS NIÑAS
+            </h1>
+
+            {/* Description Paragraph */}
+            <p className="text-slate-700 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl font-normal">
+              Conectamos a{' '}
+              <strong className="font-bold text-slate-900">
+                mujeres líderes y profesionales
+              </strong>{' '}
+              con las{' '}
+              <strong className="font-bold text-slate-900">
+                niñas y jóvenes
+              </strong>{' '}
+              del Paraguay. Escribí hoy una frase de aliento o valentía, sumala
+              al banco colectivo y recibí un señalador digital coleccionable de
+              regalo.
+            </p>
+
+            {/* Doodle CTA Buttons */}
+            <div className="flex flex-wrap items-center gap-4 pt-3">
+              {/* Button 1: Dejar mi mensaje */}
               <button
+                type="button"
                 onClick={handleScrollToForm}
-                className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-gradient-to-r from-rose-500 via-purple-600 to-purple-700 text-white font-bold text-sm sm:text-base shadow-lg shadow-purple-300/40 hover:shadow-xl hover:shadow-purple-400/50 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 group cursor-pointer"
+                className="group transform hover:scale-105 active:scale-95 transition-transform duration-200 focus:outline-hidden cursor-pointer"
+                title="Dejar mi mensaje"
               >
-                <MessageCircleHeart className="w-5 h-5 text-rose-200 group-hover:scale-110 transition-transform" />
-                <span>Dejar mi Mensaje</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <img
+                  src="/assets/elemento-03.png"
+                  alt="Dejar mi mensaje"
+                  className="h-12 sm:h-14 w-auto object-contain drop-shadow-sm group-hover:drop-shadow-md"
+                />
               </button>
 
+              {/* Button 2: Sacar el señalador directo */}
               <button
+                type="button"
                 onClick={() => {
                   soundFx.playChime();
                   onOpenRoulette();
                 }}
-                className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-white/90 hover:bg-white text-purple-900 font-bold text-sm sm:text-base border border-purple-200 shadow-xs hover:shadow-md hover:border-purple-300 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="group transform hover:scale-105 active:scale-95 transition-transform duration-200 focus:outline-hidden cursor-pointer"
+                title="Sacar el señalador directo"
               >
-                <Gift className="w-4 h-4 text-purple-600" />
-                <span>Sacar Señalador Directo</span>
+                <img
+                  src="/assets/elemento-04.png"
+                  alt="Sacar el señalador directo"
+                  className="h-12 sm:h-14 w-auto object-contain drop-shadow-sm group-hover:drop-shadow-md"
+                />
               </button>
             </div>
-
-            {/* Micro Highlights */}
-            <div className="flex items-center justify-center lg:justify-start gap-6 pt-4 text-xs font-semibold text-slate-500">
-              <div className="flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                <span>100% Gratuito y Libre</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Bookmark className="w-4 h-4 text-purple-500" />
-                <span>Descargable en HD</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Heart className="w-4 h-4 text-rose-500" />
-                <span>Llega a Escuelas y Talleres</span>
-              </div>
-            </div>
           </motion.div>
 
-          {/* Right Column: Visual Floating Bookmarks Composition */}
+          {/* Right Column: High-Res Photo of Two Girls with Doodles */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.92 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.2 }}
-            className="lg:col-span-5 relative flex items-center justify-center"
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="lg:col-span-5 flex justify-center items-center relative"
           >
-            {/* Background Decorative Rings */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-72 sm:w-80 h-72 sm:h-80 rounded-full border border-purple-200/50 animate-pulse-glow" />
-              <div className="w-96 h-96 rounded-full border border-rose-200/30 -rotate-12" />
-            </div>
-
-            {/* Stacked Interactive Bookmarks */}
-            <div className="relative w-full max-w-[340px] sm:max-w-[380px] h-[460px] flex items-center justify-center">
-              
-              {/* Floating Bookmark 1 (Back Left - Mint) */}
-              <motion.div
-                animate={{ y: [0, -10, 0], rotate: [-8, -6, -8] }}
-                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -left-4 sm:-left-6 top-10 w-44 sm:w-48 bg-gradient-to-b from-emerald-50 via-white to-emerald-100/60 rounded-2xl p-4 border border-emerald-200 shadow-lg bookmark-shadow -rotate-8 transform-gpu"
-              >
-                <div className="w-3 h-3 rounded-full bg-emerald-100 border border-emerald-300 mx-auto mb-2" />
-                <span className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full">
-                  <CategoryIcon category="educacion" className="w-3 h-3" />
-                  <span>Educación</span>
-                </span>
-                <p className="font-serif italic text-xs text-slate-800 mt-2 leading-snug">
-                  “La curiosidad de tu mente no tiene límites. El Paraguay te necesita.”
-                </p>
-                <p className="font-handwritten text-xs text-emerald-800 font-bold mt-2 text-right">
-                  — Ing. Andrea B. (Asunción)
-                </p>
-              </motion.div>
-
-              {/* Floating Bookmark 2 (Back Right - Amber) */}
-              <motion.div
-                animate={{ y: [0, 10, 0], rotate: [9, 11, 9] }}
-                transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-                className="absolute -right-2 sm:-right-4 bottom-8 w-44 sm:w-48 bg-gradient-to-b from-amber-50 via-white to-amber-100/60 rounded-2xl p-4 border border-amber-200 shadow-lg bookmark-shadow rotate-9 transform-gpu"
-              >
-                <div className="w-3 h-3 rounded-full bg-amber-100 border border-amber-300 mx-auto mb-2" />
-                <span className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded-full">
-                  <CategoryIcon category="valentia" className="w-3 h-3" />
-                  <span>Valentía</span>
-                </span>
-                <p className="font-serif italic text-xs text-slate-800 mt-2 leading-snug">
-                  “Empezar da miedo, pero cada paso es una victoria gigante.”
-                </p>
-                <p className="font-handwritten text-xs text-amber-900 font-bold mt-2 text-right">
-                  — Lic. Mirtha S. (Encarnación)
-                </p>
-              </motion.div>
-
-              {/* Main Featured Bookmark (Center - Lavender/Rose) */}
-              <motion.div
-                whileHover={{ scale: 1.03, rotate: 0 }}
-                animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-                className="relative z-20 w-64 sm:w-72 bg-gradient-to-b from-rose-50/95 via-purple-50/90 to-white rounded-3xl p-6 border-2 border-rose-200/90 shadow-2xl bookmark-shadow flex flex-col justify-between"
-              >
-                {/* Ribbon Tag Top */}
-                <div className="absolute -top-5 left-1/2 -translate-x-1/2 flex flex-col items-center">
-                  <div className="w-4 h-4 rounded-full bg-slate-100 border-2 border-rose-300 shadow-inner" />
-                  <div className="w-3 h-7 bg-rose-400 rounded-b-md shadow-xs -mt-1" />
-                </div>
-
-                <div className="space-y-4 pt-4">
-                  <div className="flex items-center justify-between border-b border-rose-100 pb-3">
-                    
-                    <span className="text-[10px] font-bold text-slate-400">
-                      G360 • APEP
-                    </span>
-                  </div>
-
-                  <div className="space-y-2 text-center py-2">
-                    <p className="text-xs text-rose-500 font-bold uppercase tracking-wider">
-                      Para una niña soñadora
-                    </p>
-                    <p className="font-serif text-base sm:text-lg font-bold text-slate-900 italic leading-snug">
-                      “Tu voz tiene el poder de abrir puertas que otros creían cerradas. Jamás te achiques ante un desafío.”
-                    </p>
-                  </div>
-                </div>
-
-                <div className="pt-3 border-t border-purple-100/70 flex items-end justify-between">
-                  <div>
-                    <p className="text-[10px] text-slate-400 font-medium">Dejada con amor por:</p>
-                    <p className="text-xs font-bold text-purple-900">Mujeres que Suman</p>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <ParaguayFlagSvg className="w-4 h-2.5 rounded-2xs" />
-                    <span className="font-handwritten text-base font-bold text-rose-600">Paraguay</span>
-                  </div>
-                </div>
-
-                <button
-                  onClick={handleScrollToWall}
-                  className="mt-4 w-full py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-xs font-bold shadow-xs hover:shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-                >
-                  <BookOpen className="w-3.5 h-3.5" />
-                  <span>Ver en el Mural Colectivo</span>
-                </button>
-              </motion.div>
-
+            <div className="relative max-w-md lg:max-w-none w-full">
+              <img
+                src="/assets/elemento-05.png"
+                alt="Niñas paraguayas soñando y aprendiendo con tecnología"
+                className="w-full h-auto object-contain drop-shadow-xl hover:scale-[1.02] transition-transform duration-500"
+              />
             </div>
           </motion.div>
-
         </div>
 
-        {/* Live Metrics Strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="mt-14 sm:mt-20 max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4"
-        >
-          <div className="bg-white/80 backdrop-blur-md rounded-2xl p-4 border border-rose-100 text-center shadow-xs">
-            <div className="text-2xl sm:text-3xl font-black text-rose-600 font-serif">
-              {messageCount > 0 ? `+${messageCount}` : '0'}
+        {/* Ribbon / Strip: "señaladores ya hechos" */}
+        <div className="py-6 border-t border-purple-100/60">
+          
+
+          {/* Horizontal Scrollable Bookmarks Track */}
+          <div className="flex gap-4 overflow-x-auto pb-4 pt-2 px-2 scrollbar-none snap-x snap-mandatory">
+            {COLLECTIBLE_BOOKMARKS.slice(0, 6).map((bm, index) => {
+              const themeInfo = COLOR_THEMES[bm.theme] || COLOR_THEMES.rose;
+              return (
+                <div
+                  key={bm.id || index}
+                  onClick={() => {
+                    soundFx.playChime();
+                    onOpenRoulette();
+                  }}
+                  className="snap-start shrink-0 w-44 sm:w-48 bg-white rounded-2xl p-4 border border-slate-200/80 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between h-64 relative group overflow-hidden"
+                >
+                  {/* Top Bookmark Ribbon & Hole */}
+                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 flex flex-col items-center">
+                    <div className="w-3 h-3 rounded-full bg-[#FAF8F5] border border-slate-300" />
+                    <div
+                      className={`w-2.5 h-6 ${themeInfo.ribbonColor} rounded-b-xs shadow-xs`}
+                    />
+                  </div>
+
+                  <div className="pt-4 space-y-2">
+                    <span className="inline-block text-[9px] font-bold uppercase tracking-wider text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full">
+                      {bm.category}
+                    </span>
+                    <p className="font-serif italic text-xs text-slate-800 line-clamp-4 leading-snug">
+                      “{bm.quote}”
+                    </p>
+                  </div>
+
+                  <div className="pt-2 border-t border-slate-100">
+                    <p className="font-spartan font-bold text-[11px] text-slate-900 truncate">
+                      {bm.author}
+                    </p>
+                    <p className="text-[10px] text-slate-500 truncate">
+                      {bm.authorCity}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Stats & Impact Bar (Delimited by Hand-Drawn Pink Lines) */}
+        <div className="mt-8 mb-4 relative">
+          {/* Top Hand-Drawn Pink Line */}
+          <img
+            src="/assets/elemento-07.png"
+            alt="separador"
+            className="w-full h-auto max-h-3 object-contain select-none"
+          />
+
+          {/* Stats Inner Content */}
+          <div className="py-6 px-4 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
+            {/* Girl Holding Sign: 100% LIBRE Y GRATUITO */}
+            <div className="shrink-0 flex items-center justify-center">
+              <img
+                src="/assets/elemento-08.png"
+                alt="100% Libre y Gratuito"
+                className="h-20 sm:h-24 md:h-28 w-auto object-contain hover:scale-105 transition-transform"
+              />
             </div>
-            <div className="text-xs font-semibold text-slate-600 mt-0.5">
-              Mensajes Sembrados
+
+            {/* Stat: Mensajes Sembrados */}
+            <div className="text-center md:text-left flex flex-col justify-center">
+              <span className="font-spartan font-black text-4xl sm:text-5xl text-slate-900 tracking-tight">
+                {messageCount > 0 ? messageCount : '123'}
+              </span>
+              <span className="font-spartan text-xs md:text-sm font-bold text-slate-600 uppercase tracking-wider mt-0.5">
+                Mensajes Sembrados
+              </span>
+            </div>
+
+            {/* Stat: Departamentos Conectados */}
+            <div className="text-center md:text-left flex flex-col justify-center">
+              <span className="font-spartan font-black text-4xl sm:text-5xl text-slate-900 tracking-tight">
+                32
+              </span>
+              <span className="font-spartan text-xs md:text-sm font-bold text-slate-600 uppercase tracking-wider mt-0.5">
+                Departamentos conectados
+              </span>
+            </div>
+
+            {/* Feature 1: Llega a escuelas y talleres */}
+            <div className="flex items-center gap-3 text-left">
+              <img
+                src="/assets/elemento-09.png"
+                alt="Escuela"
+                className="w-10 h-10 object-contain shrink-0"
+              />
+              <span className="font-spartan text-xs md:text-sm font-bold text-slate-700 max-w-32.5 leading-snug">
+                Llega a escuelas y talleres
+              </span>
+            </div>
+
+            {/* Feature 2: Descargable en HD */}
+            <div className="flex items-center gap-3 text-left">
+              <img
+                src="/assets/elemento-10.png"
+                alt="Descarga"
+                className="w-10 h-10 object-contain shrink-0"
+              />
+              <span className="font-spartan text-xs md:text-sm font-bold text-slate-700 max-w-30 leading-snug">
+                Descargable en HD
+              </span>
             </div>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-md rounded-2xl p-4 border border-purple-100 text-center shadow-xs">
-            <div className="text-2xl sm:text-3xl font-black text-purple-600 font-serif">
-              17
-            </div>
-            <div className="text-xs font-semibold text-slate-600 mt-0.5">
-              Departamentos Conectados
-            </div>
-          </div>
-
-          <div className="bg-white/80 backdrop-blur-md rounded-2xl p-4 border border-emerald-100 text-center shadow-xs">
-            <div className="text-2xl sm:text-3xl font-black text-emerald-600 font-serif">
-              100%
-            </div>
-            <div className="text-xs font-semibold text-slate-600 mt-0.5">
-              Gratuito & Colectivo
-            </div>
-          </div>
-
-          <div className="bg-white/80 backdrop-blur-md rounded-2xl p-4 border border-amber-100 text-center shadow-xs">
-            <div className="text-2xl sm:text-3xl font-black text-amber-600 font-serif flex items-center justify-center gap-1">
-              <Users className="w-5 h-5" /> 2 Redes
-            </div>
-            <div className="text-xs font-semibold text-slate-600 mt-0.5">
-              Género 360 + APEP
-            </div>
-          </div>
-        </motion.div>
-
+          {/* Bottom Hand-Drawn Pink Line */}
+          <img
+            src="/assets/elemento-07.png"
+            alt="separador"
+            className="w-full h-auto max-h-3 object-contain select-none rotate-180"
+          />
+        </div>
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ReactLenis, useLenis } from 'lenis/react';
 import type Lenis from 'lenis';
 

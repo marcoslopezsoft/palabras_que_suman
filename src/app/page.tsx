@@ -21,9 +21,11 @@ export default function HomePage() {
   const [lastSubmittedMessage, setLastSubmittedMessage] = useState<CommunityMessage | null>(null);
 
   useEffect(() => {
-    // Hydrate messages & likes from localStorage
-    setMessages(getStoredMessages());
-    setUserLikedIds(getUserLikedIds());
+    // Hydrate messages & likes from localStorage after initial render
+    queueMicrotask(() => {
+      setMessages(getStoredMessages());
+      setUserLikedIds(getUserLikedIds());
+    });
   }, []);
 
   const handleMessageSubmitted = (newMsg: CommunityMessage) => {

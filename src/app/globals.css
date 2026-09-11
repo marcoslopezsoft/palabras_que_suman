@@ -4,8 +4,10 @@
 @layer base {
   :root {
     --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    --font-serif: 'Playfair Display', Georgia, serif;
-    --font-handwritten: 'Caveat', cursive;
+    --font-spartan: var(--font-spartan, 'League Spartan', sans-serif);
+    --font-porceleina: var(--font-porceleina, 'Porceleina DEMO', cursive);
+    --font-serif: var(--font-spartan, 'League Spartan', serif);
+    --font-handwritten: var(--font-porceleina, 'Porceleina DEMO', cursive);
   }
 
   /* Hide default system cursor on pointer-enabled desktop devices so only the custom cursor shows */
@@ -32,12 +34,20 @@
   font-family: var(--font-sans);
 }
 
+.font-spartan {
+  font-family: var(--font-spartan);
+}
+
+.font-porceleina {
+  font-family: var(--font-porceleina);
+}
+
 .font-serif {
-  font-family: var(--font-serif);
+  font-family: var(--font-spartan);
 }
 
 .font-handwritten {
-  font-family: var(--font-handwritten);
+  font-family: var(--font-porceleina);
 }
 
 /* 3D Flip Card Utilities */
@@ -59,6 +69,17 @@
 }
 
 /* Subtle decorative paper texture & dots */
+.bg-notebook-lines {
+  background-image: url('/assets/elemento-35.png');
+  background-repeat: repeat;
+  background-size: 100% auto;
+}
+
+.bg-paper-texture {
+  background-image: url('/assets/elemento-34.png');
+  background-repeat: repeat;
+}
+
 .bg-grid-pattern {
   background-image: radial-gradient(rgba(148, 115, 175, 0.12) 1px, transparent 1px);
   background-size: 24px 24px;

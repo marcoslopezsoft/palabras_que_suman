@@ -258,13 +258,13 @@ export default function BookmarkReward({
       </div>
 
       {/* Action Buttons Toolbar */}
-      <div className="w-full space-y-2.5 mt-2">
+      <div className="w-full space-y-2.5 mt-2 font-spartan">
         <div className="grid grid-cols-2 gap-2">
           {/* Download Button */}
           <button
             onClick={handleDownload}
             disabled={isDownloading}
-            className="py-3 px-4 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95 disabled:opacity-75"
+            className="py-3 px-4 rounded-xl bg-[#733381] hover:bg-[#5d2968] text-white font-black text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95 disabled:opacity-75"
           >
             {isDownloading ? (
               <>
@@ -274,7 +274,7 @@ export default function BookmarkReward({
             ) : (
               <>
                 <Download className="w-4 h-4" />
-                <span>Descargar PNG</span>
+                <span>DESCARGAR PNG</span>
               </>
             )}
           </button>
@@ -282,17 +282,17 @@ export default function BookmarkReward({
           {/* Share Button */}
           <button
             onClick={handleShare}
-            className="py-3 px-4 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-800 font-bold text-xs sm:text-sm border border-rose-200 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+            className="py-3 px-4 rounded-xl bg-[#f06f42] hover:bg-[#d85e33] text-white font-black text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
           >
             {copied ? (
               <>
-                <Check className="w-4 h-4 text-emerald-600" />
-                <span className="text-emerald-700">¡Copiado!</span>
+                <Check className="w-4 h-4 text-white" />
+                <span>¡COPIADO!</span>
               </>
             ) : (
               <>
                 <Share2 className="w-4 h-4" />
-                <span>Compartir</span>
+                <span>COMPARTIR</span>
               </>
             )}
           </button>
@@ -303,10 +303,10 @@ export default function BookmarkReward({
           <button
             type="button"
             onClick={handleFlip}
-            className="flex-1 py-2 px-3 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors flex items-center justify-center gap-1.5"
+            className="flex-1 py-2.5 px-3 text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
           >
             <RotateCw className="w-3.5 h-3.5" />
-            <span>Girar ({isFlipped ? 'Frente' : 'Reverso'})</span>
+            <span>GIRAR ({isFlipped ? 'FRENTE' : 'REVERSO'})</span>
           </button>
 
           <button
@@ -315,17 +315,17 @@ export default function BookmarkReward({
               soundFx.playChime();
               onDrawAnother();
             }}
-            className="flex-1 py-2 px-3 text-xs font-bold text-purple-700 hover:text-purple-900 bg-purple-50 hover:bg-purple-100 border border-purple-200/80 rounded-xl transition-colors flex items-center justify-center gap-1.5"
+            className="flex-1 py-2.5 px-3 text-xs font-black uppercase tracking-wider text-[#733381] hover:text-[#5d2968] bg-purple-50 hover:bg-purple-100 border border-purple-200/80 rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
           >
-            <Gift className="w-3.5 h-3.5 text-purple-600" />
-            <span>Sacar Otro</span>
+            <Gift className="w-3.5 h-3.5 text-[#733381]" />
+            <span>SACAR OTRO</span>
           </button>
         </div>
 
         <button
           type="button"
           onClick={onClose}
-          className="w-full py-2 text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors"
+          className="w-full py-2 text-xs font-bold uppercase tracking-wider text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
         >
           Volver a la experiencia
         </button>

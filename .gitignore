@@ -12,6 +12,9 @@
 
 # testing
 /coverage
+/web
+MUESTRA.pdf
+CONTEXT.md
 
 # next.js
 /.next/

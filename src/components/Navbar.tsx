@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { MessageCircleHeart, Bookmark, HeartHandshake, Volume2, VolumeX, MonitorPlay, Menu, X, Gift } from 'lucide-react';
+import React, { useState } from 'react';
+import { MessageCircleHeart, Bookmark, HeartHandshake, MonitorPlay, Menu, X, Gift } from 'lucide-react';
 import { soundFx } from '@/utils/audio';
 import { scrollToElement } from './SmoothScroll';
 
@@ -12,17 +12,8 @@ interface NavbarProps {
 }
 
 export default function Navbar({ messageCount, onOpenRoulette, onOpenTotem }: NavbarProps) {
-  const [scrolled, setScrolled] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const toggleSound = () => {
     const next = !soundEnabled;
@@ -38,176 +29,177 @@ export default function Navbar({ messageCount, onOpenRoulette, onOpenTotem }: Na
   };
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-white/85 backdrop-blur-md shadow-xs border-b border-purple-100/60 py-3'
-          : 'bg-transparent py-4 md:py-6'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          {/* Clean Typographic Branding */}
-          <button
-            onClick={() => handleNavClick('#inicio')}
-            className="text-left group focus:outline-hidden cursor-pointer"
-          >
-            <div className="flex items-center gap-2">
-              <span className="font-serif font-black tracking-tight text-xl md:text-2xl bg-gradient-to-r from-purple-900 via-rose-700 to-amber-700 bg-clip-text text-transparent">
-                PALABRAS QUE SUMAN
+    <header className="sticky top-0 left-0 right-0 z-50 w-full select-none -mb-3 sm:-mb-5 md:-mb-6">
+      {/* Main purple bar with paper texture */}
+      <div className="relative bg-[#733381] text-white">
+        {/* Paper texture overlay (elemento-34) */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-35 mix-blend-multiply bg-repeat"
+          style={{
+            backgroundImage: "url('/assets/elemento-34.png')",
+            backgroundSize: '650px auto',
+          }}
+        />
+
+        <div className="relative z-10 max-w-[1366px] mx-auto px-4 sm:px-6 lg:px-8 pt-3 sm:pt-4 pb-2">
+          <div className="flex items-center justify-between">
+            {/* Logo Oficial de Palabras Que Suman */}
+            <button
+              onClick={() => handleNavClick('#inicio')}
+              className="flex items-center gap-3 text-left group focus:outline-hidden cursor-pointer"
+            >
+              <img
+                src="/assets/elemento-32.png"
+                alt="Palabras Que Suman"
+                className="h-10 sm:h-12 md:h-14 w-auto object-contain hover:scale-105 transition-transform"
+              />
+            </button>
+
+            {/* Desktop Navigation Links */}
+            <nav className="hidden lg:flex items-center gap-8 font-spartan">
+              <button
+                onClick={() => handleNavClick('#escribir')}
+                className="text-xs md:text-sm font-extrabold uppercase tracking-wider text-white/90 hover:text-[#f8e3a4] transition-colors cursor-pointer"
+              >
+                DEJAR MENSAJE
+              </button>
+              <button
+                onClick={() => handleNavClick('#mural')}
+                className="text-xs md:text-sm font-extrabold uppercase tracking-wider text-white/90 hover:text-[#f8e3a4] transition-colors cursor-pointer"
+              >
+                MURAL COLECTIVO
+              </button>
+              <button
+                onClick={() => handleNavClick('#sobre-la-iniciativa')}
+                className="text-xs md:text-sm font-extrabold uppercase tracking-wider text-white/90 hover:text-[#f8e3a4] transition-colors cursor-pointer"
+              >
+                LA ALIANZA
+              </button>
+            </nav>
+
+            {/* Right Action Icons: Count, Totem Icon, Audio Icon */}
+            <div className="flex items-center gap-3 sm:gap-5">
+              {/* Message count in coral */}
+              <span className="font-spartan text-xs sm:text-sm md:text-base font-black text-[#f06f42] tracking-wide whitespace-nowrap">
+                {messageCount} mensajes
               </span>
-              <span className="hidden sm:inline-flex px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full bg-purple-100/80 text-purple-700 border border-purple-200/60">
-                2026
-              </span>
+
+              {/* Totem mode button with original icono-totem.png */}
+              <button
+                onClick={() => {
+                  soundFx.playPop();
+                  onOpenTotem();
+                }}
+                className="hover:scale-110 active:scale-95 transition-transform cursor-pointer focus:outline-hidden p-1"
+                title="Activar Modo Tótem para Eventos"
+              >
+                <img
+                  src="/assets/icono-totem.png"
+                  alt="Modo Tótem"
+                  className="h-6 sm:h-7 md:h-8 w-auto object-contain brightness-0 invert opacity-90 hover:opacity-100"
+                />
+              </button>
+
+              {/* Audio toggle button with original icono-audio.png */}
+              <button
+                onClick={toggleSound}
+                className="hover:scale-110 active:scale-95 transition-transform cursor-pointer focus:outline-hidden p-1"
+                title={soundEnabled ? 'Silenciar efectos' : 'Activar efectos'}
+              >
+                <img
+                  src="/assets/icono-audio.png"
+                  alt={soundEnabled ? 'Sonido activado' : 'Sonido desactivado'}
+                  className={`h-6 sm:h-7 md:h-8 w-auto object-contain brightness-0 invert transition-opacity ${
+                    soundEnabled ? 'opacity-90 hover:opacity-100' : 'opacity-40'
+                  }`}
+                />
+              </button>
+
+              {/* Mobile Hamburger */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="lg:hidden p-1.5 text-white bg-white/10 hover:bg-white/20 rounded-xl border border-white/20 cursor-pointer"
+                aria-label="Abrir menú"
+              >
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
             </div>
-            <p className="text-[11px] font-medium text-slate-500 -mt-0.5">
-              Fundación Género 360 & APEP Mujeres que Suman
-            </p>
-          </button>
-
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1.5 bg-white/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-purple-100 shadow-xs">
-            <button
-              onClick={() => handleNavClick('#escribir')}
-              className="px-3.5 py-1.5 text-xs font-semibold text-slate-700 hover:text-rose-600 rounded-full hover:bg-rose-50 transition-colors flex items-center gap-1.5 cursor-pointer"
-            >
-              <MessageCircleHeart className="w-3.5 h-3.5 text-rose-500" />
-              Dejar Mensaje
-            </button>
-            <button
-              onClick={() => handleNavClick('#mural')}
-              className="px-3.5 py-1.5 text-xs font-semibold text-slate-700 hover:text-purple-600 rounded-full hover:bg-purple-50 transition-colors flex items-center gap-1.5 cursor-pointer"
-            >
-              <Bookmark className="w-3.5 h-3.5 text-purple-500" />
-              Mural Colectivo
-            </button>
-            <button
-              onClick={() => handleNavClick('#sobre-la-iniciativa')}
-              className="px-3.5 py-1.5 text-xs font-semibold text-slate-700 hover:text-emerald-600 rounded-full hover:bg-emerald-50 transition-colors flex items-center gap-1.5 cursor-pointer"
-            >
-              <HeartHandshake className="w-3.5 h-3.5 text-emerald-500" />
-              La Alianza
-            </button>
-          </nav>
-
-          {/* Right Action Buttons */}
-          <div className="flex items-center gap-2">
-            {/* Live Message Counter */}
-            <div className="hidden sm:flex items-center gap-1.5 bg-rose-50 border border-rose-200/80 px-3 py-1.5 rounded-full shadow-xs">
-              <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
-              <span className="text-xs font-bold text-rose-800">
-                {messageCount} Mensajes
-              </span>
-            </div>
-
-            {/* Direct Roulette / Bookmark button */}
-            <button
-              onClick={() => {
-                soundFx.playChime();
-                onOpenRoulette();
-              }}
-              className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-purple-900 bg-gradient-to-r from-purple-100 via-pink-100 to-amber-100 hover:from-purple-200 hover:to-amber-200 rounded-full border border-purple-200/80 shadow-xs hover:shadow-md transition-all active:scale-95 cursor-pointer"
-              title="Sacar un señalador digital sorpresa"
-            >
-              <Gift className="w-3.5 h-3.5 text-purple-600" />
-              <span>Sacar Señalador</span>
-            </button>
-
-            {/* Totem Mode (for events) */}
-            <button
-              onClick={() => {
-                soundFx.playPop();
-                onOpenTotem();
-              }}
-              className="hidden sm:inline-flex p-2 text-slate-600 hover:text-purple-700 bg-white/80 hover:bg-purple-50 rounded-full border border-slate-200 transition-colors cursor-pointer"
-              title="Modo Activación para Eventos"
-            >
-              <MonitorPlay className="w-4 h-4" />
-            </button>
-
-            {/* Audio Toggle */}
-            <button
-              onClick={toggleSound}
-              className="p-2 text-slate-600 hover:text-purple-700 bg-white/80 hover:bg-purple-50 rounded-full border border-slate-200 transition-colors cursor-pointer"
-              title={soundEnabled ? 'Silenciar efectos' : 'Activar efectos'}
-            >
-              {soundEnabled ? (
-                <Volume2 className="w-4 h-4 text-purple-600" />
-              ) : (
-                <VolumeX className="w-4 h-4 text-slate-400" />
-              )}
-            </button>
-
-            {/* Mobile Hamburger */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-slate-700 hover:text-purple-700 bg-white/80 rounded-xl border border-slate-200 cursor-pointer"
-              aria-label="Abrir menú"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
           </div>
+
+          {/* Mobile Dropdown Menu */}
+          {mobileMenuOpen && (
+            <div className="lg:hidden mt-3 p-4 bg-[#632970] rounded-2xl border border-purple-800 shadow-xl space-y-2 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="flex items-center justify-between pb-2 border-b border-purple-700/50">
+                <span className="text-xs font-spartan font-bold text-[#f8e3a4] uppercase tracking-wider">
+                  Navegación
+                </span>
+                <span className="px-2 py-0.5 text-xs font-bold bg-white/15 text-[#f06f42] rounded-full">
+                  {messageCount} mensajes
+                </span>
+              </div>
+
+              <button
+                onClick={() => handleNavClick('#escribir')}
+                className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-spartan font-bold text-white hover:bg-white/10 rounded-xl transition-colors text-left cursor-pointer"
+              >
+                <MessageCircleHeart className="w-4 h-4 text-[#f8e3a4]" />
+                DEJAR MENSAJE
+              </button>
+
+              <button
+                onClick={() => handleNavClick('#mural')}
+                className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-spartan font-bold text-white hover:bg-white/10 rounded-xl transition-colors text-left cursor-pointer"
+              >
+                <Bookmark className="w-4 h-4 text-[#f8e3a4]" />
+                MURAL COLECTIVO
+              </button>
+
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenRoulette();
+                }}
+                className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-spartan font-bold text-white bg-[#f06f42] hover:bg-[#e25d30] rounded-xl transition-colors text-left cursor-pointer"
+              >
+                <Gift className="w-4 h-4" />
+                SACAR SEÑALADOR
+              </button>
+
+              <button
+                onClick={() => handleNavClick('#sobre-la-iniciativa')}
+                className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-spartan font-bold text-white hover:bg-white/10 rounded-xl transition-colors text-left cursor-pointer"
+              >
+                <HeartHandshake className="w-4 h-4 text-[#f8e3a4]" />
+                LA ALIANZA
+              </button>
+
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenTotem();
+                }}
+                className="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold text-white/70 hover:text-white hover:bg-white/10 rounded-xl transition-colors text-left pt-2 border-t border-purple-700/50 cursor-pointer"
+              >
+                <MonitorPlay className="w-4 h-4 text-white/50" />
+                Activar Modo Tótem para Evento
+              </button>
+            </div>
+          )}
         </div>
+      </div>
 
-        {/* Mobile Dropdown Menu */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden mt-3 p-4 bg-white/95 backdrop-blur-xl rounded-2xl border border-purple-100 shadow-xl space-y-2 animate-in fade-in slide-in-from-top-2 duration-200">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Navegación
-              </span>
-              <span className="px-2 py-0.5 text-xs font-bold bg-rose-50 text-rose-700 rounded-full">
-                {messageCount} palabras sumadas
-              </span>
-            </div>
-
-            <button
-              onClick={() => handleNavClick('#escribir')}
-              className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-700 hover:bg-rose-50 hover:text-rose-700 rounded-xl transition-colors text-left cursor-pointer"
-            >
-              <MessageCircleHeart className="w-4 h-4 text-rose-500" />
-              Dejar Mensaje para una Niña
-            </button>
-
-            <button
-              onClick={() => handleNavClick('#mural')}
-              className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-700 hover:bg-purple-50 hover:text-purple-700 rounded-xl transition-colors text-left cursor-pointer"
-            >
-              <Bookmark className="w-4 h-4 text-purple-500" />
-              Mural Colectivo
-            </button>
-
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenRoulette();
-              }}
-              className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-purple-800 bg-purple-50 hover:bg-purple-100 rounded-xl transition-colors text-left cursor-pointer"
-            >
-              <Gift className="w-4 h-4 text-purple-600" />
-              Sacar Señalador Digital
-            </button>
-
-            <button
-              onClick={() => handleNavClick('#sobre-la-iniciativa')}
-              className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 rounded-xl transition-colors text-left cursor-pointer"
-            >
-              <HeartHandshake className="w-4 h-4 text-emerald-500" />
-              Sobre la Alianza G360 & APEP
-            </button>
-
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenTotem();
-              }}
-              className="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold text-slate-500 hover:bg-slate-50 rounded-xl transition-colors text-left pt-2 border-t border-slate-100 cursor-pointer"
-            >
-              <MonitorPlay className="w-4 h-4 text-slate-400" />
-              Activar Modo Tótem para Evento
-            </button>
-          </div>
-        )}
+      {/* Organic Wavy Bottom Edge (SVG shape of ele svg-33 / Match 710) */}
+      <div className="w-full overflow-hidden leading-none select-none pointer-events-none -mt-0.5">
+        <svg
+          className="relative block w-full h-5 sm:h-7 md:h-9"
+          viewBox="0 0 1366 45"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M 0 0 L 1366 0 L 1366 40 C 1004 20, 630 19, 256 37 C 170 42, 80 47, 0 11 Z"
+            fill="#733381"
+          />
+        </svg>
       </div>
     </header>
   );

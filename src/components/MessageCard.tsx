@@ -87,13 +87,17 @@ export default function MessageCard({
       {/* Top Satin Ribbon & Punch Hole */}
       <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex flex-col items-center z-20">
         <div className="w-3.5 h-3.5 rounded-full bg-[#FAF8F5] border border-slate-300 shadow-inner" />
-        <div className={`w-3 h-7 ${activeTheme.ribbonColor} rounded-b-xs shadow-2xs -mt-1 group-hover:h-8 transition-all`} />
+        <div
+          className={`w-3 h-7 ${activeTheme.ribbonColor} rounded-b-xs shadow-2xs -mt-1 group-hover:h-8 transition-all`}
+        />
       </div>
 
       {/* Header Info */}
       <div className="pt-3 space-y-2">
         <div className="flex items-center justify-between border-b border-slate-200/70 pb-2">
-          <span className={`inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full border ${activeCategory.colorClass}`}>
+          <span
+            className={`inline-flex items-center gap-1.5 font-spartan text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full border ${activeCategory.colorClass}`}
+          >
             <CategoryIcon category={message.category} className="w-3 h-3" />
             <span>{activeCategory.label}</span>
           </span>
@@ -106,18 +110,22 @@ export default function MessageCard({
       {/* Message Content */}
       <div className="my-auto py-3 space-y-2">
         <div className="relative">
-          <span className="text-2xl font-serif text-slate-300 absolute -top-3 -left-1 select-none">“</span>
+          <span className="text-2xl font-serif text-slate-300 absolute -top-3 -left-1 select-none">
+            “
+          </span>
           <p className="font-serif italic text-slate-900 text-sm sm:text-base font-medium leading-relaxed line-clamp-6 px-2">
             {message.message}
           </p>
-          <span className="text-2xl font-serif text-slate-300 absolute -bottom-4 -right-1 select-none">”</span>
+          <span className="text-2xl font-serif text-slate-300 absolute -bottom-4 -right-1 select-none">
+            ”
+          </span>
         </div>
       </div>
 
       {/* Footer / Author & Interaction Toolbar */}
       <div className="pt-3 border-t border-slate-200/70 space-y-2 bg-white/40 rounded-xl p-2.5 backdrop-blur-2xs">
         <div>
-          <p className="text-xs font-bold text-slate-900 truncate">
+          <p className="font-spartan text-xs font-bold text-slate-900 truncate">
             {message.name}
           </p>
           <div className="flex items-center justify-between text-[11px] text-slate-500 mt-0.5">

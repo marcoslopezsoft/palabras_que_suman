@@ -44,11 +44,11 @@ export default function BookmarkPreview({
   return (
     <div className="flex flex-col items-center">
       {/* 3D Perspective Card Wrapper */}
-      <div className="w-full max-w-[310px] sm:max-w-[340px] perspective-1000 py-4">
+      <div className="w-full max-w-77.5 sm:max-w-85 perspective-1000 py-4">
         <motion.div
           animate={{ rotateY: isFlipped ? 180 : 0 }}
           transition={{ duration: 0.6, ease: 'easeInOut' }}
-          className="relative w-full h-[520px] transform-style-3d cursor-pointer select-none"
+          className="relative w-full h-130 transform-style-3d cursor-pointer select-none"
           onClick={handleFlip}
           title="Hacé click para girar el señalador"
         >
@@ -59,23 +59,27 @@ export default function BookmarkPreview({
             {/* Top Satin Ribbon & Punch Hole */}
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex flex-col items-center z-30">
               <div className="w-4 h-4 rounded-full bg-[#FAF8F5] border-2 border-slate-300 shadow-inner" />
-              <div className={`w-3.5 h-8 ${activeTheme.ribbonColor} rounded-b-sm shadow-xs -mt-1`} />
+              <div
+                className={`w-3.5 h-8 ${activeTheme.ribbonColor} rounded-b-sm shadow-xs -mt-1`}
+              />
             </div>
 
             {/* Top Header info */}
             <div className="pt-5 space-y-2">
               <div className="flex items-center justify-between border-b border-slate-200/70 pb-2">
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+                <span className="font-spartan text-[10px] font-black uppercase tracking-widest text-[#733381]">
                   Palabras Que Suman
                 </span>
-                <span className="text-[10px] font-bold text-slate-400">
+                <span className="font-spartan text-[10px] font-bold text-slate-400">
                   G360 • APEP
                 </span>
               </div>
 
               {/* Category Pill with SVG Icon */}
               <div className="flex items-center justify-center">
-                <span className={`inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full border shadow-2xs ${activeCategory.colorClass}`}>
+                <span
+                  className={`inline-flex items-center gap-1.5 text-[10px] font-spartan font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full border shadow-2xs ${activeCategory.colorClass}`}
+                >
                   <CategoryIcon category={category} className="w-3.5 h-3.5" />
                   <span>{activeCategory.label}</span>
                 </span>
@@ -84,15 +88,19 @@ export default function BookmarkPreview({
 
             {/* Main Message Body */}
             <div className="my-auto py-3 text-center space-y-3 px-1">
-              <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400">
+              <p className="font-spartan text-[10px] font-bold uppercase tracking-widest text-slate-400">
                 Dedicatoria especial
               </p>
               <div className="relative">
-                <span className="text-3xl font-serif text-slate-300 absolute -top-4 -left-1 select-none">“</span>
-                <p className="font-serif italic text-slate-900 text-sm sm:text-base font-medium leading-relaxed max-h-[220px] overflow-y-auto px-2">
+                <span className="text-3xl font-serif text-slate-300 absolute -top-4 -left-1 select-none">
+                  “
+                </span>
+                <p className="font-serif italic text-slate-900 text-sm sm:text-base font-medium leading-relaxed max-h-55 overflow-y-auto px-2">
                   {displayMessage}
                 </p>
-                <span className="text-3xl font-serif text-slate-300 absolute -bottom-6 -right-1 select-none">”</span>
+                <span className="text-3xl font-serif text-slate-300 absolute -bottom-6 -right-1 select-none">
+                  ”
+                </span>
               </div>
             </div>
 
@@ -100,7 +108,7 @@ export default function BookmarkPreview({
             <div className="pt-3 border-t border-slate-200/70 space-y-1.5 bg-white/40 rounded-xl p-2.5 backdrop-blur-2xs">
               <div className="flex items-center justify-between">
                 <div className="truncate pr-2">
-                  <p className="text-xs font-bold text-slate-900 truncate">
+                  <p className="font-spartan text-xs font-bold text-slate-900 truncate">
                     {displayName}
                   </p>
                   <p className="text-[10px] text-slate-500 flex items-center gap-1 truncate">
@@ -121,7 +129,9 @@ export default function BookmarkPreview({
                   <ParaguayFlagSvg className="w-3.5 h-2 rounded-2xs" />
                   Niñas y Jóvenes de Paraguay
                 </span>
-                <span className="font-handwritten text-xs font-bold text-slate-600">Sumando Voces</span>
+                <span className="font-porceleina text-base font-bold text-[#733381]">
+                  Sumando Voces
+                </span>
               </div>
             </div>
 
@@ -133,12 +143,14 @@ export default function BookmarkPreview({
 
           {/* ================= BACK SIDE (REVERSE) ================= */}
           <div
-            className={`absolute inset-0 backface-hidden rotate-y-180 rounded-3xl p-6 flex flex-col justify-between border-2 shadow-2xl bookmark-shadow bg-gradient-to-b from-slate-900 via-purple-950 to-slate-900 text-white border-purple-400/40 overflow-hidden`}
+            className={`absolute inset-0 backface-hidden rotate-y-180 rounded-3xl p-6 flex flex-col justify-between border-2 shadow-2xl bookmark-shadow bg-linear-to-b from-slate-900 via-purple-950 to-slate-900 text-white border-purple-400/40 overflow-hidden`}
           >
             {/* Top Satin Ribbon & Punch Hole */}
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex flex-col items-center z-30">
               <div className="w-4 h-4 rounded-full bg-[#FAF8F5] border-2 border-slate-300 shadow-inner" />
-              <div className={`w-3.5 h-8 ${activeTheme.ribbonColor} rounded-b-sm shadow-xs -mt-1`} />
+              <div
+                className={`w-3.5 h-8 ${activeTheme.ribbonColor} rounded-b-sm shadow-xs -mt-1`}
+              />
             </div>
 
             <div className="pt-6 text-center space-y-1">
@@ -153,7 +165,8 @@ export default function BookmarkPreview({
                 <Heart className="w-6 h-6 fill-rose-400/30" />
               </div>
               <p className="font-serif text-sm font-semibold text-purple-100 leading-snug">
-                “Tu voz tiene un impacto real. Este mensaje será leído por niñas en talleres de liderazgo y escuelas de todo el país.”
+                “Tu voz tiene un impacto real. Este mensaje será leído por niñas
+                en talleres de liderazgo y escuelas de todo el país.”
               </p>
               <p className="text-[11px] text-purple-300/80">
                 Alianza oficial: Fundación Género 360 & APEP Mujeres que Suman.
@@ -174,7 +187,6 @@ export default function BookmarkPreview({
               <RotateCw className="w-2.5 h-2.5" /> Girar al frente
             </div>
           </div>
-
         </motion.div>
       </div>
 

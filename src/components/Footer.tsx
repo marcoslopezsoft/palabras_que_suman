@@ -1,137 +1,100 @@
 'use client';
 
 import React from 'react';
-import { Heart, ArrowUp } from 'lucide-react';
 import { soundFx } from '@/utils/audio';
 import { scrollToElement } from './SmoothScroll';
-import { ParaguayFlagSvg } from './ParaguayBadge';
 
 export default function Footer() {
-  const handleScrollTop = () => {
+  const handleNavClick = (selector: string) => {
     soundFx.playPop();
-    scrollToElement('#inicio', 0);
+    scrollToElement(selector, -70);
   };
 
   return (
-    <footer className="bg-slate-900 text-white pt-16 pb-12 relative overflow-hidden border-t border-purple-900/60">
-      {/* Decorative Glows */}
-      <div className="absolute top-0 left-1/3 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-10 w-80 h-80 bg-rose-600/10 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-slate-800">
-          
-          {/* Brand Column */}
-          <div className="md:col-span-5 space-y-4">
-            <div>
-              <span className="font-serif font-black text-2xl text-white tracking-wide">
-                PALABRAS QUE SUMAN
-              </span>
-              <p className="text-xs text-purple-300 mt-0.5">
-                Dejá un mensaje. Llevate otro.
-              </p>
-            </div>
-
-            <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
-              Conectamos generaciones a través de la sabiduría colectiva. Cada mensaje es un faro de valentía y educación para las niñas y jóvenes de Paraguay.
-            </p>
-
-            <div className="pt-2 text-xs text-slate-400 flex items-center gap-1.5">
-              <ParaguayFlagSvg className="w-4 h-2.5 rounded-2xs" />
-              <span><strong>Activación Nacional 2026</strong> • Asunción, Paraguay</span>
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div className="md:col-span-3 space-y-3">
-            <h4 className="text-xs font-extrabold uppercase tracking-widest text-purple-300">
-              Navegación Rápida
-            </h4>
-            <ul className="space-y-2 text-sm text-slate-400">
-              <li>
-                <button
-                  onClick={() => {
-                    soundFx.playPop();
-                    scrollToElement('#inicio', -60);
-                  }}
-                  className="hover:text-white transition-colors cursor-pointer"
-                >
-                  Inicio
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    soundFx.playPop();
-                    scrollToElement('#escribir', -60);
-                  }}
-                  className="hover:text-white transition-colors cursor-pointer"
-                >
-                  Dejar un Mensaje
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    soundFx.playPop();
-                    scrollToElement('#mural', -60);
-                  }}
-                  className="hover:text-white transition-colors cursor-pointer"
-                >
-                  Mural Colectivo
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    soundFx.playPop();
-                    scrollToElement('#sobre-la-iniciativa', -60);
-                  }}
-                  className="hover:text-white transition-colors cursor-pointer"
-                >
-                  Sobre la Alianza
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* Institutions */}
-          <div className="md:col-span-4 space-y-3">
-            <h4 className="text-xs font-extrabold uppercase tracking-widest text-rose-300">
-              Impulsado por
-            </h4>
-            <div className="space-y-3 text-xs text-slate-400">
-              <div className="p-3 rounded-2xl bg-white/5 border border-white/10">
-                <p className="font-bold text-white text-sm">Fundación Género 360</p>
-                <p className="text-slate-400 mt-0.5">Empoderamiento, equidad y educación para niñas y mujeres.</p>
-              </div>
-
-              <div className="p-3 rounded-2xl bg-white/5 border border-white/10">
-                <p className="font-bold text-white text-sm">APEP Mujeres que Suman</p>
-                <p className="text-slate-400 mt-0.5">Asociación Paraguaya de Empresarias, Ejecutivas y Profesionales.</p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Bottom copyright & Scroll to top */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <div className="flex items-center gap-1.5 text-center sm:text-left">
-            <span>© 2026 Palabras Que Suman. Hecho con</span>
-            <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline" />
-            <span>para el futuro de las niñas del Paraguay.</span>
-          </div>
-
-          <button
-            onClick={handleScrollTop}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition-colors cursor-pointer"
-          >
-            <span>Volver arriba</span>
-            <ArrowUp className="w-3.5 h-3.5" />
-          </button>
-        </div>
+    <div className="w-full relative select-none">
+      {/* Top Organic Wavy Shape (ele svg-33 / Match 722) */}
+      <div className="w-full overflow-hidden leading-none select-none pointer-events-none -mb-0.5">
+        <svg
+          className="relative block w-full h-5 sm:h-7 md:h-10 text-[#733381]"
+          viewBox="0 0 1366 50"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M 0 33 C 80 -5, 170 0, 256 5 C 630 24, 1004 23, 1366 2 L 1366 50 L 0 50 Z"
+            fill="#733381"
+          />
+        </svg>
       </div>
-    </footer>
+
+      <footer className="relative bg-[#733381] text-white pt-2 pb-10 md:pb-12 overflow-hidden">
+        {/* Paper texture overlay (elemento-34) */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-35 mix-blend-multiply bg-repeat"
+          style={{
+            backgroundImage: "url('/assets/elemento-34.png')",
+            backgroundSize: '650px auto',
+          }}
+        />
+
+        <div className="relative z-10 max-w-[1366px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 text-center md:text-left pt-6 sm:pt-8">
+            {/* Left: Logo Oficial */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => handleNavClick('#inicio')}
+                className="group focus:outline-hidden cursor-pointer"
+              >
+                <img
+                  src="/assets/elemento-32.png"
+                  alt="Palabras Que Suman"
+                  className="h-10 sm:h-12 md:h-14 w-auto object-contain hover:scale-105 transition-transform"
+                />
+              </button>
+            </div>
+
+            {/* Center: Navigation Links in Spartan Caps */}
+            <nav className="flex flex-wrap justify-center items-center gap-6 sm:gap-8 font-spartan">
+              <button
+                onClick={() => handleNavClick('#escribir')}
+                className="text-xs md:text-sm font-extrabold uppercase tracking-wider text-white/90 hover:text-[#f8e3a4] transition-colors cursor-pointer"
+              >
+                DEJAR MENSAJE
+              </button>
+              <button
+                onClick={() => handleNavClick('#mural')}
+                className="text-xs md:text-sm font-extrabold uppercase tracking-wider text-white/90 hover:text-[#f8e3a4] transition-colors cursor-pointer"
+              >
+                MURAL COLECTIVO
+              </button>
+              <button
+                onClick={() => handleNavClick('#sobre-la-iniciativa')}
+                className="text-xs md:text-sm font-extrabold uppercase tracking-wider text-white/90 hover:text-[#f8e3a4] transition-colors cursor-pointer"
+              >
+                LA ALIANZA
+              </button>
+            </nav>
+
+            {/* Right: Partner Organizations Logos in white */}
+            <div className="flex items-center justify-center">
+              <img
+                src="/assets/footer-aliados.png"
+                alt="género 360 y Apep"
+                className="h-7 sm:h-9 md:h-10 w-auto object-contain hover:scale-105 transition-transform"
+              />
+            </div>
+          </div>
+
+          {/* Small Bottom Copyright */}
+          <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-purple-200/70 gap-2 text-center sm:text-left font-spartan">
+            <span>
+              © 2026 Palabras Que Suman • Fundación Género 360 & APEP Mujeres que Suman.
+            </span>
+            <span>
+              Paraguay • Activación Nacional por la Niñez y la Juventud
+            </span>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }

@@ -151,18 +151,18 @@ export default function MessageDetailModal({
             <div className={`w-4 h-8 ${activeTheme.ribbonColor} rounded-b-md shadow-xs -mt-1`} />
           </div>
 
-          <div className="pt-6 space-y-2">
+          <div className="pt-6 space-y-2 font-spartan">
             <div className="flex items-center justify-between border-b border-slate-200/70 pb-2">
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+              <span className="text-[11px] font-black uppercase tracking-widest text-[#733381]">
                 Palabras Que Suman
               </span>
-              <span className="text-[10px] font-bold text-slate-400">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                 {message.editionCode || 'G360'}
               </span>
             </div>
 
             <div className="flex items-center justify-center pt-1">
-              <span className={`inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full border shadow-2xs ${activeCategory.colorClass}`}>
+              <span className={`inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full border shadow-2xs ${activeCategory.colorClass}`}>
                 <CategoryIcon category={message.category} className="w-4 h-4" />
                 <span>{activeCategory.label}</span>
               </span>
@@ -181,45 +181,45 @@ export default function MessageDetailModal({
           </div>
 
           {/* Author Details Footer */}
-          <div className="pt-3 border-t border-slate-200/70 space-y-2 bg-white/50 rounded-2xl p-3 backdrop-blur-2xs">
+          <div className="pt-3 border-t border-slate-200/70 space-y-2 bg-white/50 rounded-2xl p-3 backdrop-blur-2xs font-spartan">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-bold text-slate-900">{message.name}</p>
-                <p className="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
+                <p className="text-sm font-black text-slate-900">{message.name}</p>
+                <p className="text-xs text-slate-500 font-medium flex items-center gap-1 mt-0.5">
                   <Briefcase className="w-3 h-3 text-slate-400" />
                   <span>{message.role}</span>
                 </p>
               </div>
               <div className="text-right">
-                <span className="text-xs font-semibold text-slate-600 flex items-center gap-1">
-                  <MapPin className="w-3 h-3 text-rose-500" />
+                <span className="text-xs font-bold text-slate-700 flex items-center gap-1">
+                  <MapPin className="w-3 h-3 text-[#f06f42]" />
                   {message.city}
                 </span>
-                <span className="text-[10px] text-slate-400 flex items-center gap-1 justify-end mt-0.5">
+                <span className="text-[10px] text-slate-400 flex items-center gap-1 justify-end mt-0.5 font-sans">
                   <Calendar className="w-2.5 h-2.5" /> {formattedDate}
                 </span>
               </div>
             </div>
 
             <div className="flex items-center justify-between text-[9px] text-slate-400 pt-1 border-t border-slate-200/40">
-              <span className="flex items-center gap-1">
+              <span className="flex items-center gap-1 font-bold">
                 <ParaguayFlagSvg className="w-3.5 h-2 rounded-2xs" />
                 Niñas y Jóvenes de Paraguay
               </span>
-              <span className="font-bold text-purple-700">Fundación Género 360 & APEP</span>
+              <span className="font-bold text-[#733381]">Fundación Género 360 & APEP</span>
             </div>
           </div>
         </div>
 
         {/* Modal Action Buttons */}
-        <div className="space-y-2">
+        <div className="space-y-2.5 font-spartan">
           <div className="grid grid-cols-3 gap-2">
             <button
               onClick={handleLike}
-              className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+              className={`py-2.5 px-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                 isLiked
-                  ? 'bg-rose-500 text-white shadow-xs'
-                  : 'bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200'
+                  ? 'bg-[#f06f42] text-white shadow-xs'
+                  : 'bg-rose-50 hover:bg-rose-100 text-[#f06f42] border border-rose-200'
               }`}
             >
               <Heart className={`w-4 h-4 ${isLiked ? 'fill-white' : ''}`} />
@@ -228,10 +228,10 @@ export default function MessageDetailModal({
 
             <button
               onClick={handleSpeak}
-              className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+              className={`py-2.5 px-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                 isSpeaking
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-purple-50 hover:bg-purple-100 text-purple-800 border border-purple-200'
+                  ? 'bg-[#733381] text-white'
+                  : 'bg-purple-50 hover:bg-purple-100 text-[#733381] border border-purple-200'
               }`}
             >
               <Volume2 className="w-4 h-4" />
@@ -240,7 +240,7 @@ export default function MessageDetailModal({
 
             <button
               onClick={handleShare}
-              className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+              className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer"
             >
               {copied ? (
                 <>
@@ -259,14 +259,14 @@ export default function MessageDetailModal({
           <button
             onClick={handleDownload}
             disabled={isDownloading}
-            className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-rose-600 hover:from-purple-700 hover:to-rose-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95 disabled:opacity-75"
+            className="w-full py-3 px-4 rounded-xl bg-[#733381] hover:bg-[#5d2968] text-white font-black text-xs sm:text-sm uppercase tracking-wider shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95 disabled:opacity-75"
           >
             {isDownloading ? (
               <span>Generando imagen de alta resolución...</span>
             ) : (
               <>
                 <Download className="w-4 h-4" />
-                <span>Descargar Señalador en PNG</span>
+                <span>DESCARGAR SEÑALADOR EN PNG</span>
               </>
             )}
           </button>
