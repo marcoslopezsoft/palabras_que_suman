@@ -111,8 +111,6 @@ export default function AboutSection() {
       {/* Lower Part: La Alianza on Lined Notebook Paper */}
       <div className="py-16 md:py-24 bg-notebook-lines relative">
         <div className="max-w-[1366px] mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Centered High-Five Illustration with Flanking Partner Logos */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 md:gap-14 mb-16">
           {/* Centered High-Five Illustration with Flanking Partner Logos and Plus Sign as in MUESTRA.pdf */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 md:gap-10 mb-16">
             {/* Fundación Género 360 Logo */}
@@ -152,7 +150,6 @@ export default function AboutSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 max-w-5xl mx-auto text-left">
             {/* Fundación Género 360 */}
             <div className="space-y-4">
-              <h4 className="font-spartan font-black text-xl sm:text-2xl text-slate-900 uppercase tracking-wide">
               <h4 className="font-porceleina text-2xl sm:text-3xl lg:text-4xl text-[#733381] uppercase tracking-wide">
                 FUNDACIÓN GÉNERO 360
               </h4>
@@ -174,7 +171,6 @@ export default function AboutSection() {
                     src="/assets/boton-visitar-sitio.png"
                     alt="VISITAR SITIO"
                     className="h-12 sm:h-14 w-auto object-contain drop-shadow-sm"
-                    className="h-11 sm:h-12 w-auto object-contain drop-shadow-sm"
                   />
                 </a>
               </div>
@@ -182,7 +178,6 @@ export default function AboutSection() {
 
             {/* APEP Mujeres que Suman */}
             <div className="space-y-4">
-              <h4 className="font-spartan font-black text-xl sm:text-2xl text-slate-900 uppercase tracking-wide">
               <h4 className="font-porceleina text-2xl sm:text-3xl lg:text-4xl text-[#733381] uppercase tracking-wide">
                 APEP MUJERES QUE SUMAN
               </h4>

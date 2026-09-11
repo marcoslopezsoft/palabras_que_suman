@@ -131,8 +131,6 @@ export default function CommunityWall({
 
         {/* Clean White Filter Box on Purple Background */}
         <div className="bg-white text-slate-900 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 mb-12">
-        {/* Clean White Filter Box on Purple Background (Dimensions 1213x204px in MUESTRA.pdf) */}
-        <div className="bg-white text-slate-900 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 mb-12 max-w-[1220px] mx-auto">
           {/* Top Bar: Search Input, City Dropdown, Sort Dropdown */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
             {/* Search Input */}

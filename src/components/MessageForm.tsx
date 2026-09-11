@@ -214,15 +214,12 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
               {/* ================= STEP 1 ================= */}
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                <div className="flex items-center gap-3 sm:gap-4">
                   <img
                     src="/assets/elemento-11.svg"
                     alt="Paso 1"
-                    className="w-9 h-9 object-contain shrink-0"
                     className="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0"
                   />
                   <h3 className="font-porceleina text-2xl sm:text-3xl text-slate-800 uppercase tracking-wide">
-                  <h3 className="font-porceleina text-2xl sm:text-3xl lg:text-4xl text-slate-800 uppercase tracking-wide">
                     ELEGÍ <span className="text-[#f06f42]">LA CATEGORÍA</span>{' '}
                     DE TU MENSAJE
                   </h3>
@@ -260,24 +257,19 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
               {/* ================= STEP 2 ================= */}
               <div className="space-y-5">
                 <div className="flex items-center gap-3">
-                <div className="flex items-center gap-3 sm:gap-4">
                   <img
                     src="/assets/elemento-12.svg"
                     alt="Paso 2"
-                    className="w-9 h-9 object-contain shrink-0"
                     className="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0"
                   />
                   <h3 className="font-porceleina text-2xl sm:text-3xl text-slate-800 uppercase tracking-wide">
-                  <h3 className="font-porceleina text-2xl sm:text-3xl lg:text-4xl text-slate-800 uppercase tracking-wide">
                     ELEGÍ <span className="text-[#f06f42]">EL COLOR</span> DE TU
                     SEÑALADOR
                   </h3>
                 </div>
 
-                {/* 6 Brush Stroke Swatches */}
-                <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
-                {/* 6 Brush Stroke Swatches: 3 columns x 2 rows as in MUESTRA.pdf */}
-                <div className="grid grid-cols-3 gap-3 sm:gap-4 max-w-md">
+                {/* 6 Brush Stroke Swatches (3 columns x 2 rows as in MUESTRA.pdf) */}
+                <div className="grid grid-cols-3 gap-2 sm:gap-3 max-w-md">
                   {COLOR_SWATCHES.map((swatch) => {
                     const isSelected = theme === swatch.theme;
                     return (
@@ -299,7 +291,6 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                           src={swatch.image}
                           alt={swatch.label}
                           className="h-7 w-auto object-contain transition-transform group-hover:scale-110"
-                          className="h-9 sm:h-11 w-auto object-contain transition-transform group-hover:scale-110"
                         />
                       </button>
                     );
@@ -307,34 +298,7 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                 </div>
 
                 {/* Text Inputs */}
-                {/* Text Inputs: 2 Columns for Name and Role */}
                 <div className="space-y-4 pt-2">
-                  {/* Name Input */}
-                  <div className="space-y-1.5">
-                    <label className="block font-spartan text-xs font-bold text-slate-700">
-                      Tu Nombre o Firma *
-                    </label>
-                    <input
-                      type="text"
-                      value={name}
-                      onChange={(e) => {
-                        setName(e.target.value);
-                        if (errors.name)
-                          setErrors((prev) => ({ ...prev, name: '' }));
-                      }}
-                      placeholder="Ej: Ing. Valeria Ríos / Sofía T."
-                      className={`w-full px-4 py-3 rounded-2xl border bg-white text-slate-900 placeholder:text-slate-400 text-sm focus:outline-hidden focus:ring-2 transition-all ${
-                        errors.name
-                          ? 'border-rose-400 focus:ring-rose-200 bg-rose-50/30'
-                          : 'border-slate-200 focus:border-[#733381] focus:ring-purple-200'
-                      }`}
-                    />
-                    {errors.name && (
-                      <p className="text-[11px] font-semibold text-rose-500 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3" /> {errors.name}
-                      </p>
-                    )}
-                  </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Name Input */}
                     <div className="space-y-1.5">
@@ -363,31 +327,6 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                       )}
                     </div>
 
-                  {/* Role / Profession Input */}
-                  <div className="space-y-1.5">
-                    <label className="block font-spartan text-xs font-bold text-slate-700">
-                      Tu Profesión / Rol / Pasión *
-                    </label>
-                    <input
-                      type="text"
-                      value={role}
-                      onChange={(e) => {
-                        setRole(e.target.value);
-                        if (errors.role)
-                          setErrors((prev) => ({ ...prev, role: '' }));
-                      }}
-                      placeholder="Ej: Emprendedora, Docente, Médica..."
-                      className={`w-full px-4 py-3 rounded-2xl border bg-white text-slate-900 placeholder:text-slate-400 text-sm focus:outline-hidden focus:ring-2 transition-all ${
-                        errors.role
-                          ? 'border-rose-400 focus:ring-rose-200 bg-rose-50/30'
-                          : 'border-slate-200 focus:border-[#733381] focus:ring-purple-200'
-                      }`}
-                    />
-                    {errors.role && (
-                      <p className="text-[11px] font-semibold text-rose-500 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3" /> {errors.role}
-                      </p>
-                    )}
                     {/* Role / Profession Input */}
                     <div className="space-y-1.5">
                       <label className="block font-spartan text-xs font-bold text-slate-700">
@@ -476,15 +415,12 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-3 sm:gap-4">
                     <img
                       src="/assets/elemento-13.svg"
                       alt="Paso 3"
-                      className="w-9 h-9 object-contain shrink-0"
                       className="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0"
                     />
                     <h3 className="font-porceleina text-2xl sm:text-3xl text-slate-800 uppercase tracking-wide">
-                    <h3 className="font-porceleina text-2xl sm:text-3xl lg:text-4xl text-slate-800 uppercase tracking-wide">
                       TU <span className="text-[#f06f42]">MENSAJE</span> PARA
                       LAS NIÑAS Y JÓVENES *
                     </h3>
@@ -503,7 +439,6 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                       src="/assets/elemento-26.svg"
                       alt="Idea"
                       className="w-4 h-4 object-contain"
-                      className="w-5 h-5 object-contain"
                     />
                     <span>¿Necesitás ideas?</span>
                   </button>
@@ -548,7 +483,6 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                 </AnimatePresence>
 
                 {/* Textarea with hand-drawn dark border */}
-                {/* Textarea with hand-drawn dark border (Dimensions 574x170px in MUESTRA.pdf) */}
                 <div className="relative">
                   <textarea
                     rows={4}
@@ -561,7 +495,6 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                     }}
                     placeholder="Escribí aquí tu mensaje con el corazón... Recordale a una niña paraguaya que su voz es valiosa y que puede alcanzar lo que se proponga."
                     className={`w-full p-4 rounded-3xl border-2 border-slate-900 bg-white text-slate-900 placeholder:text-slate-400 text-sm sm:text-base focus:outline-hidden focus:ring-2 focus:ring-purple-400 transition-all leading-relaxed ${
-                    className={`w-full p-4 sm:p-5 rounded-[28px] border-[2.5px] border-slate-900 bg-white text-slate-900 placeholder:text-slate-400 text-sm sm:text-base focus:outline-hidden focus:ring-2 focus:ring-purple-400 transition-all leading-relaxed min-h-[160px] shadow-xs ${
                       errors.message ? 'border-rose-500 bg-rose-50/20' : ''
                     }`}
                   />
@@ -584,20 +517,17 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                 )}
 
                 {/* Submit Doodle Button */}
-                {/* Submit Doodle Button (Dimensions 534x56px in MUESTRA.pdf) */}
                 <div className="pt-4 flex flex-col items-center">
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="group transform hover:scale-103 active:scale-97 transition-all focus:outline-hidden cursor-pointer disabled:opacity-75"
-                    className="w-full max-w-[534px] group transform hover:scale-102 active:scale-98 transition-all focus:outline-hidden cursor-pointer disabled:opacity-75 flex justify-center"
+                    className="w-full flex justify-center group transform hover:scale-103 active:scale-97 transition-all focus:outline-hidden cursor-pointer disabled:opacity-75"
                     title="Enviar mensaje y sacar señalador"
                   >
                     <img
                       src="/assets/elemento-27.svg"
                       alt="Enviar mensaje y sacar señalador"
-                      className="h-14 sm:h-16 w-auto object-contain drop-shadow-md group-hover:drop-shadow-lg"
-                      className="h-14 sm:h-16 w-full max-w-[534px] object-contain drop-shadow-md group-hover:drop-shadow-lg"
+                      className="h-14 sm:h-16 w-auto max-w-[534px] object-contain drop-shadow-md group-hover:drop-shadow-lg"
                     />
                   </button>
                   <p className="text-center text-xs text-slate-500 mt-2 font-spartan">
