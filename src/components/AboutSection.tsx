@@ -54,22 +54,22 @@ export default function AboutSection() {
               </div>
             </div>
 
-            {/* Feature 2: LLEGA A NIÑAS Y AULAS DE TODO EL PAÍS */}
+            {/* Feature 2: LLEGA A NIÑAS Y AULAS A TODAS LAS CIUDADES DEL MUNDO */}
             <div className="text-center flex flex-col items-center justify-between space-y-4">
               <div className="h-40 flex items-center justify-center">
                 <img
                   src="/assets/elemento-29.svg"
-                  alt="Llega a niñas y aulas de todo el país"
+                  alt="Llega a niñas y aulas a todas las ciudades del mundo"
                   className="h-32 sm:h-36 w-auto object-contain hover:scale-105 transition-transform"
                 />
               </div>
               <div className="space-y-2">
                 <h3 className="font-porceleina text-2xl sm:text-3xl text-slate-900 uppercase tracking-wide">
-                  LLEGA A NIÑAS Y AULAS <br /> DE TODO EL PAÍS
+                  LLEGA A NIÑAS Y AULAS <br /> A TODAS LAS CIUDADES DEL MUNDO
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xs mx-auto">
                   Los mensajes se imprimen en señaladores físicos y se entregan
-                  en escuelas públicas, bibliotecas comunitarias y talleres de
+                  en escuelas, bibliotecas comunitarias y talleres de
                   robótica y liderazgo juvenil.
                 </p>
               </div>

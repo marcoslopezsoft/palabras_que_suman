@@ -168,7 +168,7 @@ export default function CommunityWall({
                 }}
                 className="w-full pl-10 pr-8 py-2.5 rounded-2xl border border-slate-200 bg-slate-50/70 text-slate-900 text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-[#733381]/30 focus:border-[#733381] transition-all appearance-none cursor-pointer"
               >
-                <option value="all">Todas las ciudades del país</option>
+                <option value="all">A todas las ciudades del mundo</option>
                 {availableCities.map((c) => (
                   <option key={c} value={c}>
                     {c}

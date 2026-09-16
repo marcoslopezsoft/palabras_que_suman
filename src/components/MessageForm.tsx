@@ -126,7 +126,7 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
       errs.city = 'Elegí o escribí tu ciudad en Paraguay.';
     }
     if (!message.trim()) {
-      errs.message = 'Escribí unas palabras para las niñas y jóvenes.';
+      errs.message = 'Escribí tu mensaje para las niñas del mundo.';
     } else if (message.trim().length < 15) {
       errs.message = 'El mensaje debe tener al menos 15 caracteres para inspirar.';
     } else if (message.length > MAX_CHARS) {
@@ -422,7 +422,7 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                     />
                     <h3 className="font-porceleina text-2xl sm:text-3xl text-slate-800 uppercase tracking-wide">
                       TU <span className="text-[#f06f42]">MENSAJE</span> PARA
-                      LAS NIÑAS Y JÓVENES *
+                      LAS NIÑAS DEL MUNDO *
                     </h3>
                   </div>
 
@@ -493,7 +493,7 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                       if (errors.message)
                         setErrors((prev) => ({ ...prev, message: '' }));
                     }}
-                    placeholder="Escribí aquí tu mensaje con el corazón... Recordale a una niña paraguaya que su voz es valiosa y que puede alcanzar lo que se proponga."
+                    placeholder="Escribí tu mensaje para las niñas del mundo... Recordale que su voz es valiosa y que puede alcanzar lo que se proponga."
                     className={`w-full p-4 rounded-3xl border-2 border-slate-900 bg-white text-slate-900 placeholder:text-slate-400 text-sm sm:text-base focus:outline-hidden focus:ring-2 focus:ring-purple-400 transition-all leading-relaxed ${
                       errors.message ? 'border-rose-500 bg-rose-50/20' : ''
                     }`}

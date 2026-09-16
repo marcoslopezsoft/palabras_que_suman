@@ -31,7 +31,7 @@ export default function BookmarkPreview({
   const activeCategory = CATEGORIES[category] || CATEGORIES.valentia;
   const activeTheme = COLOR_THEMES[theme] || COLOR_THEMES.rose;
 
-  const displayMessage = message.trim() || 'Tu mensaje inspirador para una niña o joven paraguaya aparecerá aquí... Cada palabra que dejás suma valentía y esperanza.';
+  const displayMessage = message.trim() || 'Tu mensaje inspirador para las niñas del mundo aparecerá aquí... Cada palabra que dejás suma valentía y esperanza.';
   const displayName = name.trim() || 'Tu Nombre o Firma';
   const displayRole = role.trim() || 'Tu Profesión o Rol';
   const displayCity = city.trim() || 'Paraguay';
@@ -166,7 +166,7 @@ export default function BookmarkPreview({
               </div>
               <p className="font-serif text-sm font-semibold text-purple-100 leading-snug">
                 “Tu voz tiene un impacto real. Este mensaje será leído por niñas
-                en talleres de liderazgo y escuelas de todo el país.”
+                en talleres de liderazgo y escuelas a todas las ciudades del mundo.”
               </p>
               <p className="text-[11px] text-purple-300/80">
                 Alianza oficial: Fundación Género 360 & APEP Mujeres que Suman.

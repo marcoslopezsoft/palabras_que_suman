@@ -187,13 +187,13 @@ export default function HeroSection({ messageCount, onOpenRoulette }: HeroSectio
               </span>
             </div>
 
-            {/* Col 3: Stat: Departamentos Conectados */}
+            {/* Col 3: Stat: Localidades Conectadas */}
             <div className="flex flex-col items-center justify-center text-center">
               <span className="font-porceleina text-5xl sm:text-6xl lg:text-7xl text-slate-900 tracking-tight leading-none">
                 32
               </span>
               <span className="font-spartan text-xs md:text-sm font-bold text-[#f06f42] uppercase tracking-wider mt-1 text-center">
-                Departamentos conectados
+                Localidades conectadas
               </span>
             </div>
 
