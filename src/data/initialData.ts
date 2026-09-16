@@ -168,98 +168,114 @@ export const INITIAL_COMMUNITY_MESSAGES: CommunityMessage[] = [];
 export const COLLECTIBLE_BOOKMARKS: CollectibleBookmark[] = [
   {
     id: 'bm-1',
-    quote: 'No tengas miedo de ocupar espacio ni de hacer oír tu voz. El mundo necesita exactamente la luz que vos tenés para dar.',
+    quote:
+      'No tengas miedo de ocupar espacio ni de hacer oír tu voz. El mundo necesita exactamente la luz que vos tenés para dar.',
     author: 'Red de Mujeres que Suman (APEP)',
-    authorRole: 'Líderes y Mentoras del Paraguay',
-    authorCity: 'Paraguay',
+    authorRole: 'Líderes y Mentoras del Mundo',
+    authorCity: 'Comunidad Global',
     category: 'liderazgo',
     theme: 'rose',
     illustration: 'sun',
-    dedication: 'Para vos, que estás abriendo caminos y sembrando valentía en las nuevas generaciones.',
+    dedication:
+      'Para vos, que estás abriendo caminos y sembrando valentía en las nuevas generaciones.',
     edition: 'Colección Bicentenario APEP • Edición 2026',
   },
   {
     id: 'bm-2',
-    quote: 'Tu perseverancia hoy es el faro que guiará a una niña mañana. Lo que hacés con amor, suma para siempre.',
+    quote:
+      'Tu perseverancia hoy es el faro que guiará a una niña mañana. Lo que hacés con amor, suma para siempre.',
     author: 'Fundación Género 360',
     authorRole: 'Impulsoras de Igualdad & Oportunidades',
     authorCity: 'Asunción',
     category: 'sororidad',
     theme: 'lavender',
     illustration: 'sparkle',
-    dedication: 'Gracias por ser el puente entre los sueños de una niña y su realización.',
+    dedication:
+      'Gracias por ser el puente entre los sueños de una niña y su realización.',
     edition: 'Palabras Que Suman • Serie Guardiana',
   },
   {
     id: 'bm-3',
-    quote: 'El mayor acto de coraje es ser fiel a tus convicciones cuando todo alrededor te pide encajar. Florecé con fuerza.',
+    quote:
+      'El mayor acto de coraje es ser fiel a tus convicciones cuando todo alrededor te pide encajar. Florecé con fuerza.',
     author: 'Berta Rojas',
     authorRole: 'Guitarrista clásica, Ganadora Latin Grammy',
     authorCity: 'Asunción',
     category: 'creatividad',
     theme: 'amber',
     illustration: 'flower',
-    dedication: 'Que la música de tu propia vocación te acompañe siempre en cada desafío.',
+    dedication:
+      'Que la música de tu propia vocación te acompañe siempre en cada desafío.',
     edition: 'Colección Pioneras de Nuestra Tierra',
   },
   {
     id: 'bm-4',
-    quote: 'Cada libro leído y cada idea compartida es una semilla de libertad que nadie te podrá quitar.',
+    quote:
+      'Cada libro leído y cada idea compartida es una semilla de libertad que nadie te podrá quitar.',
     author: 'Equipo Docente y Científico',
-    authorRole: 'Voces de la Educación Paraguaya',
+    authorRole: 'Voces de la Educación en el Mundo',
     authorCity: 'Villarrica',
     category: 'educacion',
     theme: 'mint',
     illustration: 'book',
-    dedication: 'Por enseñar con el ejemplo que el conocimiento es el mapa hacia la plenitud.',
+    dedication:
+      'Por enseñar con el ejemplo que el conocimiento es el mapa hacia la plenitud.',
     edition: 'Serie Mentes que Crean • 2026',
   },
   {
     id: 'bm-5',
-    quote: 'Mirate al espejo con el mismo orgullo y amor con el que mirarías a quien más admirás en este mundo.',
+    quote:
+      'Mirate al espejo con el mismo orgullo y amor con el que mirarías a quien más admirás en este mundo.',
     author: 'Mujeres Que Suman',
     authorRole: 'Comunidad APEP',
-    authorCity: 'Paraguay',
+    authorCity: 'Comunidad Global',
     category: 'autoestima',
     theme: 'lilac',
     illustration: 'heart',
-    dedication: 'Sos refugio, sos inspiración y sos fuerza viva para las que vienen detrás.',
+    dedication:
+      'Sos refugio, sos inspiración y sos fuerza viva para las que vienen detrás.',
     edition: 'Señaladores del Corazón • Edición Limitada',
   },
   {
     id: 'bm-6',
-    quote: 'Las cumbres más altas se conquistan paso a paso, celebrando cada pequeño avance con el corazón en alto.',
+    quote:
+      'Las cumbres más altas se conquistan paso a paso, celebrando cada pequeño avance con el corazón en alto.',
     author: 'Red de Emprendedoras',
     authorRole: 'Alianza Género 360 & APEP',
     authorCity: 'Encarnación',
     category: 'valentia',
     theme: 'sky',
     illustration: 'mountain',
-    dedication: 'Que nunca te falte la certeza de que tu esfuerzo ya está cambiando vidas.',
+    dedication:
+      'Que nunca te falte la certeza de que tu esfuerzo ya está cambiando vidas.',
     edition: 'Colección Horizontes de Esperanza',
   },
   {
     id: 'bm-7',
-    quote: 'La verdadera magia ocurre cuando una mujer decide creer en sí misma y le tiende la mano a otra.',
+    quote:
+      'La verdadera magia ocurre cuando una mujer decide creer en sí misma y le tiende la mano a otra.',
     author: 'Fundación Género 360',
     authorRole: 'Transformando Realidades',
-    authorCity: 'Paraguay',
+    authorCity: 'Comunidad Global',
     category: 'sororidad',
     theme: 'rose',
     illustration: 'butterfly',
-    dedication: 'Tu mensaje ya está en el mural colectivo inspirando a una niña paraguaya.',
+    dedication:
+      'Tu mensaje ya está en el mural colectivo inspirando a una niña del mundo.',
     edition: 'Edición Especial Activación 2026',
   },
   {
     id: 'bm-8',
-    quote: 'No busques caminos ya trazados si sentís el fuego de crear uno nuevo. Tu autenticidad es tu mayor ventaja.',
+    quote:
+      'No busques caminos ya trazados si sentís el fuego de crear uno nuevo. Tu autenticidad es tu mayor ventaja.',
     author: 'APEP Mujeres que Suman',
-    authorRole: 'Asociación Paraguaya de Empresarias y Ejecutivas',
+    authorRole: 'Asociación de Empresarias y Ejecutivas',
     authorCity: 'Asunción',
     category: 'liderazgo',
     theme: 'lavender',
     illustration: 'star',
-    dedication: 'Liderar es encender la chispa en los demás. Gracias por sumar tu voz.',
+    dedication:
+      'Liderar es encender la chispa en los demás. Gracias por sumar tu voz.',
     edition: 'Colección Liderazgo Femenino',
   },
 ];
@@ -269,5 +285,5 @@ export const INSPIRATIONAL_PROMPTS = [
   '¿Qué le dirías a una joven que sueña con ser científica o ingeniera?',
   '¿Cómo superaste tu mayor momento de duda profesional o personal?',
   '¿Qué frase de aliento te gustaría que una niña recuerde en un momento difícil?',
-  '¿Por qué la voz de las niñas paraguayas es el futuro de nuestro país?',
+  '¿Por qué la voz de las niñas es el futuro de nuestro mundo?',
 ];

@@ -91,7 +91,7 @@ export default function Footer() {
               que Suman.
             </span>
             <span>
-              Paraguay • Activación Nacional por la Niñez y la Juventud
+              Activación Global por la Niñez y la Juventud de Todo el Mundo
             </span>
           </div>
         </div>

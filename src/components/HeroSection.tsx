@@ -54,9 +54,9 @@ export default function HeroSection({ messageCount, onOpenRoulette }: HeroSectio
               <strong className="font-bold text-slate-900">
                 niñas y jóvenes
               </strong>{' '}
-              del Paraguay. Escribí hoy una frase de aliento o valentía, sumala
-              al banco colectivo y recibí un señalador digital coleccionable de
-              regalo.
+              de todo el mundo. Escribí hoy una frase de aliento o valentía,
+              sumala al banco colectivo y recibí un señalador digital
+              coleccionable de regalo.
             </p>
 
             {/* Doodle CTA Buttons */}
@@ -104,7 +104,7 @@ export default function HeroSection({ messageCount, onOpenRoulette }: HeroSectio
             <div className="relative max-w-md lg:max-w-none w-full">
               <img
                 src="/assets/elemento-05.png"
-                alt="Niñas paraguayas soñando y aprendiendo con tecnología"
+                alt="Niñas de todo el mundo soñando y aprendiendo con tecnología"
                 className="w-full h-auto object-contain drop-shadow-xl hover:scale-[1.02] transition-transform duration-500"
               />
             </div>

@@ -10,7 +10,7 @@ import { soundFx } from '@/utils/audio';
 import { triggerHeartConfetti } from '@/utils/confetti';
 import { getSiteUrl } from '@/utils/siteUrl';
 import CategoryIcon from './CategoryIcon';
-import { ParaguayFlagSvg } from './ParaguayBadge';
+import { WorldGlobeSvg } from './WorldBadge';
 import { 
   X, 
   Heart, 
@@ -153,7 +153,9 @@ export default function MessageDetailModal({
           {/* Top Satin Ribbon */}
           <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex flex-col items-center z-20">
             <div className="w-4 h-4 rounded-full bg-[#FAF8F5] border-2 border-slate-300 shadow-inner" />
-            <div className={`w-4 h-8 ${activeTheme.ribbonColor} rounded-b-md shadow-xs -mt-1`} />
+            <div
+              className={`w-4 h-8 ${activeTheme.ribbonColor} rounded-b-md shadow-xs -mt-1`}
+            />
           </div>
 
           <div className="pt-6 space-y-2 font-spartan">
@@ -167,7 +169,9 @@ export default function MessageDetailModal({
             </div>
 
             <div className="flex items-center justify-center pt-1">
-              <span className={`inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full border shadow-2xs ${activeCategory.colorClass}`}>
+              <span
+                className={`inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full border shadow-2xs ${activeCategory.colorClass}`}
+              >
                 <CategoryIcon category={message.category} className="w-4 h-4" />
                 <span>{activeCategory.label}</span>
               </span>
@@ -177,11 +181,15 @@ export default function MessageDetailModal({
           {/* Quote Body */}
           <div className="my-auto py-4 text-center space-y-2 px-2">
             <div className="relative">
-              <span className="text-3xl font-serif text-slate-300 absolute -top-4 -left-1 select-none">“</span>
+              <span className="text-3xl font-serif text-slate-300 absolute -top-4 -left-1 select-none">
+                “
+              </span>
               <p className="font-serif italic text-slate-900 text-base sm:text-lg font-semibold leading-relaxed">
                 {message.message}
               </p>
-              <span className="text-3xl font-serif text-slate-300 absolute -bottom-5 -right-1 select-none">”</span>
+              <span className="text-3xl font-serif text-slate-300 absolute -bottom-5 -right-1 select-none">
+                ”
+              </span>
             </div>
           </div>
 
@@ -189,7 +197,9 @@ export default function MessageDetailModal({
           <div className="pt-3 border-t border-slate-200/70 space-y-2 bg-white/50 rounded-2xl p-3 backdrop-blur-2xs font-spartan">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-black text-slate-900">{message.name}</p>
+                <p className="text-sm font-black text-slate-900">
+                  {message.name}
+                </p>
                 <p className="text-xs text-slate-500 font-medium flex items-center gap-1 mt-0.5">
                   <Briefcase className="w-3 h-3 text-slate-400" />
                   <span>{message.role}</span>
@@ -207,11 +217,13 @@ export default function MessageDetailModal({
             </div>
 
             <div className="flex items-center justify-between text-[9px] text-slate-400 pt-1 border-t border-slate-200/40">
-              <span className="flex items-center gap-1 font-bold">
-                <ParaguayFlagSvg className="w-3.5 h-2 rounded-2xs" />
-                Niñas y Jóvenes de Paraguay
+              <span className="flex items-center gap-1 font-bold text-slate-500">
+                <WorldGlobeSvg className="w-3.5 h-3.5 text-[#189a72]" />
+                Niñas de Todo el Mundo
               </span>
-              <span className="font-bold text-[#733381]">Fundación Género 360 & APEP</span>
+              <span className="font-bold text-[#733381]">
+                Fundación Género 360 & APEP
+              </span>
             </div>
           </div>
         </div>

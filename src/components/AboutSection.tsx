@@ -27,7 +27,7 @@ export default function AboutSection() {
                 APEP Mujeres que Suman
               </strong>{' '}
               para tender un puente de mentoría, coraje e inspiración
-              intergeneracional en todo el Paraguay.
+              intergeneracional en todo el mundo.
             </p>
           </div>
 
@@ -69,8 +69,8 @@ export default function AboutSection() {
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xs mx-auto">
                   Los mensajes se imprimen en señaladores físicos y se entregan
-                  en escuelas, bibliotecas comunitarias y talleres de
-                  robótica y liderazgo juvenil.
+                  en escuelas, bibliotecas comunitarias y talleres de robótica y
+                  liderazgo juvenil.
                 </p>
               </div>
             </div>
@@ -156,7 +156,7 @@ export default function AboutSection() {
               <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
                 Organización comprometida con el empoderamiento integral, el
                 cierre de brechas de género en educación STEM y el fomento de
-                liderazgos diversos y sostenibles en el Paraguay.
+                liderazgos diversos y sostenibles en todo el mundo.
               </p>
 
               <div className="pt-2">

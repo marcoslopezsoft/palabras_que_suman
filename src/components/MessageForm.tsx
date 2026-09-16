@@ -1,14 +1,25 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Category, ColorTheme, CommunityMessage } from '@/types';
-import { PARAGUAY_CITIES, INSPIRATIONAL_PROMPTS } from '@/data/initialData';
+import { INSPIRATIONAL_PROMPTS } from '@/data/initialData';
+import {
+  WORLD_COUNTRIES,
+  POPULAR_CITIES_BY_COUNTRY,
+} from '@/utils/locationData';
 import { saveMessage } from '@/utils/storage';
 import { triggerPastelConfetti } from '@/utils/confetti';
 import { soundFx } from '@/utils/audio';
 import BookmarkPreview from './BookmarkPreview';
-import { AlertCircle, HelpCircle, X } from 'lucide-react';
+import {
+  AlertCircle,
+  HelpCircle,
+  X,
+  Globe,
+  MapPin,
+  Loader2,
+} from 'lucide-react';
 
 interface MessageFormProps {
   onMessageSubmitted: (newMsg: CommunityMessage) => void;
@@ -94,8 +105,10 @@ const COLOR_SWATCHES: {
 export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
   const [name, setName] = useState('');
   const [role, setRole] = useState('');
-  const [city, setCity] = useState('Asunción');
-  const [customCity, setCustomCity] = useState('');
+  const [countryCode, setCountryCode] = useState('PY');
+  const [cityName, setCityName] = useState('Asunción');
+  const [apiCities, setApiCities] = useState<string[]>([]);
+  const [isLoadingCities, setIsLoadingCities] = useState(false);
   const [category, setCategory] = useState<Category>('valentia');
   const [theme, setTheme] = useState<ColorTheme>('rose');
   const [message, setMessage] = useState('');
@@ -104,9 +117,56 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPrompts, setShowPrompts] = useState(false);
 
+  // Dynamic fetch of all cities for selected country
+  useEffect(() => {
+    if (!countryCode) {
+      setApiCities([]);
+      return;
+    }
+
+    let isMounted = true;
+    setIsLoadingCities(true);
+    fetch(`/api/cities?countryCode=${countryCode}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted && Array.isArray(data)) {
+          setApiCities(data);
+        }
+      })
+      .catch((err) => {
+        console.error('Error loading cities:', err);
+      })
+      .finally(() => {
+        if (isMounted) setIsLoadingCities(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [countryCode]);
+
+  const currentCountry = WORLD_COUNTRIES.find((c) => c.code === countryCode);
+  const countryName = currentCountry ? currentCountry.name : '';
+
+  const getEffectiveLocation = () => {
+    const trimmedCity = cityName.trim();
+    if (trimmedCity && countryName) {
+      if (trimmedCity.toLowerCase().includes(countryName.toLowerCase())) {
+        return trimmedCity;
+      }
+      return `${trimmedCity}, ${countryName}`;
+    }
+    if (trimmedCity) return trimmedCity;
+    if (countryName) return countryName;
+    return 'Comunidad Global';
+  };
+
+  const effectiveLocation = getEffectiveLocation();
+  const popularChips =
+    POPULAR_CITIES_BY_COUNTRY[countryCode] || apiCities.slice(0, 10);
+
   const MAX_CHARS = 280;
   const remainingChars = MAX_CHARS - message.length;
-  const effectiveCity = customCity.trim() || city || 'Asunción';
 
   const handleApplyPrompt = (promptText: string) => {
     soundFx.playPop();
@@ -122,13 +182,17 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
     if (!role.trim()) {
       errs.role = 'Contanos tu profesión, rol o pasión.';
     }
-    if (!city.trim() && !customCity.trim()) {
-      errs.city = 'Elegí o escribí tu ciudad en Paraguay.';
+    if (!countryCode) {
+      errs.country = 'Elegí tu país de origen.';
+    }
+    if (!cityName.trim()) {
+      errs.city = 'Elegí o ingresá tu ciudad.';
     }
     if (!message.trim()) {
       errs.message = 'Escribí tu mensaje para las niñas del mundo.';
     } else if (message.trim().length < 15) {
-      errs.message = 'El mensaje debe tener al menos 15 caracteres para inspirar.';
+      errs.message =
+        'El mensaje debe tener al menos 15 caracteres para inspirar.';
     } else if (message.length > MAX_CHARS) {
       errs.message = `El mensaje no puede superar los ${MAX_CHARS} caracteres.`;
     }
@@ -150,7 +214,7 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
     const saved = saveMessage({
       name: name.trim(),
       role: role.trim(),
-      city: effectiveCity,
+      city: effectiveLocation,
       message: message.trim(),
       category,
       theme,
@@ -163,7 +227,7 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
       setMessage('');
       setName('');
       setRole('');
-      setCustomCity('');
+      setCityName('Asunción');
       setErrors({});
     }, 600);
   };
@@ -178,7 +242,7 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-12 md:mb-16">
           <h2 className="font-porceleina text-4xl sm:text-5xl md:text-6xl text-[#189a72] uppercase tracking-wide leading-tight">
             ESCRIBÍ TU SEÑALADOR DE ALIENTO <br />
-            PARA LAS NIÑAS DE PARAGUAY
+            PARA LAS NIÑAS DE TODO EL MUNDO
           </h2>
 
           <p className="text-slate-700 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
@@ -355,57 +419,142 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                     </div>
                   </div>
 
-                  {/* City in Paraguay */}
-                  <div className="space-y-2">
-                    <label className="block font-spartan text-xs font-bold text-slate-700">
-                      Ciudad en Paraguay *
-                    </label>
-
-                    {/* Quick City Chips */}
-                    <div className="flex flex-wrap gap-1.5">
-                      {PARAGUAY_CITIES.slice(0, 8).map((c) => {
-                        const isChosen = city === c && !customCity;
-                        return (
-                          <button
-                            type="button"
-                            key={c}
-                            onClick={() => {
+                  {/* Worldwide Country & City Selection */}
+                  <div className="space-y-4 pt-1">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Country Select */}
+                      <div className="space-y-1.5">
+                        <label className="block font-spartan text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                          <Globe className="w-3.5 h-3.5 text-[#733381]" />
+                          <span>País *</span>
+                        </label>
+                        <div className="relative">
+                          <select
+                            value={countryCode}
+                            onChange={(e) => {
+                              const newCode = e.target.value;
                               soundFx.playPop();
-                              setCity(c);
-                              setCustomCity('');
-                              if (errors.city)
-                                setErrors((prev) => ({ ...prev, city: '' }));
+                              setCountryCode(newCode);
+                              const pops = POPULAR_CITIES_BY_COUNTRY[newCode];
+                              if (pops && pops.length > 0) {
+                                setCityName(pops[0]);
+                              } else {
+                                setCityName('');
+                              }
+                              if (errors.country || errors.city) {
+                                setErrors((prev) => ({
+                                  ...prev,
+                                  country: '',
+                                  city: '',
+                                }));
+                              }
                             }}
-                            className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                              isChosen
-                                ? 'bg-[#733381] text-white shadow-xs'
-                                : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                            className={`w-full px-4 py-2.5 rounded-2xl border bg-white text-slate-900 text-xs sm:text-sm focus:outline-hidden focus:ring-2 transition-all appearance-none cursor-pointer ${
+                              errors.country
+                                ? 'border-rose-400 focus:ring-rose-200 bg-rose-50/30'
+                                : 'border-slate-200 focus:border-[#733381] focus:ring-purple-200'
                             }`}
                           >
-                            {c}
-                          </button>
-                        );
-                      })}
+                            <option value="">Seleccioná tu país...</option>
+                            {WORLD_COUNTRIES.map((c) => (
+                              <option key={c.code} value={c.code}>
+                                {c.flag} {c.name}
+                              </option>
+                            ))}
+                          </select>
+                          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400 text-xs">
+                            ▼
+                          </div>
+                        </div>
+                        {errors.country && (
+                          <p className="text-[11px] font-semibold text-rose-500 flex items-center gap-1">
+                            <AlertCircle className="w-3 h-3" /> {errors.country}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* City Input with Datalist Autocomplete */}
+                      <div className="space-y-1.5">
+                        <label className="block font-spartan text-xs font-bold text-slate-700 flex items-center justify-between">
+                          <span className="flex items-center gap-1.5">
+                            <MapPin className="w-3.5 h-3.5 text-[#f06f42]" />
+                            <span>Ciudad *</span>
+                          </span>
+                          {isLoadingCities && (
+                            <span className="text-[10px] text-purple-600 flex items-center gap-1 font-medium">
+                              <Loader2 className="w-2.5 h-2.5 animate-spin" />{' '}
+                              buscando ciudades...
+                            </span>
+                          )}
+                        </label>
+                        <div className="relative">
+                          <input
+                            type="text"
+                            list="world-cities-datalist"
+                            value={cityName}
+                            onChange={(e) => {
+                              setCityName(e.target.value);
+                              if (errors.city) {
+                                setErrors((prev) => ({ ...prev, city: '' }));
+                              }
+                            }}
+                            placeholder="Escribí o elegí tu ciudad..."
+                            className={`w-full px-4 py-2.5 rounded-2xl border bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm focus:outline-hidden focus:ring-2 transition-all ${
+                              errors.city
+                                ? 'border-rose-400 focus:ring-rose-200 bg-rose-50/30'
+                                : 'border-slate-200 focus:border-[#733381] focus:ring-purple-200'
+                            }`}
+                          />
+                          <datalist id="world-cities-datalist">
+                            {apiCities.map((c) => (
+                              <option key={c} value={c} />
+                            ))}
+                          </datalist>
+                        </div>
+                        {errors.city && (
+                          <p className="text-[11px] font-semibold text-rose-500 flex items-center gap-1">
+                            <AlertCircle className="w-3 h-3" /> {errors.city}
+                          </p>
+                        )}
+                      </div>
                     </div>
 
-                    <div className="pt-1">
-                      <input
-                        type="text"
-                        value={customCity}
-                        onChange={(e) => {
-                          setCustomCity(e.target.value);
-                          if (e.target.value) setCity('');
-                          if (errors.city)
-                            setErrors((prev) => ({ ...prev, city: '' }));
-                        }}
-                        placeholder="O escribí otra ciudad (ej. Villarrica, Pilar, Caacupé...)"
-                        className="w-full px-4 py-2.5 rounded-2xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 text-xs focus:outline-hidden focus:ring-2 focus:ring-purple-200 focus:border-[#733381] transition-all"
-                      />
-                    </div>
-                    {errors.city && (
-                      <p className="text-[11px] font-semibold text-rose-500 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3" /> {errors.city}
-                      </p>
+                    {/* Quick City Chips for Country */}
+                    {popularChips.length > 0 && (
+                      <div className="space-y-1.5">
+                        <span className="text-[11px] font-semibold text-slate-500">
+                          Ciudades sugeridas{' '}
+                          {countryName ? `en ${countryName}` : ''}:
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {popularChips.slice(0, 10).map((c) => {
+                            const isChosen =
+                              cityName.toLowerCase() === c.toLowerCase();
+                            return (
+                              <button
+                                type="button"
+                                key={c}
+                                onClick={() => {
+                                  soundFx.playPop();
+                                  setCityName(c);
+                                  if (errors.city)
+                                    setErrors((prev) => ({
+                                      ...prev,
+                                      city: '',
+                                    }));
+                                }}
+                                className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                                  isChosen
+                                    ? 'bg-[#733381] text-white shadow-xs'
+                                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                                }`}
+                              >
+                                {c}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -554,7 +703,7 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
               <BookmarkPreview
                 name={name}
                 role={role}
-                city={effectiveCity}
+                city={effectiveLocation}
                 message={message}
                 category={category}
                 theme={theme}

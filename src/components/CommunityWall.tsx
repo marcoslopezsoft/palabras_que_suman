@@ -125,7 +125,7 @@ export default function CommunityWall({
 
           <p className="text-purple-200 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
             Explorá los mensajes que mujeres líderes, científicas, artistas y
-            docentes de todo el Paraguay han dedicado a las nuevas generaciones.
+            docentes de todo el mundo han dedicado a las nuevas generaciones.
           </p>
         </div>
 

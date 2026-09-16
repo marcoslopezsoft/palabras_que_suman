@@ -7,7 +7,7 @@ import { CATEGORIES, COLOR_THEMES } from '@/data/initialData';
 import { RotateCw, Heart, MapPin, Briefcase } from 'lucide-react';
 import { soundFx } from '@/utils/audio';
 import CategoryIcon from './CategoryIcon';
-import { ParaguayFlagSvg } from './ParaguayBadge';
+import { WorldGlobeSvg } from './WorldBadge';
 
 interface BookmarkPreviewProps {
   name: string;
@@ -34,7 +34,7 @@ export default function BookmarkPreview({
   const displayMessage = message.trim() || 'Tu mensaje inspirador para las niñas del mundo aparecerá aquí... Cada palabra que dejás suma valentía y esperanza.';
   const displayName = name.trim() || 'Tu Nombre o Firma';
   const displayRole = role.trim() || 'Tu Profesión o Rol';
-  const displayCity = city.trim() || 'Paraguay';
+  const displayCity = city.trim() || 'Comunidad Global';
 
   const handleFlip = () => {
     soundFx.playFlip();
@@ -125,9 +125,9 @@ export default function BookmarkPreview({
               </div>
 
               <div className="flex items-center justify-between text-[9px] text-slate-400 pt-1">
-                <span className="flex items-center gap-1">
-                  <ParaguayFlagSvg className="w-3.5 h-2 rounded-2xs" />
-                  Niñas y Jóvenes de Paraguay
+                <span className="flex items-center gap-1 font-bold text-slate-500">
+                  <WorldGlobeSvg className="w-3.5 h-3.5 text-[#189a72]" />
+                  Niñas de Todo el Mundo
                 </span>
                 <span className="font-porceleina text-base font-bold text-[#733381]">
                   Sumando Voces
@@ -166,7 +166,8 @@ export default function BookmarkPreview({
               </div>
               <p className="font-serif text-sm font-semibold text-purple-100 leading-snug">
                 “Tu voz tiene un impacto real. Este mensaje será leído por niñas
-                en talleres de liderazgo y escuelas a todas las ciudades del mundo.”
+                en talleres de liderazgo y escuelas a todas las ciudades del
+                mundo.”
               </p>
               <p className="text-[11px] text-purple-300/80">
                 Alianza oficial: Fundación Género 360 & APEP Mujeres que Suman.

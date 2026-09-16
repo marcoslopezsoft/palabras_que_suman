@@ -135,7 +135,7 @@ export default function RewardModal({
                     {submittedMessage.name}
                   </strong>{' '}
                   ({submittedMessage.city}). Tu dedicatoria inspirará a niñas y
-                  jóvenes de todo el Paraguay.
+                  jóvenes de todo el mundo.
                 </p>
               </div>
 

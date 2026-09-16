@@ -6,7 +6,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { CommunityMessage } from '@/types';
 import { CATEGORIES, COLOR_THEMES } from '@/data/initialData';
 import CategoryIcon from './CategoryIcon';
-import { ParaguayFlagSvg } from './ParaguayBadge';
+import { WorldGlobeSvg } from './WorldBadge';
 import { 
   X, 
   Sparkles, 
@@ -32,8 +32,9 @@ const DEFAULT_WELCOME_MESSAGE: CommunityMessage = {
   id: 'totem-welcome',
   name: 'Palabras Que Suman',
   role: 'Fundación Género 360 & APEP',
-  city: 'Paraguay',
-  message: '¡Bienvenida a la activación! Escaneá el código QR con la cámara de tu celular para dejar tu mensaje de aliento a las niñas y verlo proyectado en esta pantalla.',
+  city: 'Comunidad Global',
+  message:
+    '¡Bienvenida a la activación! Escaneá el código QR con la cámara de tu celular para dejar tu mensaje de aliento a las niñas y verlo proyectado en esta pantalla.',
   category: 'sororidad',
   theme: 'rose',
   likes: 0,
@@ -295,7 +296,7 @@ export default function TotemModeModal({
                     {currentMsg.city}
                   </span>
                   <p className="text-[10px] text-slate-400 mt-0.5 flex items-center justify-end gap-1 font-bold uppercase tracking-wider">
-                    <ParaguayFlagSvg className="w-3 h-2 rounded-2xs" />
+                    <WorldGlobeSvg className="w-3.5 h-3.5 text-[#189a72]" />
                     <span>Palabras Que Suman</span>
                   </p>
                 </div>
