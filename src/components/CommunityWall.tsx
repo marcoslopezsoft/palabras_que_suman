@@ -22,11 +22,13 @@ import { scrollToElement } from './SmoothScroll';
 interface CommunityWallProps {
   messages: CommunityMessage[];
   userLikedIds: string[];
+  isLoading?: boolean;
 }
 
 export default function CommunityWall({
   messages,
   userLikedIds,
+  isLoading = false,
 }: CommunityWallProps) {
   const [filters, setFilters] = useState<FilterState>({
     search: '',
@@ -258,7 +260,14 @@ export default function CommunityWall({
         </div>
 
         {/* Message Cards Grid on Purple Background */}
-        {displayedMessages.length > 0 ? (
+        {isLoading && messages.length === 0 ? (
+          <div className="bg-white/95 rounded-3xl p-12 text-center text-slate-900 border border-purple-200 space-y-4 max-w-lg mx-auto shadow-xl">
+            <div className="w-10 h-10 border-4 border-[#733381] border-t-transparent rounded-full animate-spin mx-auto" />
+            <p className="text-sm font-spartan font-bold text-slate-700">
+              Sincronizando señaladores con la comunidad...
+            </p>
+          </div>
+        ) : displayedMessages.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <AnimatePresence>
               {displayedMessages.map((msg) => (

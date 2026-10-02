@@ -200,7 +200,7 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
     return Object.keys(errs).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) {
       soundFx.playPop();
@@ -208,28 +208,40 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
     }
 
     setIsSubmitting(true);
-    soundFx.playFanfare();
-    triggerPastelConfetti();
 
-    const saved = saveMessage({
-      name: name.trim(),
-      role: role.trim(),
-      city: effectiveLocation,
-      message: message.trim(),
-      category,
-      theme,
-    });
+    try {
+      const saved = await saveMessage({
+        name: name.trim(),
+        role: role.trim(),
+        city: effectiveLocation,
+        message: message.trim(),
+        category,
+        theme,
+      });
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+      soundFx.playFanfare();
+      triggerPastelConfetti();
+
       onMessageSubmitted(saved);
+
       // Reset form
       setMessage('');
       setName('');
       setRole('');
       setCityName('Asunción');
       setErrors({});
-    }, 600);
+    } catch (err: any) {
+      console.error('Error al guardar mensaje:', err);
+      soundFx.playPop();
+      setErrors((prev) => ({
+        ...prev,
+        submit:
+          err?.message ||
+          'No se pudo registrar el mensaje en la base de datos. Por favor intentá nuevamente.',
+      }));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -663,6 +675,13 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                   <p className="text-[11px] font-semibold text-rose-500 flex items-center gap-1">
                     <AlertCircle className="w-3 h-3" /> {errors.message}
                   </p>
+                )}
+
+                {errors.submit && (
+                  <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
+                    <span>{errors.submit}</span>
+                  </div>
                 )}
 
                 {/* Submit Doodle Button */}

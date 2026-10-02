@@ -1,12 +1,37 @@
 import { CommunityMessage, CollectibleBookmark } from '@/types';
 import { INITIAL_COMMUNITY_MESSAGES, COLLECTIBLE_BOOKMARKS } from '@/data/initialData';
-import { supabase, messageToRow, rowToMessage, CommunityMessageRow } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured, messageToRow, rowToMessage, CommunityMessageRow } from '@/lib/supabase';
 
 const STORAGE_KEY_MESSAGES = 'pqs_community_messages_clean_v2';
 const STORAGE_KEY_LIKES = 'pqs_user_likes_clean_v2';
 const STORAGE_KEY_COLLECTED = 'pqs_collected_bookmarks_clean_v2';
 
+/**
+ * Limpia cualquier mensaje guardado previamente en el localStorage local
+ * cuando Supabase está activo, asegurando que no haya conflictos, fantasmas
+ * ni mensajes que solo existen en un único navegador.
+ */
+export const cleanupLegacyLocalMessages = () => {
+  if (typeof window !== 'undefined' && isSupabaseConfigured()) {
+    try {
+      localStorage.removeItem(STORAGE_KEY_MESSAGES);
+    } catch {
+      // Ignorar errores en navegadores restrictivos
+    }
+  }
+};
+
+/**
+ * Obtiene los mensajes locales.
+ * Si Supabase está configurado, retorna [] para no mezclar datos locales obsoletos
+ * y dejar que Supabase sea la ÚNICA fuente de verdad.
+ */
 export const getStoredMessages = (): CommunityMessage[] => {
+  if (isSupabaseConfigured()) {
+    cleanupLegacyLocalMessages();
+    return [];
+  }
+
   if (typeof window === 'undefined') return INITIAL_COMMUNITY_MESSAGES;
   try {
     const raw = localStorage.getItem(STORAGE_KEY_MESSAGES);
@@ -20,10 +45,16 @@ export const getStoredMessages = (): CommunityMessage[] => {
   }
 };
 
+/**
+ * Consulta los mensajes globales directamente desde Supabase.
+ * Nunca cae en fallback local si Supabase está activo, evitando duplicaciones.
+ */
 export const fetchCommunityMessages = async (): Promise<CommunityMessage[]> => {
-  if (!supabase) {
+  if (!supabase || !isSupabaseConfigured()) {
     return getStoredMessages();
   }
+
+  cleanupLegacyLocalMessages();
 
   try {
     const { data, error } = await supabase
@@ -33,44 +64,55 @@ export const fetchCommunityMessages = async (): Promise<CommunityMessage[]> => {
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.warn('Supabase fetch error, fallback to localStorage:', error.message);
-      return getStoredMessages();
+      console.error('Supabase fetch error:', error.message);
+      return [];
     }
 
-    if (data && data.length > 0) {
-      const msgs = (data as CommunityMessageRow[]).map(rowToMessage);
-      if (typeof window !== 'undefined') {
-        try {
-          localStorage.setItem(STORAGE_KEY_MESSAGES, JSON.stringify(msgs));
-        } catch (e) {
-          console.error(e);
-        }
-      }
-      return msgs;
+    if (data) {
+      return (data as CommunityMessageRow[]).map(rowToMessage);
     }
 
-    return getStoredMessages();
+    return [];
   } catch (err) {
-    console.warn('Error fetching from Supabase, fallback to localStorage:', err);
-    return getStoredMessages();
+    console.error('Error fetching from Supabase:', err);
+    return [];
   }
 };
 
-export const saveMessage = (
+/**
+ * Guarda un mensaje.
+ * Si Supabase está activo: Guarda ÚNICAMENTE en la base de datos remota.
+ * Si no está configurado: Modo local offline con localStorage.
+ */
+export const saveMessage = async (
   msg: Omit<CommunityMessage, 'id' | 'likes' | 'createdAt' | 'editionCode'>
-): CommunityMessage => {
-  const current = getStoredMessages();
-  const count = current.length + 1;
+): Promise<CommunityMessage> => {
   const newMsg: CommunityMessage = {
     ...msg,
     id: `msg-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
     likes: 0,
     createdAt: new Date().toISOString(),
-    editionCode: `G360-${String(count).padStart(3, '0')}`,
+    editionCode: `G360-${Math.floor(100 + Math.random() * 900)}`,
     isDeleted: false,
   };
 
-  // 1. Optimistic Local Save
+  // 1. Supabase activo: Fuente única de verdad
+  if (supabase && isSupabaseConfigured()) {
+    const { error } = await supabase
+      .from('community_messages')
+      .insert(messageToRow(newMsg));
+
+    if (error) {
+      console.error('Error al guardar mensaje en Supabase:', error);
+      throw new Error(`No se pudo guardar el mensaje: ${error.message}`);
+    }
+
+    cleanupLegacyLocalMessages();
+    return newMsg;
+  }
+
+  // 2. Modo Offline / Desarrollo sin credenciales
+  const current = getStoredMessages();
   const updated = [newMsg, ...current];
   if (typeof window !== 'undefined') {
     try {
@@ -80,28 +122,19 @@ export const saveMessage = (
     }
   }
 
-  // 2. Background Supabase Persistence
-  const client = supabase;
-  if (client) {
-    (async () => {
-      try {
-        const { error } = await client
-          .from('community_messages')
-          .insert(messageToRow(newMsg));
-        if (error) {
-          console.error('Error inserting message to Supabase:', error);
-        }
-      } catch (err) {
-        console.error('Failed to persist message to Supabase:', err);
-      }
-    })();
-  }
-
   return newMsg;
 };
 
-export const toggleLikeMessage = (id: string): { likes: number; isLiked: boolean } => {
-  if (typeof window === 'undefined') return { likes: 0, isLiked: false };
+/**
+ * Da o quita like a un mensaje.
+ * Registra el ID en localStorage para recordar el voto de este navegador,
+ * y sincroniza el contador atómicamente en Supabase.
+ */
+export const toggleLikeMessage = (
+  id: string,
+  currentLikes: number = 0
+): { likes: number; isLiked: boolean } => {
+  if (typeof window === 'undefined') return { likes: currentLikes, isLiked: false };
 
   let likedIds: string[] = [];
   try {
@@ -120,49 +153,57 @@ export const toggleLikeMessage = (id: string): { likes: number; isLiked: boolean
     console.error(e);
   }
 
-  const messages = getStoredMessages();
-  let newLikesCount = 0;
-  const updatedMessages = messages.map((m) => {
-    if (m.id === id) {
-      newLikesCount = isLiked ? Math.max(0, m.likes - 1) : m.likes + 1;
-      return { ...m, likes: newLikesCount };
-    }
-    return m;
-  });
+  const incrementVal = isLiked ? -1 : 1;
+  const newLikesCount = Math.max(0, currentLikes + incrementVal);
 
-  try {
-    localStorage.setItem(STORAGE_KEY_MESSAGES, JSON.stringify(updatedMessages));
-  } catch (e) {
-    console.error(e);
-  }
-
-  // Background Supabase Sync for Likes
-  const clientForLikes = supabase;
-  if (clientForLikes) {
+  if (supabase && isSupabaseConfigured()) {
+    // Sincronización asíncrona con Supabase
     (async () => {
       try {
-        const { error } = await clientForLikes
-          .from('community_messages')
-          .update({ likes: newLikesCount })
-          .eq('id', id);
-        if (error) {
-          console.error('Error updating likes in Supabase:', error);
+        const { error: rpcError } = await supabase.rpc('toggle_message_like', {
+          message_id: id,
+          increment_val: incrementVal,
+        });
+        if (rpcError) {
+          await supabase
+            .from('community_messages')
+            .update({ likes: newLikesCount })
+            .eq('id', id);
         }
       } catch (err) {
         console.error('Failed to update likes in Supabase:', err);
       }
     })();
+  } else {
+    // Modo offline en navegador
+    const messages = getStoredMessages();
+    const updatedMessages = messages.map((m) => {
+      if (m.id === id) {
+        return { ...m, likes: newLikesCount };
+      }
+      return m;
+    });
+
+    try {
+      localStorage.setItem(STORAGE_KEY_MESSAGES, JSON.stringify(updatedMessages));
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   return { likes: newLikesCount, isLiked: !isLiked };
 };
 
+/**
+ * Suscripción en Tiempo Real (WebSockets).
+ * Recibe nuevos mensajes y actualizaciones (como likes o soft delete).
+ */
 export const subscribeToCommunityMessages = (
   onInsert?: (msg: CommunityMessage) => void,
   onUpdate?: (msg: CommunityMessage) => void
 ) => {
   const client = supabase;
-  if (!client) return () => {};
+  if (!client || !isSupabaseConfigured()) return () => {};
 
   try {
     const channel = client
@@ -231,23 +272,10 @@ export const saveCollectedBookmark = (bookmark: CollectibleBookmark) => {
 };
 
 export const softDeleteMessage = (id: string) => {
-  // 1. Remove from local cache
-  const current = getStoredMessages();
-  const updated = current.filter((m) => m.id !== id);
-  if (typeof window !== 'undefined') {
-    try {
-      localStorage.setItem(STORAGE_KEY_MESSAGES, JSON.stringify(updated));
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  // 2. Mark as is_deleted = true in Supabase
-  const client = supabase;
-  if (client) {
+  if (supabase && isSupabaseConfigured()) {
     (async () => {
       try {
-        const { error } = await client
+        const { error } = await supabase
           .from('community_messages')
           .update({ is_deleted: true })
           .eq('id', id);
@@ -258,5 +286,15 @@ export const softDeleteMessage = (id: string) => {
         console.error('Failed to soft-delete in Supabase:', err);
       }
     })();
+  } else {
+    const current = getStoredMessages();
+    const updated = current.filter((m) => m.id !== id);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem(STORAGE_KEY_MESSAGES, JSON.stringify(updated));
+      } catch (e) {
+        console.error(e);
+      }
+    }
   }
 };

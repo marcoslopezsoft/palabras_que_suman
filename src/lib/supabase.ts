@@ -5,12 +5,26 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 export const isSupabaseConfigured = (): boolean => {
-  return (
-    Boolean(supabaseUrl) &&
-    Boolean(supabaseAnonKey) &&
-    supabaseUrl.startsWith('https://') &&
-    !supabaseUrl.includes('your-project')
-  );
+  if (!supabaseUrl || !supabaseAnonKey) return false;
+  if (!supabaseUrl.startsWith('https://') || supabaseUrl.includes('your-project')) return false;
+
+  // Crucial check: prevent secret key crashing browser & realtime
+  if (
+    supabaseAnonKey.startsWith('sb_secret_') ||
+    supabaseAnonKey.startsWith('service_role') ||
+    supabaseAnonKey.toLowerCase().includes('secret')
+  ) {
+    if (typeof window !== 'undefined') {
+      console.error(
+        '[Supabase Security Alert] NEXT_PUBLIC_SUPABASE_ANON_KEY está configurada con una SECRET KEY. ' +
+        'Debes usar la Publishable / Anon key pública (sb_publishable_... o eyJhbGci...). ' +
+        'El cliente Supabase se mantendrá desactivado en el navegador para evitar errores 403 y caídas de WebSocket.'
+      );
+    }
+    return false;
+  }
+
+  return true;
 };
 
 export const supabase = isSupabaseConfigured()

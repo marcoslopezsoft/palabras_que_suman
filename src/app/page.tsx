@@ -18,41 +18,60 @@ import RewardModal from '@/components/RewardModal';
 import TotemModeModal from '@/components/TotemModeModal';
 import { scrollToElement } from '@/components/SmoothScroll';
 
+// Función helper para deduplicar mensajes por ID estricto y ordenar cronológicamente
+const dedupeAndSortMessages = (list: CommunityMessage[]): CommunityMessage[] => {
+  const map = new Map<string, CommunityMessage>();
+  for (const msg of list) {
+    if (!msg || !msg.id || msg.isDeleted) continue;
+    const existing = map.get(msg.id);
+    if (!existing) {
+      map.set(msg.id, msg);
+    } else {
+      // Si ya existe por id, preservamos la versión con mayor cantidad de likes / más reciente
+      map.set(msg.id, {
+        ...existing,
+        ...msg,
+        likes: Math.max(existing.likes, msg.likes),
+      });
+    }
+  }
+  return Array.from(map.values()).sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
+};
+
 export default function HomePage() {
   const [messages, setMessages] = useState<CommunityMessage[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [userLikedIds, setUserLikedIds] = useState<string[]>([]);
   const [isRouletteOpen, setIsRouletteOpen] = useState(false);
   const [isTotemOpen, setIsTotemOpen] = useState(false);
   const [lastSubmittedMessage, setLastSubmittedMessage] = useState<CommunityMessage | null>(null);
 
   useEffect(() => {
-    // 1. Instant local hydration from localStorage
-    setMessages(getStoredMessages());
+    // 1. Hidratación inicial (vacío si Supabase está activo, o mock local si está offline)
+    setMessages(dedupeAndSortMessages(getStoredMessages()));
     setUserLikedIds(getUserLikedIds());
 
-    // 2. Fetch fresh global messages from Supabase in the background
+    // 2. Cargar mensajes globales y oficiales desde Supabase
     fetchCommunityMessages().then((remoteMsgs) => {
-      if (remoteMsgs && remoteMsgs.length > 0) {
-        setMessages(remoteMsgs);
-      }
+      setMessages((prev) => dedupeAndSortMessages([...remoteMsgs, ...prev]));
+      setIsLoading(false);
     });
 
-    // 3. Realtime listener: any message submitted anywhere appears live on screen!
+    // 3. Listener en Tiempo Real: cualquier mensaje sembrado en el mundo aparece sin duplicarse
     const unsubscribe = subscribeToCommunityMessages(
       (newMsg) => {
         if (newMsg.isDeleted) return;
-        setMessages((prev) => {
-          if (prev.some((m) => m.id === newMsg.id)) return prev;
-          return [newMsg, ...prev];
-        });
+        setMessages((prev) => dedupeAndSortMessages([newMsg, ...prev]));
       },
       (updatedMsg) => {
         setMessages((prev) => {
           if (updatedMsg.isDeleted) {
-            // Live soft delete: removes message instantly from the wall and totem
+            // Soft delete en vivo: desaparece al instante de la pantalla de todos
             return prev.filter((m) => m.id !== updatedMsg.id);
           }
-          return prev.map((m) => (m.id === updatedMsg.id ? updatedMsg : m));
+          return dedupeAndSortMessages([updatedMsg, ...prev]);
         });
       }
     );
@@ -63,7 +82,7 @@ export default function HomePage() {
   }, []);
 
   const handleMessageSubmitted = (newMsg: CommunityMessage) => {
-    setMessages((prev) => [newMsg, ...prev]);
+    setMessages((prev) => dedupeAndSortMessages([newMsg, ...prev]));
     setLastSubmittedMessage(newMsg);
     setIsRouletteOpen(true);
   };
@@ -101,6 +120,7 @@ export default function HomePage() {
         <CommunityWall
           messages={messages}
           userLikedIds={userLikedIds}
+          isLoading={isLoading}
         />
 
         {/* 4. About the Initiative: Fundación Género 360 & APEP Mujeres que Suman */}

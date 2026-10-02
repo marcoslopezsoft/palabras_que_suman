@@ -38,7 +38,7 @@ export default function MessageCard({
   const handleLike = (e: React.MouseEvent) => {
     e.stopPropagation();
     soundFx.playPop();
-    const result = toggleLikeMessage(message.id);
+    const result = toggleLikeMessage(message.id, likes);
     setLikes(result.likes);
     setIsLiked(result.isLiked);
     if (result.isLiked) {

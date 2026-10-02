@@ -48,7 +48,7 @@ export default function MessageDetailModal({
 
   const handleLike = () => {
     soundFx.playPop();
-    const result = toggleLikeMessage(message.id);
+    const result = toggleLikeMessage(message.id, likes);
     setLikes(result.likes);
     setIsLiked(result.isLiked);
     if (result.isLiked) triggerHeartConfetti();
