@@ -2,7 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { CommunityMessage } from '@/types';
-import { getStoredMessages, getUserLikedIds } from '@/utils/storage';
+import { 
+  getStoredMessages, 
+  getUserLikedIds, 
+  fetchCommunityMessages, 
+  subscribeToCommunityMessages 
+} from '@/utils/storage';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import MessageForm from '@/components/MessageForm';
@@ -21,11 +26,35 @@ export default function HomePage() {
   const [lastSubmittedMessage, setLastSubmittedMessage] = useState<CommunityMessage | null>(null);
 
   useEffect(() => {
-    // Hydrate messages & likes from localStorage after initial render
-    queueMicrotask(() => {
-      setMessages(getStoredMessages());
-      setUserLikedIds(getUserLikedIds());
+    // 1. Instant local hydration from localStorage
+    setMessages(getStoredMessages());
+    setUserLikedIds(getUserLikedIds());
+
+    // 2. Fetch fresh global messages from Supabase in the background
+    fetchCommunityMessages().then((remoteMsgs) => {
+      if (remoteMsgs && remoteMsgs.length > 0) {
+        setMessages(remoteMsgs);
+      }
     });
+
+    // 3. Realtime listener: any message submitted anywhere appears live on screen!
+    const unsubscribe = subscribeToCommunityMessages(
+      (newMsg) => {
+        setMessages((prev) => {
+          if (prev.some((m) => m.id === newMsg.id)) return prev;
+          return [newMsg, ...prev];
+        });
+      },
+      (updatedMsg) => {
+        setMessages((prev) =>
+          prev.map((m) => (m.id === updatedMsg.id ? updatedMsg : m))
+        );
+      }
+    );
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   const handleMessageSubmitted = (newMsg: CommunityMessage) => {
