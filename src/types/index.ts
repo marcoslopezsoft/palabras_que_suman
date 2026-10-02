@@ -45,6 +45,7 @@ export interface CommunityMessage {
   createdAt: string;
   isFavorite?: boolean;
   editionCode?: string;
+  isDeleted?: boolean;
 }
 
 export interface CollectibleBookmark {

@@ -3,7 +3,6 @@ import { Plus_Jakarta_Sans } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
 import SmoothScroll from '@/components/SmoothScroll';
-import CustomCursor from '@/components/CustomCursor';
 
 const sansFont = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -72,7 +71,6 @@ export default function RootLayout({
       className={`${sansFont.variable} ${spartanFont.variable} ${porceleinaFont.variable} scroll-smooth antialiased`}
     >
       <body className="min-h-screen bg-[#FAF8F5] text-slate-800 selection:bg-rose-200 selection:text-rose-950 font-sans">
-        <CustomCursor />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

@@ -29,6 +29,7 @@ export const fetchCommunityMessages = async (): Promise<CommunityMessage[]> => {
     const { data, error } = await supabase
       .from('community_messages')
       .select('*')
+      .neq('is_deleted', true)
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -66,6 +67,7 @@ export const saveMessage = (
     likes: 0,
     createdAt: new Date().toISOString(),
     editionCode: `G360-${String(count).padStart(3, '0')}`,
+    isDeleted: false,
   };
 
   // 1. Optimistic Local Save
@@ -225,5 +227,36 @@ export const saveCollectedBookmark = (bookmark: CollectibleBookmark) => {
     }
   } catch (e) {
     console.error(e);
+  }
+};
+
+export const softDeleteMessage = (id: string) => {
+  // 1. Remove from local cache
+  const current = getStoredMessages();
+  const updated = current.filter((m) => m.id !== id);
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(STORAGE_KEY_MESSAGES, JSON.stringify(updated));
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  // 2. Mark as is_deleted = true in Supabase
+  const client = supabase;
+  if (client) {
+    (async () => {
+      try {
+        const { error } = await client
+          .from('community_messages')
+          .update({ is_deleted: true })
+          .eq('id', id);
+        if (error) {
+          console.error('Error soft-deleting message in Supabase:', error);
+        }
+      } catch (err) {
+        console.error('Failed to soft-delete in Supabase:', err);
+      }
+    })();
   }
 };

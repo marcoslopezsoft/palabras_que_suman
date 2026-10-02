@@ -33,6 +33,7 @@ export interface CommunityMessageRow {
   likes: number;
   created_at: string;
   edition_code: string | null;
+  is_deleted?: boolean | null;
 }
 
 export const rowToMessage = (row: CommunityMessageRow): CommunityMessage => ({
@@ -46,6 +47,7 @@ export const rowToMessage = (row: CommunityMessageRow): CommunityMessage => ({
   likes: row.likes ?? 0,
   createdAt: row.created_at,
   editionCode: row.edition_code || undefined,
+  isDeleted: Boolean(row.is_deleted),
 });
 
 export const messageToRow = (msg: CommunityMessage): CommunityMessageRow => ({
@@ -59,4 +61,5 @@ export const messageToRow = (msg: CommunityMessage): CommunityMessageRow => ({
   likes: msg.likes,
   created_at: msg.createdAt,
   edition_code: msg.editionCode || null,
+  is_deleted: msg.isDeleted ?? false,
 });

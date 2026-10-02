@@ -40,15 +40,20 @@ export default function HomePage() {
     // 3. Realtime listener: any message submitted anywhere appears live on screen!
     const unsubscribe = subscribeToCommunityMessages(
       (newMsg) => {
+        if (newMsg.isDeleted) return;
         setMessages((prev) => {
           if (prev.some((m) => m.id === newMsg.id)) return prev;
           return [newMsg, ...prev];
         });
       },
       (updatedMsg) => {
-        setMessages((prev) =>
-          prev.map((m) => (m.id === updatedMsg.id ? updatedMsg : m))
-        );
+        setMessages((prev) => {
+          if (updatedMsg.isDeleted) {
+            // Live soft delete: removes message instantly from the wall and totem
+            return prev.filter((m) => m.id !== updatedMsg.id);
+          }
+          return prev.map((m) => (m.id === updatedMsg.id ? updatedMsg : m));
+        });
       }
     );
 
