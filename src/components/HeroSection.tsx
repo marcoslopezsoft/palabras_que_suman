@@ -75,7 +75,7 @@ export default function HeroSection({ messageCount, onOpenRoulette }: HeroSectio
                 />
               </button>
 
-              {/* Button 2: Sacar el señalador directo */}
+              {/* Button 2: Obtener el señalador directo */}
               <button
                 type="button"
                 onClick={() => {
@@ -83,11 +83,11 @@ export default function HeroSection({ messageCount, onOpenRoulette }: HeroSectio
                   onOpenRoulette();
                 }}
                 className="group transform hover:scale-105 active:scale-95 transition-transform duration-200 focus:outline-hidden cursor-pointer"
-                title="Sacar el señalador directo"
+                title="Obtener señalador"
               >
                 <img
-                  src="/assets/elemento-04.svg"
-                  alt="Sacar el señalador directo"
+                  src="/assets/obtener-senalador.svg"
+                  alt="Obtener señalador"
                   className="h-11 sm:h-12 md:h-13 w-auto object-contain drop-shadow-sm group-hover:drop-shadow-md"
                 />
               </button>

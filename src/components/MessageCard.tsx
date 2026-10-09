@@ -14,8 +14,10 @@ import {
   Briefcase, 
   Volume2, 
   Maximize2, 
-  Calendar 
+  Calendar,
+  Loader2
 } from 'lucide-react';
+import { voiceManager, useVoiceStatus } from '@/utils/speech';
 
 interface MessageCardProps {
   message: CommunityMessage;
@@ -30,7 +32,7 @@ export default function MessageCard({
 }: MessageCardProps) {
   const [likes, setLikes] = useState(message.likes);
   const [isLiked, setIsLiked] = useState(isLikedInitially);
-  const [isSpeaking, setIsSpeaking] = useState(false);
+  const speechStatus = useVoiceStatus(message.id);
 
   const activeCategory = CATEGORIES[message.category] || CATEGORIES.valentia;
   const activeTheme = COLOR_THEMES[message.theme] || COLOR_THEMES.rose;
@@ -48,25 +50,9 @@ export default function MessageCard({
 
   const handleSpeak = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-
-    if (isSpeaking) {
-      window.speechSynthesis.cancel();
-      setIsSpeaking(false);
-      return;
-    }
-
-    window.speechSynthesis.cancel();
+    soundFx.playPop();
     const textToSpeak = `${message.message}. Dejado por ${message.name}, ${message.role}, desde ${message.city}.`;
-    const utterance = new SpeechSynthesisUtterance(textToSpeak);
-    utterance.lang = 'es-ES';
-    utterance.rate = 0.95;
-
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-
-    window.speechSynthesis.speak(utterance);
+    voiceManager.speak(message.id, textToSpeak);
   };
 
   const formattedDate = new Date(message.createdAt).toLocaleDateString('es-PY', {
@@ -148,18 +134,31 @@ export default function MessageCard({
           </div>
 
           <div className="flex items-center gap-1.5">
-            {/* Audio narration button */}
+            {/* Audio narration button con indicador de carga para Android */}
             <button
               type="button"
               onClick={handleSpeak}
-              className={`p-1.5 rounded-lg transition-colors ${
-                isSpeaking
-                  ? 'bg-purple-600 text-white'
+              className={`p-1.5 rounded-lg transition-all cursor-pointer relative ${
+                speechStatus === 'speaking'
+                  ? 'bg-purple-600 text-white shadow-xs'
+                  : speechStatus === 'loading'
+                  ? 'bg-purple-100 text-[#733381] ring-2 ring-purple-300 animate-pulse'
                   : 'hover:bg-purple-100 hover:text-purple-700 text-slate-500'
               }`}
-              title="Escuchar mensaje con voz"
+              title={
+                speechStatus === 'speaking'
+                  ? 'Pausar narración'
+                  : speechStatus === 'loading'
+                  ? 'Cargando narrador de voz...'
+                  : 'Escuchar mensaje con voz'
+              }
+              aria-label="Escuchar mensaje con voz"
             >
-              <Volume2 className="w-3.5 h-3.5" />
+              {speechStatus === 'loading' ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin text-[#733381]" />
+              ) : (
+                <Volume2 className={`w-3.5 h-3.5 ${speechStatus === 'speaking' ? 'animate-pulse' : ''}`} />
+              )}
             </button>
 
             {/* Like button */}

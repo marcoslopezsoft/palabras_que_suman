@@ -690,11 +690,11 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                     type="submit"
                     disabled={isSubmitting}
                     className="w-full flex justify-center group transform hover:scale-103 active:scale-97 transition-all focus:outline-hidden cursor-pointer disabled:opacity-75"
-                    title="Enviar mensaje y sacar señalador"
+                    title="Enviar mensaje y obtener señalador"
                   >
                     <img
-                      src="/assets/elemento-27.svg"
-                      alt="Enviar mensaje y sacar señalador"
+                      src="/assets/obtener-senalador2-01.svg"
+                      alt="Enviar mensaje y obtener señalador"
                       className="h-14 sm:h-16 w-auto max-w-[534px] object-contain drop-shadow-md group-hover:drop-shadow-lg"
                     />
                   </button>

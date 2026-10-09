@@ -20,8 +20,10 @@ import {
   MapPin, 
   Briefcase, 
   Check, 
-  Calendar 
+  Calendar,
+  Loader2
 } from 'lucide-react';
+import { voiceManager, useVoiceStatus } from '@/utils/speech';
 
 interface MessageDetailModalProps {
   message: CommunityMessage | null;
@@ -37,7 +39,7 @@ export default function MessageDetailModal({
   const [likes, setLikes] = useState(message?.likes || 0);
   const [isLiked, setIsLiked] = useState(isLikedInitially);
   const [isDownloading, setIsDownloading] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
+  const speechStatus = useVoiceStatus(message?.id || '');
   const [copied, setCopied] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -55,19 +57,10 @@ export default function MessageDetailModal({
   };
 
   const handleSpeak = () => {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-    if (isSpeaking) {
-      window.speechSynthesis.cancel();
-      setIsSpeaking(false);
-      return;
-    }
-    const utterance = new SpeechSynthesisUtterance(
-      `${message.message}. Escrito por ${message.name}, ${message.role}, desde ${message.city}.`
-    );
-    utterance.lang = 'es-ES';
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    window.speechSynthesis.speak(utterance);
+    if (!message) return;
+    soundFx.playPop();
+    const textToSpeak = `${message.message}. Escrito por ${message.name}, ${message.role}, desde ${message.city}.`;
+    voiceManager.speak(message.id, textToSpeak);
   };
 
   const handleDownload = async () => {
@@ -246,13 +239,36 @@ export default function MessageDetailModal({
             <button
               onClick={handleSpeak}
               className={`py-2.5 px-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                isSpeaking
-                  ? 'bg-[#733381] text-white'
+                speechStatus === 'speaking'
+                  ? 'bg-[#733381] text-white shadow-xs'
+                  : speechStatus === 'loading'
+                  ? 'bg-purple-100 text-[#733381] border border-purple-300 ring-2 ring-purple-200 animate-pulse'
                   : 'bg-purple-50 hover:bg-purple-100 text-[#733381] border border-purple-200'
               }`}
+              title={
+                speechStatus === 'speaking'
+                  ? 'Pausar narración'
+                  : speechStatus === 'loading'
+                  ? 'Cargando narrador de voz...'
+                  : 'Escuchar mensaje con voz'
+              }
             >
-              <Volume2 className="w-4 h-4" />
-              <span>{isSpeaking ? 'Pausar' : 'Escuchar'}</span>
+              {speechStatus === 'loading' ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-[#733381]" />
+                  <span>Cargando...</span>
+                </>
+              ) : speechStatus === 'speaking' ? (
+                <>
+                  <Volume2 className="w-4 h-4 text-white animate-pulse" />
+                  <span>Pausar</span>
+                </>
+              ) : (
+                <>
+                  <Volume2 className="w-4 h-4 text-[#733381]" />
+                  <span>Escuchar</span>
+                </>
+              )}
             </button>
 
             <button

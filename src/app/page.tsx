@@ -16,6 +16,7 @@ import AboutSection from '@/components/AboutSection';
 import Footer from '@/components/Footer';
 import RewardModal from '@/components/RewardModal';
 import TotemModeModal from '@/components/TotemModeModal';
+import VoiceSupportModal from '@/components/VoiceSupportModal';
 import { scrollToElement } from '@/components/SmoothScroll';
 
 // Función helper para deduplicar mensajes por ID estricto y ordenar cronológicamente
@@ -144,6 +145,9 @@ export default function HomePage() {
         onClose={() => setIsTotemOpen(false)}
         messages={messages}
       />
+
+      {/* Voice Synthesis Compatibility & Troubleshooting Modal */}
+      <VoiceSupportModal />
     </div>
   );
 }

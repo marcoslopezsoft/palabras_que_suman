@@ -166,7 +166,7 @@ export default function Navbar({ messageCount, onOpenRoulette, onOpenTotem }: Na
                 className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-spartan font-bold text-white bg-[#f06f42] hover:bg-[#e25d30] rounded-xl transition-colors text-left cursor-pointer"
               >
                 <Gift className="w-4 h-4" />
-                SACAR SEÑALADOR
+                OBTENER SEÑALADOR
               </button>
 
               <button
