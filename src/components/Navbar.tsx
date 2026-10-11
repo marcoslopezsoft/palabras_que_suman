@@ -30,16 +30,8 @@ export default function Navbar({ messageCount, onOpenRoulette, onOpenTotem }: Na
 
   return (
     <header className="sticky top-0 left-0 right-0 z-50 w-full select-none -mb-3 sm:-mb-5 md:-mb-6">
-      {/* Main purple bar with paper texture */}
+      {/* Main purple bar */}
       <div className="relative bg-[#733381] text-white">
-        {/* Paper texture overlay (elemento-34) */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-20 bg-repeat"
-          style={{
-            backgroundImage: "url('/assets/elemento-34.png')",
-            backgroundSize: '650px auto',
-          }}
-        />
 
         <div className="relative z-10 max-w-[1366px] mx-auto px-4 sm:px-6 lg:px-8 pt-3 sm:pt-4 pb-2">
           <div className="flex items-center justify-between">

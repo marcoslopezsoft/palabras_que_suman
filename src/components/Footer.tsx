@@ -27,14 +27,6 @@ export default function Footer() {
       </div>
 
       <footer className="relative bg-[#733381] text-white pt-2 pb-10 md:pb-12 overflow-hidden">
-        {/* Paper texture overlay (elemento-34) */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-20 bg-repeat"
-          style={{
-            backgroundImage: "url('/assets/elemento-34.png')",
-            backgroundSize: '650px auto',
-          }}
-        />
 
         <div className="relative z-10 max-w-[1366px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 text-center md:text-left pt-6 sm:pt-8">
