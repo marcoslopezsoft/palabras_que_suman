@@ -18,7 +18,7 @@ interface BookmarkPreviewProps {
   theme: ColorTheme;
 }
 
-export default function BookmarkPreview({
+function BookmarkPreviewComponent({
   name,
   role,
   city,
@@ -206,3 +206,6 @@ export default function BookmarkPreview({
     </div>
   );
 }
+
+const BookmarkPreview = React.memo(BookmarkPreviewComponent);
+export default BookmarkPreview;

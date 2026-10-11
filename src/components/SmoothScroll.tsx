@@ -8,12 +8,15 @@ interface SmoothScrollProps {
   children: React.ReactNode;
 }
 
-// Top Scroll Progress Bar driven directly by Lenis tick events
+// Top Scroll Progress Bar driven directly by Lenis tick events with zero React re-renders
 function LenisScrollProgress() {
-  const [progress, setProgress] = useState(0);
+  const barRef = useRef<HTMLDivElement>(null);
 
   useLenis((lenis) => {
-    setProgress(lenis.progress || 0);
+    if (barRef.current) {
+      const p = Math.min(Math.max(lenis.progress || 0, 0), 1);
+      barRef.current.style.transform = `scaleX(${p})`;
+    }
   });
 
   return (
@@ -22,9 +25,10 @@ function LenisScrollProgress() {
       aria-hidden="true"
     >
       <div
-        className="h-full bg-gradient-to-r from-rose-500 via-purple-500 to-amber-400 transition-transform duration-75 ease-out origin-left shadow-xs shadow-purple-400/40"
+        ref={barRef}
+        className="h-full bg-gradient-to-r from-rose-500 via-purple-500 to-amber-400 origin-left shadow-xs shadow-purple-400/40 will-change-transform"
         style={{
-          transform: `scaleX(${progress})`,
+          transform: 'scaleX(0)',
         }}
       />
     </div>
@@ -38,14 +42,15 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
   const lenisRef = useRef<Lenis | null>(null);
 
   const lenisOptions = {
-    lerp: 0.09, // Inertial momentum factor (0.05 - 0.12 is sweet spot)
-    duration: 1.25, // Scroll transition duration in seconds
+    lerp: 0.1, // Responsive inertial momentum factor
+    duration: 1.1, // Scroll transition duration in seconds
     easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential deceleration curve
     orientation: 'vertical' as const,
     gestureOrientation: 'vertical' as const,
     smoothWheel: true,
-    wheelMultiplier: 1.05,
-    touchMultiplier: 1.6,
+    wheelMultiplier: 1.0,
+    syncTouch: false, // DO NOT hijack native touch scroll on mobile devices (prevents freezes & jank)
+    touchMultiplier: 0,
     infinite: false,
     autoRaf: true,
   };

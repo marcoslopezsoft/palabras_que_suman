@@ -36,6 +36,7 @@ export interface CategoryInfo {
 export interface CommunityMessage {
   id: string;
   name: string;
+  email?: string;
   role: string;
   city: string;
   message: string;

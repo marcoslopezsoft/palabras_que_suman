@@ -102,7 +102,7 @@ export default function CommunityWall({
     >
       {/* Paper texture overlay (elemento-34) */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-30 mix-blend-multiply bg-repeat"
+        className="absolute inset-0 pointer-events-none opacity-15 bg-repeat"
         style={{
           backgroundImage: "url('/assets/elemento-34.png')",
           backgroundSize: '650px auto',

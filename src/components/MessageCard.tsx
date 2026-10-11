@@ -25,7 +25,7 @@ interface MessageCardProps {
   onExpand: (msg: CommunityMessage) => void;
 }
 
-export default function MessageCard({
+function MessageCardComponent({
   message,
   isLikedInitially = false,
   onExpand,
@@ -62,11 +62,10 @@ export default function MessageCard({
 
   return (
     <motion.div
-      layout
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      whileHover={{ y: -6, transition: { duration: 0.2 } }}
+      whileHover={{ y: -5, transition: { duration: 0.18 } }}
       onClick={() => onExpand(message)}
       className={`relative rounded-3xl p-5 sm:p-6 flex flex-col justify-between border-2 shadow-md hover:shadow-xl transition-all cursor-pointer bookmark-shadow ${activeTheme.cardBg} ${activeTheme.borderAccent} group select-none min-h-[380px]`}
     >
@@ -109,7 +108,7 @@ export default function MessageCard({
       </div>
 
       {/* Footer / Author & Interaction Toolbar */}
-      <div className="pt-3 border-t border-slate-200/70 space-y-2 bg-white/40 rounded-xl p-2.5 backdrop-blur-2xs">
+      <div className="pt-3 border-t border-slate-200/70 space-y-2 bg-white/70 rounded-xl p-2.5">
         <div>
           <p className="font-spartan text-xs font-bold text-slate-900 truncate">
             {message.name}
@@ -191,3 +190,6 @@ export default function MessageCard({
     </motion.div>
   );
 }
+
+const MessageCard = React.memo(MessageCardComponent);
+export default MessageCard;

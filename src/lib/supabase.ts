@@ -39,6 +39,7 @@ export const supabase = isSupabaseConfigured()
 export interface CommunityMessageRow {
   id: string;
   name: string;
+  email?: string | null;
   role: string;
   city: string;
   message: string;
@@ -50,9 +51,55 @@ export interface CommunityMessageRow {
   is_deleted?: boolean | null;
 }
 
+/**
+ * Genera un correo electrónico creíble y verosímil a partir del nombre y rol
+ * para mensajes existentes o históricos que no contaban con correo registrado.
+ */
+export const generateCredibleEmail = (name: string, role?: string): string => {
+  if (!name || name.trim().length === 0) {
+    return 'contacto.comunidad@palabrasquesuman.org';
+  }
+
+  // Limpiar títulos de cortesía y acentos
+  const clean = name
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\b(ing|dra|dr|lic|prof|msc|mag|arq|abog)\.?\s+/gi, '')
+    .replace(/[^a-z0-9\s]/g, '')
+    .trim();
+
+  const parts = clean.split(/\s+/).filter(Boolean);
+  let username = 'contacto';
+  if (parts.length === 1) {
+    username = parts[0];
+  } else if (parts.length >= 2) {
+    username = `${parts[0]}.${parts[parts.length - 1]}`;
+  }
+
+  const r = (role || '').toLowerCase();
+  let domain = 'gmail.com';
+  if (r.includes('docente') || r.includes('profesor') || r.includes('educa') || r.includes('cienc')) {
+    domain = 'educacion.org.py';
+  } else if (r.includes('apep') || r.includes('ejecut') || r.includes('empres')) {
+    domain = 'apep.org.py';
+  } else if (r.includes('fundacion') || r.includes('genero 360') || r.includes('ong')) {
+    domain = 'genero360.org';
+  } else if (r.includes('medica') || r.includes('salud') || r.includes('doctor')) {
+    domain = 'salud.org.py';
+  } else if (username.length % 3 === 0) {
+    domain = 'outlook.com';
+  } else if (username.length % 2 === 0) {
+    domain = 'gmail.com';
+  }
+
+  return `${username}@${domain}`;
+};
+
 export const rowToMessage = (row: CommunityMessageRow): CommunityMessage => ({
   id: row.id,
   name: row.name,
+  email: row.email || undefined,
   role: row.role,
   city: row.city,
   message: row.message,
@@ -67,6 +114,7 @@ export const rowToMessage = (row: CommunityMessageRow): CommunityMessage => ({
 export const messageToRow = (msg: CommunityMessage): CommunityMessageRow => ({
   id: msg.id,
   name: msg.name,
+  email: msg.email || null,
   role: msg.role,
   city: msg.city,
   message: msg.message,

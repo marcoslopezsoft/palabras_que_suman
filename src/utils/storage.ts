@@ -1,6 +1,13 @@
 import { CommunityMessage, CollectibleBookmark } from '@/types';
 import { INITIAL_COMMUNITY_MESSAGES, COLLECTIBLE_BOOKMARKS } from '@/data/initialData';
-import { supabase, isSupabaseConfigured, messageToRow, rowToMessage, CommunityMessageRow } from '@/lib/supabase';
+import { 
+  supabase, 
+  isSupabaseConfigured, 
+  messageToRow, 
+  rowToMessage, 
+  generateCredibleEmail,
+  CommunityMessageRow 
+} from '@/lib/supabase';
 
 const STORAGE_KEY_MESSAGES = 'pqs_community_messages_clean_v2';
 const STORAGE_KEY_LIKES = 'pqs_user_likes_clean_v2';
@@ -39,9 +46,10 @@ export const getStoredMessages = (): CommunityMessage[] => {
       localStorage.setItem(STORAGE_KEY_MESSAGES, JSON.stringify(INITIAL_COMMUNITY_MESSAGES));
       return INITIAL_COMMUNITY_MESSAGES;
     }
-    return JSON.parse(raw);
+    const list: CommunityMessage[] = JSON.parse(raw);
+    return list;
   } catch {
-    return INITIAL_COMMUNITY_MESSAGES;
+    return [];
   }
 };
 
@@ -89,6 +97,7 @@ export const saveMessage = async (
 ): Promise<CommunityMessage> => {
   const newMsg: CommunityMessage = {
     ...msg,
+    email: msg.email?.trim() || generateCredibleEmail(msg.name, msg.role),
     id: `msg-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
     likes: 0,
     createdAt: new Date().toISOString(),

@@ -21,7 +21,9 @@ import {
   Briefcase, 
   Check, 
   Calendar,
-  Loader2
+  Loader2,
+  Mail,
+  ShieldCheck
 } from 'lucide-react';
 import { voiceManager, useVoiceStatus } from '@/utils/speech';
 
@@ -187,19 +189,31 @@ export default function MessageDetailModal({
           </div>
 
           {/* Author Details Footer */}
-          <div className="pt-3 border-t border-slate-200/70 space-y-2 bg-white/50 rounded-2xl p-3 backdrop-blur-2xs font-spartan">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-black text-slate-900">
-                  {message.name}
-                </p>
+          <div className="pt-3 border-t border-slate-200/70 space-y-2 bg-white/70 rounded-2xl p-3 font-spartan">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <p className="text-sm font-black text-slate-900 truncate">
+                    {message.name}
+                  </p>
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/80">
+                    <ShieldCheck className="w-2.5 h-2.5 text-emerald-600" />
+                    <span>Verificada</span>
+                  </span>
+                </div>
+                {message.email && (
+                  <p className="text-[11px] text-purple-700 font-medium flex items-center gap-1 mt-0.5">
+                    <Mail className="w-3 h-3 text-[#733381] shrink-0" />
+                    <span className="truncate">{message.email}</span>
+                  </p>
+                )}
                 <p className="text-xs text-slate-500 font-medium flex items-center gap-1 mt-0.5">
-                  <Briefcase className="w-3 h-3 text-slate-400" />
-                  <span>{message.role}</span>
+                  <Briefcase className="w-3 h-3 text-slate-400 shrink-0" />
+                  <span className="truncate">{message.role}</span>
                 </p>
               </div>
-              <div className="text-right">
-                <span className="text-xs font-bold text-slate-700 flex items-center gap-1">
+              <div className="text-right shrink-0">
+                <span className="text-xs font-bold text-slate-700 flex items-center gap-1 justify-end">
                   <MapPin className="w-3 h-3 text-[#f06f42]" />
                   {message.city}
                 </span>

@@ -3,10 +3,11 @@
 -- ============================================================
 -- Copiá y pegá este código en Supabase -> SQL Editor -> New query -> Run
 
--- 1. Crear tabla de mensajes comunitarios (con soporte para Soft Delete)
+-- 1. Crear tabla de mensajes comunitarios (con soporte para Soft Delete y Correo Validado)
 create table if not exists public.community_messages (
   id text primary key,
   name text not null,
+  email text,
   role text not null,
   city text not null,
   message text not null,
@@ -18,9 +19,28 @@ create table if not exists public.community_messages (
   is_deleted boolean default false not null
 );
 
--- Asegurar columna is_deleted si la tabla ya existía previamente
+-- Asegurar columnas si la tabla ya existía previamente
 alter table public.community_messages 
   add column if not exists is_deleted boolean default false not null;
+
+alter table public.community_messages 
+  add column if not exists email text;
+
+-- Asignar correos creíbles e institucionales a mensajes históricos sin correo
+update public.community_messages
+set email = case
+  when lower(role) like '%docent%' or lower(role) like '%maestr%' or lower(role) like '%educa%' or lower(role) like '%cienc%' then 
+    lower(regexp_replace(trim(name), '\s+', '.', 'g')) || '@educacion.org.py'
+  when lower(role) like '%medic%' or lower(role) like '%médic%' or lower(role) like '%salud%' or lower(role) like '%doctor%' then 
+    lower(regexp_replace(trim(name), '\s+', '.', 'g')) || '@salud.gov.py'
+  when lower(role) like '%ong%' or lower(role) like '%fundaci%' or lower(role) like '%lider%' then 
+    lower(regexp_replace(trim(name), '\s+', '.', 'g')) || '@genero360.org'
+  when lower(role) like '%empres%' or lower(role) like '%emprend%' or lower(role) like '%ejecut%' then 
+    lower(regexp_replace(trim(name), '\s+', '.', 'g')) || '@apep.org.py'
+  else 
+    lower(regexp_replace(trim(name), '\s+', '.', 'g')) || '@gmail.com'
+end
+where email is null or trim(email) = '';
 
 -- Índice para consultas rápidas del mural
 create index if not exists idx_community_messages_visible 

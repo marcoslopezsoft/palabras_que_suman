@@ -19,6 +19,7 @@ import {
   Globe,
   MapPin,
   Loader2,
+  Mail,
 } from 'lucide-react';
 
 interface MessageFormProps {
@@ -104,6 +105,7 @@ const COLOR_SWATCHES: {
 
 export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
   const [countryCode, setCountryCode] = useState('PY');
   const [cityName, setCityName] = useState('Asunción');
@@ -179,6 +181,11 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
     if (!name.trim()) {
       errs.name = 'Por favor, ingresá tu nombre o firma (o "Anónimo").';
     }
+    if (!email.trim()) {
+      errs.email = 'Por favor, ingresá tu correo electrónico para validar tu mensaje.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      errs.email = 'Ingresá un correo electrónico válido (ejemplo@correo.com).';
+    }
     if (!role.trim()) {
       errs.role = 'Contanos tu profesión, rol o pasión.';
     }
@@ -212,6 +219,7 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
     try {
       const saved = await saveMessage({
         name: name.trim(),
+        email: email.trim(),
         role: role.trim(),
         city: effectiveLocation,
         message: message.trim(),
@@ -227,6 +235,7 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
       // Reset form
       setMessage('');
       setName('');
+      setEmail('');
       setRole('');
       setCityName('Asunción');
       setErrors({});
@@ -429,6 +438,41 @@ export default function MessageForm({ onMessageSubmitted }: MessageFormProps) {
                         </p>
                       )}
                     </div>
+                  </div>
+
+                  {/* Institutional / Verified Email Input */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <label className="block font-spartan text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                        <Mail className="w-3.5 h-3.5 text-[#733381]" />
+                        <span>Correo Electrónico (Institucional o Personal) *</span>
+                      </label>
+                      <span className="text-[10px] text-slate-400 font-medium">Requerido para avalar tu mensaje</span>
+                    </div>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        if (errors.email)
+                          setErrors((prev) => ({ ...prev, email: '' }));
+                      }}
+                      placeholder="Ej: nombre.apellido@institucion.org o valeria.rios@gmail.com"
+                      className={`w-full px-4 py-3 rounded-2xl border bg-white text-slate-900 placeholder:text-slate-400 text-sm focus:outline-hidden focus:ring-2 transition-all ${
+                        errors.email
+                          ? 'border-rose-400 focus:ring-rose-200 bg-rose-50/30'
+                          : 'border-slate-200 focus:border-[#733381] focus:ring-purple-200'
+                      }`}
+                    />
+                    {errors.email ? (
+                      <p className="text-[11px] font-semibold text-rose-500 flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3" /> {errors.email}
+                      </p>
+                    ) : (
+                      <p className="text-[10.5px] text-slate-500">
+                        Tu correo otorga respaldo, veracidad y seriedad a la red de mentoras y mensajes para las niñas.
+                      </p>
+                    )}
                   </div>
 
                   {/* Worldwide Country & City Selection */}
